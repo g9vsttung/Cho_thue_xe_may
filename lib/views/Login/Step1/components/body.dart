@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
-  String phone = "";
+
 
   LoginBody({required this.size});
 
@@ -18,6 +18,8 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
+  String otp="abc";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -71,7 +73,8 @@ class _LoginBody extends State<LoginBody> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return LoginView2(phone: widget.phone);
+                        return LoginView2(phone: phoneController.text,otp: otp,);
+
                       },
                     ));
                   },
