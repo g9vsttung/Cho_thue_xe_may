@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "904539941842",
+    "project_id": "chothuexemay-35838",
+    "storage_bucket": "chothuexemay-35838.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904539941842:android:35f59684e79644a74df60b",
+        "android_client_info": {
+          "package_name": "com.example.chothuexemay_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904539941842-qn4qevlic21fesgm5809bf8vbbougnd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJCRbGO0mtDZV26IZq08TZkdW6No0OGa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904539941842-qn4qevlic21fesgm5809bf8vbbougnd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

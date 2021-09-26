@@ -2,6 +2,8 @@ import 'package:chothuexemay_mobile/views/Login/Step1/components/body.dart';
 import 'package:flutter/material.dart';
 
 class LoginView1 extends StatefulWidget {
+  const LoginView1({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _LoginView1();
