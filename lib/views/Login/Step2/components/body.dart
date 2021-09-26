@@ -1,5 +1,7 @@
-import 'dart:io';
 
+import 'dart:async';
+
+import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -8,12 +10,8 @@ import 'package:flutter/rendering.dart';
 class LoginBodyStep extends StatefulWidget {
   Size size;
   String phone;
-  bool status=true;
-  int countDown=10;
-
-  LoginBodyStep({required this.size, required this.phone});
-
-
+  String otp;
+  LoginBodyStep({required this.size, required this.phone,required this.otp});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,15 +19,20 @@ class LoginBodyStep extends StatefulWidget {
   }
 }
 class _LoginBodyStep extends State<LoginBodyStep>{
-  countDownFunction(){
-    if(widget.countDown > 0)
-      sleep(Duration(seconds: 1));
-      setState(() {
-        widget.countDown -= 1;
+  bool status=true;
+  int countDown=10;
+  TextEditingController otpController=TextEditingController();
+  countDownFunc() async{
+     if(countDown>0)
+        await Future.delayed(const Duration(milliseconds: 1000), () {
+            setState(() {
+              countDown--;
+            });
       });
   }
   @override
   Widget build(BuildContext context) {
+    countDownFunc();
 
     return Container(
       child: Padding(
@@ -44,7 +47,7 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               "Vui Lòng Nhập Mã Xác Minh",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -52,20 +55,21 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               height: 25,
             ),
             Text(
-              "Mã xác minh của bạn sẽ được gửi bằng tin nhắn đến",
+              "Mã xác minh của bạn sẽ được gửi qua SMS",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 13,
+                fontSize: 15,
               ),
             ),
             SizedBox(
               height: 15,
             ),
+            //=======================================PHONE
             Text(
               widget.phone,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: 18,
                 fontWeight: FontWeight.bold
               ),
             ),
@@ -73,7 +77,7 @@ class _LoginBodyStep extends State<LoginBodyStep>{
             SizedBox(
               height: 15,
             ),
-            if(widget.status)
+            if(status)
               SizedBox(
                 height: 15,
               )
@@ -87,12 +91,13 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                 ),
               )
             ,
-            //=================================BUTTON
+            //=================================TEXT FIELD
             SizedBox(height: 20,),
             Container(
               height: 45,
               width: widget.size.width*0.6,
               child: TextField(
+                controller: otpController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -108,9 +113,9 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               height: 15,
             ),
 
-            if(widget.countDown > 0)
+            if(countDown > 0)
               Text(
-                "Vui long chờ ${widget.countDown}s để gửi lại",
+                "Vui long chờ ${countDown}s để gửi lại",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -119,6 +124,7 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               )
             else
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Bạn không nhận được mã? ",
@@ -137,7 +143,6 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                   )
                 ],
               )
-
             ,
             //===================================BUTTON
             SizedBox(
@@ -147,7 +152,17 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if(widget.otp == otpController.text){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return HomeView();
+                      },));
+                    }else{
+                      setState(() {
+                        status=false;
+                      });
+                    }
+                  },
                   child: Text(
                     "Đăng nhập",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
