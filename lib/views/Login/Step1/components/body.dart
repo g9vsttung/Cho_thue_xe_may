@@ -1,25 +1,25 @@
-
+import 'package:chothuexemay_mobile/models/customer_model.dart';
+import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
 
+
   LoginBody({required this.size});
 
-
-
   @override
-  State<StatefulWidget> createState() {
-return _LoginBody();
-  }
+  State<StatefulWidget> createState() =>_LoginBody();
 }
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
   String otp="abc";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -28,6 +28,7 @@ class _LoginBody extends State<LoginBody> {
   }
   @override
   Widget build(BuildContext context) {
+    final areaList = Provider.of<CustomerViewModel>(context);
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -51,17 +52,15 @@ class _LoginBody extends State<LoginBody> {
             Container(
               height: 45,
               child: TextField(
-                onChanged: (value){
-                  widget.phone=value;
-                },
+                controller: phoneController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
+                          BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     contentPadding:
-                    EdgeInsets.only(top: 5, bottom: 5, left: 25)),
+                        EdgeInsets.only(top: 5, bottom: 5, left: 25)),
               ),
             ),
             SizedBox(
@@ -75,6 +74,7 @@ class _LoginBody extends State<LoginBody> {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return LoginView2(phone: phoneController.text,otp: otp,);
+
                       },
                     ));
                   },
@@ -85,7 +85,6 @@ class _LoginBody extends State<LoginBody> {
                   color: Color.fromRGBO(110, 215, 152, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-
                   ),
                 )
               ],
