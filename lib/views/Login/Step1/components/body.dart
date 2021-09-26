@@ -6,7 +6,6 @@ import 'package:flutter/painting.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
-  String phone="";
 
   LoginBody({required this.size});
 
@@ -19,7 +18,14 @@ return _LoginBody();
 }
 
 class _LoginBody extends State<LoginBody> {
-
+  final phoneController = TextEditingController();
+  String otp="abc";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CustomerViewModel>(context,listen: false).getAll();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,9 +72,11 @@ class _LoginBody extends State<LoginBody> {
               children: [
                 RaisedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return LoginView2(phone: widget.phone);
-                    },));
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return LoginView2(phone: phoneController.text,otp: otp,);
+                      },
+                    ));
                   },
                   child: Text(
                     "Tiếp theo",
