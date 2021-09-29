@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
@@ -6,34 +5,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginBodyStep extends StatefulWidget {
   Size size;
+  String verificationId;
   String phone;
-  String otp;
-  LoginBodyStep({required this.size, required this.phone,required this.otp});
+
+  LoginBodyStep(
+      {required this.size, required this.verificationId, required this.phone});
 
   @override
   State<StatefulWidget> createState() {
     return _LoginBodyStep();
   }
 }
-class _LoginBodyStep extends State<LoginBodyStep>{
-  bool status=true;
-  int countDown=10;
-  TextEditingController otpController=TextEditingController();
-  countDownFunc() async{
-     if(countDown>0)
-        await Future.delayed(const Duration(milliseconds: 1000), () {
-            setState(() {
-              countDown--;
-            });
+
+class _LoginBodyStep extends State<LoginBodyStep> {
+  bool status = true;
+  int countDown = 10;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  countDownFunc() async {
+    if (countDown > 0)
+      await Future.delayed(const Duration(milliseconds: 1000), () {
+        setState(() {
+          countDown--;
+        });
       });
   }
+
   @override
   Widget build(BuildContext context) {
     countDownFunc();
-
+    TextEditingController otpController = TextEditingController();
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -68,16 +74,15 @@ class _LoginBodyStep extends State<LoginBodyStep>{
             Text(
               widget.phone,
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
             //======================================STATUS
             SizedBox(
               height: 15,
             ),
-            if(status)
+            if (status)
               SizedBox(
                 height: 15,
               )
@@ -85,27 +90,27 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               Text(
                 "Mã xác minh không hợp lệ",
                 style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic
-                ),
-              )
-            ,
+                    color: Colors.red,
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic),
+              ),
             //=================================TEXT FIELD
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               height: 45,
-              width: widget.size.width*0.6,
+              width: widget.size.width * 0.6,
               child: TextField(
                 controller: otpController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
+                          BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     contentPadding:
-                    EdgeInsets.only(top: 5, bottom: 5, left: 25)),
+                        EdgeInsets.only(top: 5, bottom: 5, left: 25)),
               ),
             ),
             //=================================RESENT
@@ -113,14 +118,13 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               height: 15,
             ),
 
-            if(countDown > 0)
+            if (countDown > 0)
               Text(
                 "Vui long chờ ${countDown}s để gửi lại",
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic
-                ),
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic),
               )
             else
               Row(
@@ -129,21 +133,18 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                   Text(
                     "Bạn không nhận được mã? ",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
+                      color: Colors.black,
+                      fontSize: 15,
                     ),
                   ),
                   GestureDetector(
                     child: Text(
                       "Gửi lại",
-                      style: TextStyle(
-                        color: Colors.red
-                      ),
+                      style: TextStyle(color: Colors.red),
                     ),
                   )
                 ],
-              )
-            ,
+              ),
             //===================================BUTTON
             SizedBox(
               height: 20,
@@ -152,16 +153,22 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () {
-                    if(widget.otp == otpController.text){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return HomeView();
-                      },));
-                    }else{
-                      setState(() {
-                        status=false;
-                      });
-                    }
+                  onPressed: () async {
+                    PhoneAuthCredential phoneAuthCredential =
+                        PhoneAuthProvider.credential(
+                            verificationId: widget.verificationId,
+                            smsCode: otpController.text);
+                    signInWithPhoneAuthCredential(phoneAuthCredential);
+
+                    // if(widget.otp == otpController.text){
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    //     return HomeView();
+                    //   },));
+                    // }else{
+                    //   setState(() {
+                    //     status=false;
+                    //   });
+                    // }
                   },
                   child: Text(
                     "Đăng nhập",
@@ -170,7 +177,6 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                   color: Color.fromRGBO(110, 215, 152, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-
                   ),
                 )
               ],
@@ -179,5 +185,21 @@ class _LoginBodyStep extends State<LoginBodyStep>{
         ),
       ),
     );
+  }
+
+  void signInWithPhoneAuthCredential(
+      PhoneAuthCredential phoneAuthCredential) async {
+    try {
+      final authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
+      if(authCredential?.user != null ){
+          // User exist
+      }else{
+        // User not exist 
+      }
+    } on FirebaseAuthException catch (e) {
+      _scaffoldKey.currentState!
+          .showSnackBar(SnackBar(content: Text(e.message.toString())));
+    }
   }
 }

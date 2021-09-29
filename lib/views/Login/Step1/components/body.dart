@@ -5,30 +5,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
 
-
   LoginBody({required this.size});
 
   @override
-  State<StatefulWidget> createState() =>_LoginBody();
+  State<StatefulWidget> createState() => _LoginBody();
 }
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
-  String otp="abc";
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late String verificationId;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<CustomerViewModel>(context,listen: false).getAll();
+    Provider.of<CustomerViewModel>(context, listen: false).getAll();
   }
+
   @override
   Widget build(BuildContext context) {
     final areaList = Provider.of<CustomerViewModel>(context);
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -70,11 +73,29 @@ class _LoginBody extends State<LoginBody> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
+                  onPressed: () async {
+                    await Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return LoginView2(phone: phoneController.text,otp: otp,);
-
+                        _auth.verifyPhoneNumber(
+                            phoneNumber: phoneController.text,
+                            verificationCompleted:
+                                (phoneAuthCredential) async {},
+                            verificationFailed: (verificationFailed) async {
+                              _scaffoldKey.currentState!.showSnackBar(SnackBar(
+                                  content: Text(
+                                      verificationFailed.message.toString())));
+                            },
+                            codeSent: (verificationId, resendingToken) async {
+                              setState(() {
+                                this.verificationId = verificationId;
+                              });
+                            },
+                            codeAutoRetrievalTimeout:
+                                (verificationId) async {});
+                        return LoginView2(
+                          verificationId: verificationId,
+                          phone: phoneController.text,
+                        );
                       },
                     ));
                   },
