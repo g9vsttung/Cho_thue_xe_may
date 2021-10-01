@@ -19,7 +19,7 @@ class LoginBody extends StatefulWidget {
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late String verificationId;
+  String verificationId ="";
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _LoginBody extends State<LoginBody> {
                             verificationCompleted:
                                 (phoneAuthCredential) async {},
                             verificationFailed: (verificationFailed) async {
-                              _scaffoldKey.currentState!.showSnackBar(SnackBar(
+                              _scaffoldKey.currentState?.showSnackBar(SnackBar(
                                   content: Text(
                                       verificationFailed.message.toString())));
                             },

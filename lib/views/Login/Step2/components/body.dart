@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -192,11 +191,11 @@ class _LoginBodyStep extends State<LoginBodyStep> {
     try {
       final authCredential =
           await _auth.signInWithCredential(phoneAuthCredential);
-      if(authCredential?.user != null ){
-          // User exist
-      }else{
-        // User not exist 
-      }
+      // if(authCredential?.user != null ){
+      //     // User exist
+      // }else{
+      //   // User not exist
+      // }
     } on FirebaseAuthException catch (e) {
       _scaffoldKey.currentState!
           .showSnackBar(SnackBar(content: Text(e.message.toString())));
