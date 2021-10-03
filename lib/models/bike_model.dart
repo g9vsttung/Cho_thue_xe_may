@@ -1,44 +1,43 @@
 class Bike {
   String id;
-  String ownerId;
-  String categoryId;
-  String ownerName;
-  String address;
-  String ownerPhone;
   String licensePlate;
   String color;
-  int status;
   String modelYear;
-  num rating;
+  String ownerId;
+  String categoryId;
+  int status;
+  String ownerPhone;
+  String ownerName;
+  String address;
+  double rating;
   int numberOfRating;
-
-  factory Bike.jsonFrom(Map<String, dynamic> json) {
-    return Bike(
-        id: json['id'],
-        ownerId: json['ownerId'],
-        categoryId: json[''],
-        ownerName: json[''],
-        address: json[''],
-        ownerPhone: json[''],
-        licensePlate: json[''],
-        color: json[''],
-        status: json[''],
-        modelYear: json[''],
-        rating: json[''],
-        numberOfRating: json['']);
-  }
-  //Constructors
   Bike(
       {required this.id,
-      required this.ownerId,
-      required this.categoryId,
-      required this.ownerName,
-      required this.address,
-      required this.ownerPhone,
       required this.licensePlate,
       required this.color,
-      required this.status,
       required this.modelYear,
+      required this.ownerId,
+      required this.categoryId,
+      required this.status,
+      required this.ownerPhone,
+      required this.ownerName,
+      required this.address,
       required this.rating,
       required this.numberOfRating});
+  factory Bike.jsonFrom(Map<String, dynamic> json) {
+    return Bike(
+      id: json['id'],
+      licensePlate: json['licensePlate'],
+      color: json['color'],
+      modelYear: json['modelYear'],
+      ownerId: json['ownerId'],
+      categoryId: json['categoryId'],
+      status: json['status'],
+      ownerPhone: json['ownerPhone'] ?? "",
+      ownerName: json['ownerName'] ?? "Unknow",
+      address: json['address'] ?? "",
+      rating: json['rating'] ?? 0,
+      numberOfRating: json['numberOfRating'] ?? 0,
+    );
+  }
 }
