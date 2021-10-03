@@ -8,7 +8,7 @@ class BriefInfoOwner extends StatelessWidget {
   String ownerName;
   int totalBike;
   int totalRating;
-  int rate;
+  double rate;
   bool checkCMND;
   void Function() onTap;
   BriefInfoOwner(
