@@ -3,75 +3,51 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-class TopAppBar extends StatefulWidget {
+class TopAppBarTitle extends StatefulWidget {
+  String title;
+  TopAppBarTitle({required this.title});
   @override
   State<StatefulWidget> createState() {
-    return _TopAppBar();
+    return _TopAppBarTitle();
   }
 }
 
-class _TopAppBar extends State<TopAppBar> {
+class _TopAppBarTitle extends State<TopAppBarTitle> {
   String dropDownValue = "22A Đường Số 7";
 
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(left: 8, right: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Theme(
-            data: Theme.of(context).copyWith(
-              canvasColor: Colors.green[200],
-            ),
-            child: DropdownButton(
-                value: dropDownValue,
-                onChanged: (selected) {
-                  setState(() {
-                    dropDownValue = selected.toString();
-                  });
-                },
-                iconSize: 20,
-                icon: Image.asset("assets/icons/dropDown.png"),
-                items: <String>[
-                  '22A Đường Số 7',
-                  '22B Đường Số 35',
-                  '22A Đường Số 8'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
-                    ),
-                  );
-                }).toList()),
-          )
-          ,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+      child: Stack(alignment: Alignment.centerLeft, children: [
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    "assets/icons/chatMark.png",
-                    width: 40,
-                  )),
-              IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    "assets/icons/notificationMark.png",
-                    width: 40,
-                  ))
+              Container(
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 18),
+                ),
+              )
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            icon: Image.asset(
+              "assets/icons/back.png",
+              width: size.width * 0.07,
+              color: Colors.white,
+            )),
+      ])
     );
   }
 }

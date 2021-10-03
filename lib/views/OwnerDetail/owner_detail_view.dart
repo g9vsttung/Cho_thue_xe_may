@@ -1,21 +1,23 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/views/Components/app_bar_main.dart';
+import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
-import 'package:chothuexemay_mobile/views/Home/components/body.dart';
+import 'package:chothuexemay_mobile/views/OwnerDetail/components/body.dart';
 import 'package:flutter/material.dart';
-class HomeView extends StatelessWidget{
+class OwnerDetailView extends StatelessWidget{
+  String name;
+  OwnerDetailView({required this.name});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
-        title: TopAppBarMain(),
+        title: TopAppBarTitle(title: name,),
       ),
-      body: HomeBody(),
+      body: OwnerDetailBody(name: name,rate: 4.5,),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,
-        child: BottomBar(selected: "home"),
+        child: BottomBar(selected: ""),
       ),
     );
   }

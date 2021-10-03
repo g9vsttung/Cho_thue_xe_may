@@ -21,7 +21,6 @@ class BriefInfoOwner extends StatelessWidget{
       children: [
         Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color: ColorConstants.briefBackground,),
-
             child: Padding(
                 padding: EdgeInsets.only(right: 5,top: 10,bottom: 10,left: 10),
                 child: Stack(

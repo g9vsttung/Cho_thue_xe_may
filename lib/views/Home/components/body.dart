@@ -1,5 +1,6 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Components/brief_info_owner.dart';
+import 'package:chothuexemay_mobile/views/OwnerDetail/owner_detail_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -83,12 +84,46 @@ class HomeBody extends StatelessWidget{
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Nguyễn Vương Bike", totalBike: 13, totalRating: 153, rate: 5, checkCMND: true,onTap: (){},),
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Thành Vương Bike", totalBike: 5, totalRating: 99, rate: 5, checkCMND: false,onTap: (){},),
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Nguyễn Vương Bike sada sada sadas", totalBike: 8, totalRating: 87, rate: 4, checkCMND: false,onTap: (){},),
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Lý Vinh Bike", totalBike: 12, totalRating: 70, rate: 4, checkCMND: true,onTap: (){},),
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Công Hải Bike", totalBike: 9, totalRating: 68, rate: 4, checkCMND: true,onTap: (){},),
-                    BriefInfoOwner(image: "thuexe.png", ownerName: "Hà Vương Bike", totalBike: 10, totalRating: 66, rate: 4, checkCMND: false,onTap: (){},)
+                    BriefInfoOwner(
+                      image: "thuexe.png",
+                      ownerName: "Nguyễn Vương Bike", totalBike: 13,
+                      totalRating: 153, rate: 5, checkCMND: true,
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return OwnerDetailView(name: "Nguyễn Vương bike");
+                        },));
+                      }
+                    ),
+                    BriefInfoOwner(
+                        image: "thuexe.png",
+                        ownerName: "Nguyễn Vương Bike", totalBike: 13,
+                        totalRating: 153, rate: 5, checkCMND: true,
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return OwnerDetailView(name: "Nguyễn Vương bike");
+                          },));
+                        }
+                    ),
+                    BriefInfoOwner(
+                        image: "thuexe.png",
+                        ownerName: "Nguyễn Vương Bike", totalBike: 13,
+                        totalRating: 153, rate: 5, checkCMND: true,
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return OwnerDetailView(name: "Nguyễn Vương bike");
+                          },));
+                        }
+                    ),
+                    BriefInfoOwner(
+                        image: "thuexe.png",
+                        ownerName: "Nguyễn Vương Bike", totalBike: 13,
+                        totalRating: 153, rate: 5, checkCMND: true,
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return OwnerDetailView(name: "Nguyễn Vương bike");
+                          },));
+                        }
+                    ),
                   ],
                 ),
               )
