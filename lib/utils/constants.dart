@@ -5,6 +5,8 @@ class ColorConstants {
   static final Color normalIcon= Colors.white;
   static final Color selectedIcon= Color.fromRGBO(72, 65, 65, 1);
   static final Color briefBackground= Color.fromRGBO(244, 243, 243, 1);
+  static final Color containerBackground= Color.fromRGBO(239, 252, 237, 1);
+  static final Color containerBoldBackground= Color.fromRGBO(141, 229, 126, 1);
   static final Color textBold= Color.fromRGBO(29, 87, 28, 1);
   static final Color unavailableStar= Color.fromRGBO(178, 176, 176, 1);
 
