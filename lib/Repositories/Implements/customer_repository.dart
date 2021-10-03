@@ -2,7 +2,9 @@ import 'package:chothuexemay_mobile/Repositories/Interfaces/customer_interface.d
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/services/customer_service.dart';
 
-class CustomerRepository implements ICustomerRepository {
+import 'package:flutter/material.dart';
+
+class CustomerRepository implements ICustomerRepository{
   CustomerService service = CustomerService();
   @override
   Future<List<Customer>> getAll() async {
@@ -12,6 +14,7 @@ class CustomerRepository implements ICustomerRepository {
 
   @override
   String sendOTP(String phone) {
-    return "not found";
+      return "not found";
   }
+  
 }

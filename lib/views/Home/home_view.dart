@@ -1,5 +1,5 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/views/Components/app_bar_main.dart';
+import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:chothuexemay_mobile/views/Home/components/body.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget{
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
-        title: TopAppBarMain(),
+        title: TopAppBar(),
       ),
       body: HomeBody(),
       bottomNavigationBar: BottomAppBar(

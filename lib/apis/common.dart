@@ -1,31 +1,26 @@
 //Change every restart the server
-final URL_SERVER = "http://52.74.12.123:80/";
+final URL_SERVER ="";
 
-class AreaApiPath {
+class AreaApiPath{
   // get all areas
-  static String GET_ALL = "";
+  final String GET_ALL="";
   // get a area by id
-  static String GET_BY_ID = "";
+  final String GET_BY_ID ="";
 }
-
-class BikeApiPath {
+class BikeApiPath{
   // get all bikes
-  static String GET_ALL = "api/v1.0/bikes";
+  final String GET_ALL="";
   // get a bike by id
-  static String GET_BY_ID = "";
+  final String GET_BY_ID ="";
 }
-
-class CustomerApiPath {
+class CustomerApiPath{
   // get all customers
-  static String GET_ALL = "";
-  // get a customer by phone
-  static String GET_BY_PHONE = "api/v1.0/customers/phone/";
+  final String GET_ALL="";
+}
+class OwnerApiPath{
+  final String GET_ALL="";
+}
+class AdminApiPath{
+  final String GET_ALL="";
 }
 
-class OwnerApiPath {
-  static String GET_ALL = "";
-}
-
-class AdminApiPath {
-  static String GET_ALL = "";
-}
