@@ -8,7 +8,7 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: EdgeInsets.only(top: 5,bottom: 3),
+        padding: EdgeInsets.only(top: 7,bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -18,7 +18,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/home.png",color: ColorConstants.selectedIcon,width: 40,),
+                  Image.asset("assets/icons/home.png",color: ColorConstants.selectedIcon,width: 30,),
                   Text(
                     "Trang chủ",
                     style: TextStyle(
@@ -35,7 +35,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/home.png",color: ColorConstants.normalIcon,width: 40,),
+                  Image.asset("assets/icons/home.png",color: ColorConstants.normalIcon,width: 30,),
                   Text(
                     "Trang chủ",
                     style: TextStyle(
@@ -54,7 +54,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/search.png",color: ColorConstants.selectedIcon,width: 40,),
+                  Image.asset("assets/icons/search.png",color: ColorConstants.selectedIcon,width: 30,),
                   Text(
                     "Tìm Kiếm",
                     style: TextStyle(
@@ -71,7 +71,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/search.png",color: ColorConstants.normalIcon,width: 40,),
+                  Image.asset("assets/icons/search.png",color: ColorConstants.normalIcon,width: 30,),
                   Text(
                     "Tìm kiếm",
                     style: TextStyle(
@@ -90,7 +90,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/schedule.png",color: ColorConstants.selectedIcon,width: 40,),
+                  Image.asset("assets/icons/schedule.png",color: ColorConstants.selectedIcon,width: 30,),
                   Text(
                     "Lịch đặt",
                     style: TextStyle(
@@ -107,7 +107,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/schedule.png",color: ColorConstants.normalIcon,width: 40,),
+                  Image.asset("assets/icons/schedule.png",color: ColorConstants.normalIcon,width: 30,),
                   Text(
                     "Lịch đặt",
                     style: TextStyle(
@@ -126,7 +126,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/profile.png",color: ColorConstants.selectedIcon,width: 40,),
+                  Image.asset("assets/icons/profile.png",color: ColorConstants.selectedIcon,width: 30,),
                   Text(
                     "Cá nhân",
                     style: TextStyle(
@@ -143,7 +143,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/profile.png",color: ColorConstants.normalIcon,width: 40,),
+                  Image.asset("assets/icons/profile.png",color: ColorConstants.normalIcon,width: 30,),
                   Text(
                     "Cá nhân",
                     style: TextStyle(

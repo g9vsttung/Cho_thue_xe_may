@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:chothuexemay_mobile/apis/common.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:http/http.dart' as http;
 
 class CustomerService {
   Future<Customer> getCustomerByPhone(String phone) async {
-    Uri url = Uri.parse("http://54.179.97.82/" + "api/admin/phone/");
+    Uri url = Uri.parse(URL_SERVER + CustomerApiPath.GET_BY_PHONE);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
@@ -15,7 +16,7 @@ class CustomerService {
   }
 
   Future<List<Customer>> getAll() async {
-    Uri url = Uri.parse("http://54.179.97.82/" + "api/areas");
+    Uri url = Uri.parse(URL_SERVER + "api/areas");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
