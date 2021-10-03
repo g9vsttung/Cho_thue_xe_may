@@ -1,4 +1,3 @@
-import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -50,8 +49,7 @@ class _TopAppBarMain extends State<TopAppBarMain> {
                     ),
                   );
                 }).toList()),
-          )
-          ,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
