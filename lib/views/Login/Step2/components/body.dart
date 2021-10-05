@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chothuexemay_mobile/services/authservice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -8,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginBodyStep extends StatefulWidget {
   Size size;
-  String verificationId;
+  String? verificationId;
   String phone;
 
   LoginBodyStep(
@@ -16,14 +17,18 @@ class LoginBodyStep extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _LoginBodyStep();
+    return _LoginBodyStep(verificationId: verificationId);
   }
 }
 
 class _LoginBodyStep extends State<LoginBodyStep> {
   bool status = true;
   int countDown = 10;
+  String? verificationId;
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  _LoginBodyStep({required verificationId});
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   countDownFunc() async {
@@ -152,22 +157,9 @@ class _LoginBodyStep extends State<LoginBodyStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () async {
-                    PhoneAuthCredential phoneAuthCredential =
-                        PhoneAuthProvider.credential(
-                            verificationId: widget.verificationId,
-                            smsCode: otpController.text);
-                    signInWithPhoneAuthCredential(phoneAuthCredential);
-
-                    // if(widget.otp == otpController.text){
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    //     return HomeView();
-                    //   },));
-                    // }else{
-                    //   setState(() {
-                    //     status=false;
-                    //   });
-                    // }
+                  onPressed: () {
+                    AuthService()
+                        .signInWithOTP(otpController.text, verificationId);
                   },
                   child: Text(
                     "Đăng nhập",

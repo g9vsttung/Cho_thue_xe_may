@@ -1,10 +1,10 @@
 import 'package:chothuexemay_mobile/models/customer_model.dart';
+import 'package:chothuexemay_mobile/services/authservice.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginBody extends StatefulWidget {
@@ -19,19 +19,16 @@ class LoginBody extends StatefulWidget {
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  String verificationId ="";
-
+  String verificationId = "";
+  String smsCode = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<CustomerViewModel>(context, listen: false).getAll();
   }
 
   @override
   Widget build(BuildContext context) {
-    final areaList = Provider.of<CustomerViewModel>(context);
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -56,6 +53,7 @@ class _LoginBody extends State<LoginBody> {
               height: 45,
               child: TextField(
                 controller: phoneController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -73,31 +71,12 @@ class _LoginBody extends State<LoginBody> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () async {
-                    await Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        _auth.verifyPhoneNumber(
-                            phoneNumber: phoneController.text,
-                            verificationCompleted:
-                                (phoneAuthCredential) async {},
-                            verificationFailed: (verificationFailed) async {
-                              _scaffoldKey.currentState?.showSnackBar(SnackBar(
-                                  content: Text(
-                                      verificationFailed.message.toString())));
-                            },
-                            codeSent: (verificationId, resendingToken) async {
-                              setState(() {
-                                this.verificationId = verificationId;
-                              });
-                            },
-                            codeAutoRetrievalTimeout:
-                                (verificationId) async {});
-                        return LoginView2(
-                          verificationId: verificationId,
-                          phone: phoneController.text,
-                        );
-                      },
-                    ));
+                  onPressed: () {
+                    verifyPhone(phoneController.text);
+                    // return LoginView2(
+                    //   verificationId: verificationId,
+                    //   phone: phoneController.text,
+                    // );
                   },
                   child: Text(
                     "Tiếp theo",
@@ -114,5 +93,47 @@ class _LoginBody extends State<LoginBody> {
         ),
       ),
     );
+  }
+
+  Future<void> verifyPhone(String phoneNo) async {
+    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+      // To do
+      AuthService().signIn(authResult);
+    };
+    final PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException authException) {
+      SnackBar(
+        content:
+            Text("Failed to Verify Phone Number: ${authException.message}"),
+      );
+      print('${authException.message}');
+    };
+
+    final PhoneCodeSent smsSent = (String verId, [int? forceResend]) {
+      this.verificationId = verId;
+      SnackBar(
+        content: Text('VerificationId: ' + verId),
+      );
+      setState(() {
+        LoginView2(verificationId: verificationId, phone: phoneNo);
+      });
+    } as PhoneCodeSent;
+
+    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+      this.verificationId = verId;
+    };
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: phoneNo,
+          verificationCompleted: verified,
+          verificationFailed: verificationFailed,
+          codeSent: smsSent,
+          codeAutoRetrievalTimeout: autoTimeout,
+          timeout: const Duration(seconds: 5));
+    } catch (e) {
+      SnackBar(
+        content: Text("Failed to Verify Phone Number: ${e}"),
+      );
+    }
   }
 }
