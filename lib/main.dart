@@ -1,4 +1,4 @@
-import 'package:chothuexemay_mobile/view_model/bike_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => BikeViewModel()),
+        ChangeNotifierProvider(create: (context) => OwnerViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
