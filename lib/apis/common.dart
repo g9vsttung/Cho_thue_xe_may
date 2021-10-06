@@ -5,6 +5,9 @@ const URL_SERVER = "http://52.74.12.123:80/";
 // ignore: prefer_const_declarations
 final _VERSION = "v1.0";
 
+// ignore: prefer_const_declarations
+final _URL_API = URL_SERVER + "api/" + _VERSION;
+
 class AreaApiPath {
   // get all areas
   static String GET_ALL = "";
@@ -14,7 +17,7 @@ class AreaApiPath {
 
 class BikeApiPath {
   // get all bikes
-  static String GET_ALL = "api/" + _VERSION + "/bikes";
+  static String GET_ALL = _URL_API + "/bikes";
   // get a bike by id
   static String GET_BY_ID = "";
 }
@@ -23,11 +26,11 @@ class CustomerApiPath {
   // get all customers
   static String GET_ALL = "";
   // get a customer by phone
-  static String GET_BY_PHONE = "api/" + _VERSION + "/customers/phone/";
+  static String GET_BY_PHONE = _URL_API + "/customers/phone/";
 }
 
 class OwnerApiPath {
-  static String GET_ALL = "";
+  static String GET_ALL = _URL_API + "/owners";
 }
 
 class AdminApiPath {
