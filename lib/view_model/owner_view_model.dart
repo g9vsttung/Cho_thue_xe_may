@@ -1,4 +1,3 @@
-import 'package:chothuexemay_mobile/Repositories/Implementations/bike_repository.dart';
 import 'package:chothuexemay_mobile/Repositories/Implementations/owner_repository.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:flutter/cupertino.dart';
