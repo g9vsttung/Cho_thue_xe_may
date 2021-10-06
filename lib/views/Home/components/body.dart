@@ -1,6 +1,8 @@
 import 'package:chothuexemay_mobile/models/bike_model.dart';
+import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/bike_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Components/brief_info_owner.dart';
 import 'package:chothuexemay_mobile/views/OwnerDetail/owner_detail_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,13 +22,13 @@ class _HomeBody extends State<HomeBody> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<BikeViewModel>(context, listen: false).getAll();
+    Provider.of<OwnerViewModel>(context, listen: false).getAll();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Bike> bikeList = Provider.of<BikeViewModel>(context).bikes;
+    List<Owner> ownerList = Provider.of<OwnerViewModel>(context).owners;
     return Padding(
       padding: EdgeInsets.only(
           top: 15,
@@ -115,7 +117,7 @@ class _HomeBody extends State<HomeBody> {
               child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
-              children: getList(bikeList),
+              children: getList(ownerList),
             ),
           ))
         ],
@@ -123,21 +125,23 @@ class _HomeBody extends State<HomeBody> {
     );
   }
 
-  List<Widget> getList(List<Bike> bikeList) {
+  List<Widget> getList(List<Owner> ownerList) {
     List<Widget> childs = [];
-    for (var item in bikeList) {
+    for (var item in ownerList) {
       childs.add(
         BriefInfoOwner(
             image: "thuexe.png",
-            ownerName: item.ownerName,
-            totalBike: 13,
-            totalRating: item.numberOfRating,
+            ownerName: item.fullname,
+            totalBike: item.numberOfbikes,
+            totalRating: item.numberOfRatings,
             rate: item.rating,
             checkCMND: true,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return OwnerDetailView(name: item.ownerName);
+                  return OwnerDetailView(
+                      name: item
+                          .fullname); // Should change Id -> call api get owner by id
                 },
               ));
             }),
