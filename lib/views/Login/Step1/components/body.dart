@@ -114,9 +114,10 @@ class _LoginBody extends State<LoginBody> {
       SnackBar(
         content: Text('VerificationId: ' + verId),
       );
-      setState(() {
-        LoginView2(verificationId: verificationId, phone: phoneNo);
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return LoginView2(verificationId: verificationId, phone: phoneNo);
+      },));
+
     } as PhoneCodeSent;
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
