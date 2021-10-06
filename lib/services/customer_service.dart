@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class CustomerService {
   Future<Customer> getCustomerByPhone(String phone) async {
-    Uri url = Uri.parse(URL_SERVER + CustomerApiPath.GET_BY_PHONE);
+    Uri url = Uri.parse(CustomerApiPath.GET_BY_PHONE + phone);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
