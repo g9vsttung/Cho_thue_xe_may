@@ -17,4 +17,15 @@ class OwnerService {
       throw Exception("Unable to perform request");
     }
   }
+
+  Future<Owner> getOwnerById(String id) async {
+    Uri url = Uri.parse(OwnerApiPath.GET_BY_ID + id);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      return Owner.jsonFrom(body);
+    } else {
+      throw Exception("Unable to perform request");
+    }
+  }
 }

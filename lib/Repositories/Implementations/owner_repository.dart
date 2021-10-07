@@ -9,4 +9,9 @@ class OwnerRepository implements IOwnerRepository {
     Future.delayed(const Duration(seconds: 5));
     return service.getAll();
   }
+
+  @override
+  Future<Owner> getOwnerById(String id) {
+    return service.getOwnerById(id);
+  }
 }
