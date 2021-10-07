@@ -136,7 +136,10 @@ class _HomeBody extends State<HomeBody> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return OwnerDetailView(id: item.id);
+                  return OwnerDetailView(
+                    id: item.id,
+                    name: item.fullname,
+                  ); // Should change Id -> call api get owner by id
                 },
               ));
             }),
