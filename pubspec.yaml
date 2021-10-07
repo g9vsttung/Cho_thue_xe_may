@@ -13,17 +13,29 @@ dependencies:
     sdk: flutter
 
   http: ^0.13.3
-  provider: 6.0.0
+
   cupertino_icons: ^1.0.2
   carousel_slider: ^4.0.0
+  
+  #State Manager
+  provider: 6.0.0
+  
+  #Goolge icon
+  font_awesome_flutter: ^9.1.0
+
+  #Goole Signin
+  google_sign_in: ^5.1.1
+  
+  #firebase
+  firebase_core: ^1.6.0
+  firebase_auth: ^3.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  #firebase
-  firebase_core: ^1.6.0
-  firebase_auth: ^3.1.1
+  
+  android_sms_retriever: ^1.0.2
 
 
 flutter:
