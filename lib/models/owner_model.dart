@@ -17,9 +17,9 @@ class Owner {
   factory Owner.jsonFrom(Map<String, dynamic> json) {
     return Owner(
         id: json['id'],
-        phoneNumber: json['phoneNumber'],
+        phoneNumber: json['phoneNumber'] ?? "",
         identityNumber: json['identityNumber'] ?? "Unknow",
-        fullname: json['fullname'],
+        fullname: json['fullname'] ?? "Unknow",
         address: json['address'] ?? "Unknow",
         numberOfbikes: json['numberOfBikes'] ?? 0,
         identityImg: json['identityImg'] ?? "Unknow",
