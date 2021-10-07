@@ -9,7 +9,6 @@ class BriefInfoOwner extends StatelessWidget {
   int totalBike;
   int totalRating;
   double rate;
-  bool checkCMND;
   void Function() onTap;
   BriefInfoOwner(
       {required this.image,
@@ -17,7 +16,6 @@ class BriefInfoOwner extends StatelessWidget {
       required this.totalBike,
       required this.totalRating,
       required this.rate,
-      required this.checkCMND,
       required this.onTap});
 
   @override
@@ -112,25 +110,6 @@ class BriefInfoOwner extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              if (checkCMND)
-                                Text(
-                                  "*Cần xác thực CMND.",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      color: Color.fromRGBO(31, 135, 6, 1)),
-                                )
-                              else
-                                Text(
-                                  "*Không cần xác thực CMND.",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.red),
-                                ),
                             ],
                           ),
                         )

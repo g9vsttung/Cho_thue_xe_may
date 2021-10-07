@@ -1,7 +1,5 @@
-import 'package:chothuexemay_mobile/models/bike_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/bike_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Components/brief_info_owner.dart';
 import 'package:chothuexemay_mobile/views/OwnerDetail/owner_detail_view.dart';
@@ -135,13 +133,10 @@ class _HomeBody extends State<HomeBody> {
             totalBike: item.numberOfbikes,
             totalRating: item.numberOfRatings,
             rate: item.rating,
-            checkCMND: true,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return OwnerDetailView(
-                      name: item
-                          .fullname); // Should change Id -> call api get owner by id
+                  return OwnerDetailView(id: item.id);
                 },
               ));
             }),
