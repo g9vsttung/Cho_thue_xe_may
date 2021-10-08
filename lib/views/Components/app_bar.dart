@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class TopAppBarTitle extends StatefulWidget {
   String title;
-  TopAppBarTitle({required this.title});
+  TopAppBarTitle({Key? key, required this.title}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _TopAppBarTitle();

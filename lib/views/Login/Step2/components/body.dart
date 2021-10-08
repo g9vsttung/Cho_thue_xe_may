@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
 
 import 'dart:async';
 
@@ -11,25 +12,29 @@ class LoginBodyStep extends StatefulWidget {
   Size size;
   String phone;
   String otp;
-  LoginBodyStep({required this.size, required this.phone,required this.otp});
+  LoginBodyStep(
+      {Key? key, required this.size, required this.phone, required this.otp})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _LoginBodyStep();
   }
 }
-class _LoginBodyStep extends State<LoginBodyStep>{
-  bool status=true;
-  int countDown=10;
-  TextEditingController otpController=TextEditingController();
-  countDownFunc() async{
-     if(countDown>0)
-        await Future.delayed(const Duration(milliseconds: 1000), () {
-            setState(() {
-              countDown--;
-            });
+
+class _LoginBodyStep extends State<LoginBodyStep> {
+  bool status = true;
+  int countDown = 10;
+  TextEditingController otpController = TextEditingController();
+  countDownFunc() async {
+    if (countDown > 0)
+      await Future.delayed(const Duration(milliseconds: 1000), () {
+        setState(() {
+          countDown--;
+        });
       });
   }
+
   @override
   Widget build(BuildContext context) {
     countDownFunc();
@@ -68,16 +73,15 @@ class _LoginBodyStep extends State<LoginBodyStep>{
             Text(
               widget.phone,
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
             //======================================STATUS
             SizedBox(
               height: 15,
             ),
-            if(status)
+            if (status)
               SizedBox(
                 height: 15,
               )
@@ -85,27 +89,27 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               Text(
                 "Mã xác minh không hợp lệ",
                 style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic
-                ),
-              )
-            ,
+                    color: Colors.red,
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic),
+              ),
             //=================================TEXT FIELD
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               height: 45,
-              width: widget.size.width*0.6,
+              width: widget.size.width * 0.6,
               child: TextField(
                 controller: otpController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
+                          BorderSide(color: Color.fromRGBO(64, 152, 62, 1)),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     contentPadding:
-                    EdgeInsets.only(top: 5, bottom: 5, left: 25)),
+                        EdgeInsets.only(top: 5, bottom: 5, left: 25)),
               ),
             ),
             //=================================RESENT
@@ -113,14 +117,13 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               height: 15,
             ),
 
-            if(countDown > 0)
+            if (countDown > 0)
               Text(
                 "Vui long chờ ${countDown}s để gửi lại",
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic
-                ),
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic),
               )
             else
               Row(
@@ -129,21 +132,18 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                   Text(
                     "Bạn không nhận được mã? ",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
+                      color: Colors.black,
+                      fontSize: 15,
                     ),
                   ),
                   GestureDetector(
                     child: Text(
                       "Gửi lại",
-                      style: TextStyle(
-                        color: Colors.red
-                      ),
+                      style: TextStyle(color: Colors.red),
                     ),
                   )
                 ],
-              )
-            ,
+              ),
             //===================================BUTTON
             SizedBox(
               height: 20,
@@ -153,13 +153,15 @@ class _LoginBodyStep extends State<LoginBodyStep>{
               children: [
                 RaisedButton(
                   onPressed: () {
-                    if(widget.otp == otpController.text){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return HomeView();
-                      },));
-                    }else{
+                    if (widget.otp == otpController.text) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return HomeView();
+                        },
+                      ));
+                    } else {
                       setState(() {
-                        status=false;
+                        status = false;
                       });
                     }
                   },
@@ -170,7 +172,6 @@ class _LoginBodyStep extends State<LoginBodyStep>{
                   color: Color.fromRGBO(110, 215, 152, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-
                   ),
                 )
               ],

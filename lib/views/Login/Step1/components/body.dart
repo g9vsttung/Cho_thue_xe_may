@@ -1,4 +1,5 @@
-import 'package:chothuexemay_mobile/models/customer_model.dart';
+// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,26 +10,24 @@ import 'package:provider/provider.dart';
 class LoginBody extends StatefulWidget {
   Size size;
 
-
-  LoginBody({required this.size});
+  LoginBody({Key? key, required this.size}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>_LoginBody();
+  State<StatefulWidget> createState() => _LoginBody();
 }
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
-  String otp="abc";
+  String otp = "abc";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Provider.of<CustomerViewModel>(context,listen: false).getAll();
+    Provider.of<CustomerViewModel>(context, listen: false).getAll();
   }
+
   @override
   Widget build(BuildContext context) {
-    final areaList = Provider.of<CustomerViewModel>(context);
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -73,8 +72,10 @@ class _LoginBody extends State<LoginBody> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return LoginView2(phone: phoneController.text,otp: otp,);
-
+                        return LoginView2(
+                          phone: phoneController.text,
+                          otp: otp,
+                        );
                       },
                     ));
                   },
