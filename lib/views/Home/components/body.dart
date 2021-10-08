@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
 class HomeBody extends StatefulWidget {
+  const HomeBody({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _HomeBody();
@@ -18,7 +22,6 @@ class HomeBody extends StatefulWidget {
 class _HomeBody extends State<HomeBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<OwnerViewModel>(context, listen: false).getAll();
   }
@@ -113,7 +116,7 @@ class _HomeBody extends State<HomeBody> {
           ),
           Expanded(
               child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
+            //scrollDirection: Axis.vertical,
             child: Column(
               children: getList(ownerList),
             ),
@@ -139,7 +142,7 @@ class _HomeBody extends State<HomeBody> {
                   return OwnerDetailView(
                     id: item.id,
                     name: item.fullname,
-                  ); // Should change Id -> call api get owner by id
+                  );
                 },
               ));
             }),

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
@@ -12,7 +14,8 @@ import 'package:provider/provider.dart';
 class OwnerDetailBody extends StatefulWidget {
   String id;
   double rate;
-  OwnerDetailBody({required this.id, required this.rate});
+  OwnerDetailBody({Key? key, required this.id, required this.rate})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _OwnerDetailBody();

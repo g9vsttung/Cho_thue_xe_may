@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +13,14 @@ class BriefInfoOwner extends StatelessWidget {
   double rate;
   void Function() onTap;
   BriefInfoOwner(
-      {required this.image,
+      {Key? key,
+      required this.image,
       required this.ownerName,
       required this.totalBike,
       required this.totalRating,
       required this.rate,
-      required this.onTap});
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
