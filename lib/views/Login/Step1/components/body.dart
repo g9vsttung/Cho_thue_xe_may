@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
 
-import 'package:chothuexemay_mobile/models/customer_model.dart';
+import 'dart:developer';
+
 import 'package:chothuexemay_mobile/services/authservice.dart';
-import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
@@ -20,13 +20,13 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  String verificationId = "";
-  String smsCode = "";
+  bool _isCodeSent = false;
+  String? _verificationId;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
-    Provider.of<CustomerViewModel>(context, listen: false).getAll();
+    Provider.of<AuthService>(context, listen: false);
   }
 
   @override
@@ -74,11 +74,17 @@ class _LoginBody extends State<LoginBody> {
               children: [
                 RaisedButton(
                   onPressed: () {
+                    log("click");
                     verifyPhone(phoneController.text);
-                    // return LoginView2(
-                    //   verificationId: verificationId,
-                    //   phone: phoneController.text,
-                    // );
+                    if (_isCodeSent) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return LoginView2(
+                            phone: phoneController.text,
+                          );
+                        },
+                      ));
+                    }
                   },
                   child: Text(
                     "Tiếp theo",
@@ -98,32 +104,43 @@ class _LoginBody extends State<LoginBody> {
   }
 
   Future<void> verifyPhone(String phoneNo) async {
-    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      // To do
-      AuthService().signIn(authResult);
+    phoneNo = phoneNo.replaceFirst('0', '+84');
+    // ignore: prefer_function_declarations_over_variables
+    final PhoneVerificationCompleted verified =
+        (PhoneAuthCredential credential) async {
+      await _auth.signInWithCredential(credential);
     };
+    // ignore: prefer_function_declarations_over_variables
     final PhoneVerificationFailed verificationFailed =
-        (FirebaseAuthException authException) {
-      SnackBar(
-        content:
-            Text("Failed to Verify Phone Number: ${authException.message}"),
-      );
-      print('${authException.message}');
+        (FirebaseAuthException e) {
+      if (e.code == 'invalid-phone-number') {
+        log('The provided phone number is not valid.');
+      } else {
+        log(e.message.toString());
+      }
     };
 
-    final PhoneCodeSent smsSent = (String verId, [int? forceResend]) {
-      this.verificationId = verId;
-      SnackBar(
-        content: Text('VerificationId: ' + verId),
-      );
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return LoginView2(verificationId: verificationId, phone: phoneNo);
-      },));
+    // ignore: prefer_function_declarations_over_variables
+    final PhoneCodeSent smsSent =
+        (String verificationId, int? resendToken) async {
+      log("I'm here");
+      setState(() {
+        _verificationId = verificationId;
+        _isCodeSent = true;
+      });
 
-    } as PhoneCodeSent;
+      // PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      //     verificationId: verificationId, smsCode: "123456");
 
-    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-      this.verificationId = verId;
+      // // Sign the user in (or link) with the credential
+      // await _auth.signInWithCredential(credential);
+    };
+
+    // ignore: prefer_function_declarations_over_variables
+    final PhoneCodeAutoRetrievalTimeout autoTimeout =
+        (String verificationId) async {
+      timeout:
+      const Duration(seconds: 60);
     };
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -132,7 +149,7 @@ class _LoginBody extends State<LoginBody> {
           verificationFailed: verificationFailed,
           codeSent: smsSent,
           codeAutoRetrievalTimeout: autoTimeout,
-          timeout: const Duration(seconds: 5));
+          timeout: const Duration(seconds: 60));
     } catch (e) {
       SnackBar(
         content: Text("Failed to Verify Phone Number: ${e}"),

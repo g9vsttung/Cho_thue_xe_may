@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chothuexemay_mobile/services/authservice.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<AuthService>(create: (create) => AuthService()),
         ChangeNotifierProvider<CustomerViewModel>(
             create: (context) => CustomerViewModel()),
         ChangeNotifierProvider<OwnerViewModel>(
