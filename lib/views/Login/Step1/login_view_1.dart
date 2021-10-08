@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chothuexemay_mobile/views/Login/Step1/components/body.dart';
 import 'package:flutter/material.dart';
 

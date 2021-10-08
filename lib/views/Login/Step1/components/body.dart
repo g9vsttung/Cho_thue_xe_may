@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/services/authservice.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
@@ -10,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class LoginBody extends StatefulWidget {
   Size size;
 
-  LoginBody({required this.size});
+  LoginBody({Key? key, required this.size}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoginBody();
@@ -23,8 +25,8 @@ class _LoginBody extends State<LoginBody> {
   String smsCode = "";
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    Provider.of<CustomerViewModel>(context, listen: false).getAll();
   }
 
   @override

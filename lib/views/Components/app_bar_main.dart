@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class TopAppBarMain extends StatefulWidget {
+  const TopAppBarMain({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _TopAppBarMain();

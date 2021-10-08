@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+
 import 'dart:async';
 
 import 'package:chothuexemay_mobile/services/authservice.dart';
@@ -11,9 +13,10 @@ class LoginBodyStep extends StatefulWidget {
   Size size;
   String? verificationId;
   String phone;
-
+  String otp;
   LoginBodyStep(
-      {required this.size, required this.verificationId, required this.phone});
+      {Key? key, required this.size, required this.phone, required this.otp})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

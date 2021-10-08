@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +11,16 @@ class BriefInfoOwner extends StatelessWidget {
   int totalBike;
   int totalRating;
   double rate;
-  bool checkCMND;
   void Function() onTap;
   BriefInfoOwner(
-      {required this.image,
+      {Key? key,
+      required this.image,
       required this.ownerName,
       required this.totalBike,
       required this.totalRating,
       required this.rate,
-      required this.checkCMND,
-      required this.onTap});
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,25 +114,6 @@ class BriefInfoOwner extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              if (checkCMND)
-                                Text(
-                                  "*Cần xác thực CMND.",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                      color: Color.fromRGBO(31, 135, 6, 1)),
-                                )
-                              else
-                                Text(
-                                  "*Không cần xác thực CMND.",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.red),
-                                ),
                             ],
                           ),
                         )
