@@ -21,7 +21,7 @@ class LoginBody extends StatefulWidget {
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
   bool _isCodeSent = false;
-  String? _verificationId;
+  String _verificationId = "";
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
@@ -81,6 +81,7 @@ class _LoginBody extends State<LoginBody> {
                         builder: (context) {
                           return LoginView2(
                             phone: phoneController.text,
+                            verificationId: _verificationId,
                           );
                         },
                       ));
@@ -139,6 +140,7 @@ class _LoginBody extends State<LoginBody> {
     // ignore: prefer_function_declarations_over_variables
     final PhoneCodeAutoRetrievalTimeout autoTimeout =
         (String verificationId) async {
+      // ignore: unused_label
       timeout:
       const Duration(seconds: 60);
     };

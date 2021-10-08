@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+// ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use, no_logic_in_create_state
 
 import 'dart:async';
 
@@ -11,11 +11,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginBodyStep extends StatefulWidget {
   Size size;
-  String? verificationId;
+  String verificationId;
   String phone;
-  String otp;
   LoginBodyStep(
-      {Key? key, required this.size, required this.phone, required this.otp})
+      {Key? key,
+      required this.size,
+      required this.phone,
+      required this.verificationId})
       : super(key: key);
 
   @override
