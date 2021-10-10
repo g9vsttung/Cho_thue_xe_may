@@ -2,40 +2,41 @@
 
 import 'dart:async';
 
-import 'package:chothuexemay_mobile/services/authservice.dart';
+import 'package:chothuexemay_mobile/view_model/authservice.dart';
+import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginBodyStep extends StatefulWidget {
   Size size;
-  String verificationId;
   String phone;
-  LoginBodyStep(
-      {Key? key,
-      required this.size,
-      required this.phone,
-      required this.verificationId})
-      : super(key: key);
+  LoginBodyStep({
+    Key? key,
+    required this.size,
+    required this.phone,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _LoginBodyStep(verificationId: verificationId);
+    return _LoginBodyStep();
   }
 }
 
 class _LoginBodyStep extends State<LoginBodyStep> {
   bool status = true;
   int countDown = 10;
-  String? verificationId;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController otpController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AuthService>(context, listen: false)
+        .verifyPhone(widget.phone, context);
+  }
 
-  _LoginBodyStep({required verificationId});
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
+  //Not Wroking well.
   countDownFunc() async {
     if (countDown > 0)
       await Future.delayed(const Duration(milliseconds: 1000), () {
@@ -47,8 +48,8 @@ class _LoginBodyStep extends State<LoginBodyStep> {
 
   @override
   Widget build(BuildContext context) {
+    AuthService _service = Provider.of<AuthService>(context);
     countDownFunc();
-    TextEditingController otpController = TextEditingController();
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -112,6 +113,7 @@ class _LoginBodyStep extends State<LoginBodyStep> {
               width: widget.size.width * 0.6,
               child: TextField(
                 controller: otpController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -162,9 +164,18 @@ class _LoginBodyStep extends State<LoginBodyStep> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  onPressed: () {
-                    AuthService()
-                        .signInWithOTP(otpController.text, verificationId);
+                  onPressed: () async {
+                    bool success = await _service.signInWithOTP(
+                        otpController.text, _service.verificationId);
+                    if (success) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return HomeView();
+                        },
+                      ));
+                    } else {
+                      //New User
+                    }
                   },
                   child: Text(
                     "Đăng nhập",
@@ -181,21 +192,5 @@ class _LoginBodyStep extends State<LoginBodyStep> {
         ),
       ),
     );
-  }
-
-  void signInWithPhoneAuthCredential(
-      PhoneAuthCredential phoneAuthCredential) async {
-    try {
-      final authCredential =
-          await _auth.signInWithCredential(phoneAuthCredential);
-      // if(authCredential?.user != null ){
-      //     // User exist
-      // }else{
-      //   // User not exist
-      // }
-    } on FirebaseAuthException catch (e) {
-      _scaffoldKey.currentState!
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
   }
 }

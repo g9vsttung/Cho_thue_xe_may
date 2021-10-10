@@ -11,7 +11,7 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  String sendOTP(String phone) {
-    return "not found";
+  Future<bool> login(String phone) async {
+    return service.login(phone);
   }
 }

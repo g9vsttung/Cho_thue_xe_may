@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:chothuexemay_mobile/apis/common.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:http/http.dart' as http;
@@ -25,5 +26,18 @@ class CustomerService {
     } else {
       throw Exception("Unable to perform request");
     }
+  }
+
+  Future<bool> login(String phone) async {
+    Uri url = Uri.parse(CustomerApiPath.LOGIN);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json ; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'phoneNumber': phone}),
+    );
+    log("Login Status: " + response.statusCode.toString());
+    return response.statusCode == 200;
   }
 }
