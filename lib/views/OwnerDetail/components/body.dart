@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use, avoid_unnecessary_containers
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:chothuexemay_mobile/models/bike_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
@@ -89,7 +90,7 @@ class _OwnerDetailBody extends State<OwnerDetailBody> {
                         child: Row(
                           children: [
                             Text(
-                              widget.rate.toString(),
+                              widget.rate.toStringAsFixed(1),
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -182,41 +183,21 @@ class _OwnerDetailBody extends State<OwnerDetailBody> {
   }
 
   Column getFunctionList(Owner owner) {
-    List<Widget> childs = [];
-    if (selected == "Moto")
-      return Column(
-        children: [
-          BikeInfo(
-              image: "yamahaEx.png",
-              brand: "Yamaha",
-              name: "Exciter",
-              color: "blue",
-              year: 2020,
-              bienSo: "17AB-SD45"),
-          BikeInfo(
-              image: "yamahaEx.png",
-              brand: "Yamaha",
-              name: "Exciter",
-              color: "blue",
-              year: 2020,
-              bienSo: "17AB-SD45"),
-          BikeInfo(
-              image: "yamahaEx.png",
-              brand: "Yamaha",
-              name: "Exciter",
-              color: "blue",
-              year: 2020,
-              bienSo: "17AB-SD45"),
-          BikeInfo(
-              image: "yamahaEx.png",
-              brand: "Yamaha",
-              name: "Exciter",
-              color: "blue",
-              year: 2020,
-              bienSo: "17AB-SD45"),
-        ],
-      );
-    else
-      return Column();
+    List<BikeInfo> childs = [];
+    if (selected == "Moto") {
+      // ignore: curly_braces_in_flow_control_structures
+      for (Bike bike in owner.bikes) {
+        childs.add(BikeInfo(
+            image: "yamahaEx.png",
+            brand: bike.brandName,
+            name: bike.categoryName,
+            color: bike.color,
+            year: int.parse(bike.modelYear),
+            bienSo: bike.licensePlate));
+      }
+    } else {
+      //feedback
+    }
+    return Column(children: childs);
   }
 }

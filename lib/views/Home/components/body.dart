@@ -142,6 +142,7 @@ class _HomeBody extends State<HomeBody> {
                   return OwnerDetailView(
                     id: item.id,
                     name: item.fullname,
+                    rating: item.rating,
                   );
                 },
               ));
