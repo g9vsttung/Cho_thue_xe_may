@@ -11,7 +11,7 @@ class OwnerService {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      final Iterable owners = body;
+      final Iterable owners = body["data"];
       return owners.map((o) => Owner.jsonFrom(o)).toList();
     } else {
       throw Exception("Unable to perform request");

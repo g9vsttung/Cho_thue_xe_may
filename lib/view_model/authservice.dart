@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class AuthService extends ChangeNotifier {
   final CustomerRepository _customerRepository = CustomerRepository();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  String errorMessage = "";
   String phoneNumber = "";
   String verificationId = "";
   signOut() {
@@ -15,15 +16,31 @@ class AuthService extends ChangeNotifier {
   }
 
   signIn(AuthCredential authCredential) async {
-    return await FirebaseAuth.instance.signInWithCredential(authCredential);
+    try {
+      return await FirebaseAuth.instance.signInWithCredential(authCredential);
+    } catch (e) {
+      log("SignIn: " + e.toString());
+    }
   }
 
   Future<bool> signInWithOTP(smsCode, verId) async {
     AuthCredential authCredential =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
-    UserCredential user = await signIn(authCredential);
-    if (user.user != null || user.user!.uid.isEmpty) {
-      return _customerRepository.login(phoneNumber);
+    try {
+      UserCredential user = await signIn(authCredential);
+      if (user.user != null || user.user!.uid.isEmpty) {
+        return _customerRepository.login(phoneNumber);
+      }
+    } catch (e) {
+      switch (e.toString()) {
+        case "type 'Null' is not a subtype of type 'UserCredential'":
+          {
+            errorMessage = "Mã OTP sai!";
+            break;
+          }
+      }
+
+      log("SignInWOTP: " + e.toString());
     }
     return false;
   }
@@ -42,9 +59,11 @@ class AuthService extends ChangeNotifier {
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) {
       if (e.code == 'invalid-phone-number') {
+        errorMessage = "Số điện thoại không hợp lệ";
         log('The provided phone number is not valid.');
       } else {
-        log(e.message.toString());
+        errorMessage = "Thiết bị này đã bị chặn do gửi quá nhiều yêu cầu.";
+        log("PhoneVerificationFailed: " + e.message.toString());
       }
     };
     // ignore: prefer_function_declarations_over_variables
@@ -70,7 +89,7 @@ class AuthService extends ChangeNotifier {
           codeAutoRetrievalTimeout: autoTimeout,
           timeout: const Duration(seconds: 100));
     } catch (e) {
-      log(e.toString());
+      log("verifyPhoneNumber: " + e.toString());
     }
     notifyListeners();
   }

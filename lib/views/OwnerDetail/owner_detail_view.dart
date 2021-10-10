@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class OwnerDetailView extends StatelessWidget {
   String id;
   String name;
-  OwnerDetailView({required this.id, required this.name});
+  double rating;
+  OwnerDetailView({required this.id, required this.name, required this.rating});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +23,7 @@ class OwnerDetailView extends StatelessWidget {
       ),
       body: OwnerDetailBody(
         id: id,
-        rate: 4.0, //Temporatry
+        rate: rating, //Temporatry
       ),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,

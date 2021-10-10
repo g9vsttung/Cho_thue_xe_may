@@ -11,6 +11,8 @@ class Bike {
   String address;
   double rating;
   int numberOfRating;
+  String brandName;
+  String categoryName;
   Bike(
       {required this.id,
       required this.licensePlate,
@@ -23,21 +25,24 @@ class Bike {
       required this.ownerName,
       required this.address,
       required this.rating,
-      required this.numberOfRating});
+      required this.numberOfRating,
+      required this.brandName,
+      required this.categoryName});
   factory Bike.jsonFrom(Map<String, dynamic> json) {
     return Bike(
-      id: json['id'],
-      licensePlate: json['licensePlate'],
-      color: json['color'],
-      modelYear: json['modelYear'],
-      ownerId: json['ownerId'],
-      categoryId: json['categoryId'],
-      status: json['status'],
-      ownerPhone: json['ownerPhone'] ?? "",
-      ownerName: json['ownerName'] ?? "Unknow",
-      address: json['address'] ?? "",
-      rating: json['rating'] ?? 0,
-      numberOfRating: json['numberOfRating'] ?? 0,
-    );
+        id: json['id'],
+        licensePlate: json['licensePlate'],
+        color: json['color'],
+        modelYear: json['modelYear'],
+        ownerId: json['ownerId'],
+        categoryId: json['categoryId'],
+        status: json['status'],
+        ownerPhone: json['ownerPhone'] ?? "",
+        ownerName: json['ownerName'] ?? "Unknow",
+        address: json['address'] ?? "",
+        rating: json['rating'] ?? 0,
+        numberOfRating: json['numberOfRating'] ?? 0,
+        brandName: json['brandName'] ?? "",
+        categoryName: json['categoryName'] ?? "");
   }
 }

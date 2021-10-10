@@ -26,7 +26,7 @@ class LoginBodyStep extends StatefulWidget {
 }
 
 class _LoginBodyStep extends State<LoginBodyStep> {
-  bool status = true;
+  String errorMessage = "";
   int countDown = 10;
   final TextEditingController otpController = TextEditingController();
   @override
@@ -34,6 +34,8 @@ class _LoginBodyStep extends State<LoginBodyStep> {
     super.initState();
     Provider.of<AuthService>(context, listen: false)
         .verifyPhone(widget.phone, context);
+    errorMessage =
+        Provider.of<AuthService>(context, listen: false).errorMessage;
   }
 
   //Not Wroking well.
@@ -48,7 +50,7 @@ class _LoginBodyStep extends State<LoginBodyStep> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService _service = Provider.of<AuthService>(context);
+    final AuthService _service = Provider.of<AuthService>(context);
     countDownFunc();
     return Container(
       child: Padding(
@@ -88,17 +90,17 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
-            //======================================STATUS
+            //======================================ERROR MESSAGE
             SizedBox(
               height: 15,
             ),
-            if (status)
+            if (errorMessage.isEmpty)
               SizedBox(
                 height: 15,
               )
             else
               Text(
-                "Mã xác minh không hợp lệ",
+                errorMessage,
                 style: TextStyle(
                     color: Colors.red,
                     fontSize: 14,
@@ -174,7 +176,15 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                         },
                       ));
                     } else {
-                      //New User
+                      if (_service.errorMessage.isNotEmpty) {
+                        //Login Error for wrong otp or blocked user by Firebase
+                        setState(() {
+                          errorMessage = _service.errorMessage;
+                        });
+                      } else {
+                        //New User
+
+                      }
                     }
                   },
                   child: Text(
