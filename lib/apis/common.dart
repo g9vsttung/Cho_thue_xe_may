@@ -27,6 +27,8 @@ class CustomerApiPath {
   static String GET_ALL = "";
   // get a customer by phone
   static String GET_BY_PHONE = _URL_API + "/customers/phone/";
+  //login
+  static String LOGIN = _URL_API + "/customers/login";
 }
 
 class OwnerApiPath {

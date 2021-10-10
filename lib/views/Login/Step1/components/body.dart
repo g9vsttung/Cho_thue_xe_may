@@ -1,11 +1,8 @@
 // ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
 
-import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
@@ -18,14 +15,6 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
-  String otp = "abc";
-
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<CustomerViewModel>(context, listen: false).getAll();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,6 +41,7 @@ class _LoginBody extends State<LoginBody> {
               height: 45,
               child: TextField(
                 controller: phoneController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -74,7 +64,6 @@ class _LoginBody extends State<LoginBody> {
                       builder: (context) {
                         return LoginView2(
                           phone: phoneController.text,
-                          otp: otp,
                         );
                       },
                     ));

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use
+// ignore_for_file: must_be_immutable, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use, avoid_unnecessary_containers
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';

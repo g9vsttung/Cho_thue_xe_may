@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "904539941842",
+    "firebase_url": "https://chothuexemay-35838-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "chothuexemay-35838",
     "storage_bucket": "chothuexemay-35838.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "904539941842-etddqiph2nnt1u40m8um8u22ssv95lo8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chothuexemay_mobile",
+            "certificate_hash": "b8bb7425c3ecc93c5ce3238d457aa52fc48b84d9"
+          }
+        },
         {
           "client_id": "904539941842-qn4qevlic21fesgm5809bf8vbbougnd5.apps.googleusercontent.com",
           "client_type": 3

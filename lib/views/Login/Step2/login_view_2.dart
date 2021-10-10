@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 
 class LoginView2 extends StatefulWidget {
   String phone;
-  String otp;
-  LoginView2({Key? key, required this.phone, required this.otp})
-      : super(key: key);
+  LoginView2({Key? key, required this.phone}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _LoginView2();
@@ -27,7 +26,7 @@ class _LoginView2 extends State<LoginView2> {
             fit: BoxFit.cover,
           ),
         ),
-        child: LoginBodyStep(size: size, phone: widget.phone, otp: widget.otp),
+        child: LoginBodyStep(size: size, phone: widget.phone),
       ),
     );
   }
