@@ -1,25 +1,41 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:chothuexemay_mobile/models/owner_model.dart';
+import 'dart:ui';
+import 'package:chothuexemay_mobile/models/price_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
-import 'package:chothuexemay_mobile/views/Components/brief_info_owner.dart';
-import 'package:chothuexemay_mobile/views/OwnerDetail/owner_detail_view.dart';
+import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({Key? key}) : super(key: key);
+class BodyHome extends StatefulWidget {
+  const BodyHome({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _HomeBody();
+    return _BodyHome();
   }
 }
 
-class _HomeBody extends State<HomeBody> {
+class _BodyHome extends State<BodyHome> {
+  bool first = true;
+  final int LIMIT_DATE = 5;
+  DateTime dateRent = DateTime.now();
+  DateTime dateReturn = DateTime.now().add(Duration(days: 1));
+  PriceDataTable? bikeType;
+
+  List<PriceDataTable> dataTable = [
+    PriceDataTable(typeId: "1", bikeType: "Xe tay côn", price: 120),
+    PriceDataTable(typeId: "2", bikeType: "Xe gắn máy", price: 120),
+    PriceDataTable(typeId: "3", bikeType: "Xe tay ga", price: 120),
+  ];
+  List<DateTime> listDateRent = [];
+  List<DateTime> listDateReturn = [];
+
   @override
   void initState() {
     super.initState();
@@ -28,8 +44,8 @@ class _HomeBody extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    setDateAndList();
     Size size = MediaQuery.of(context).size;
-    List<Owner> ownerList = Provider.of<OwnerViewModel>(context).owners;
     return Padding(
       padding: EdgeInsets.only(
           top: 15,
@@ -39,116 +55,283 @@ class _HomeBody extends State<HomeBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            "Bảng giá tham khảo",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textBold,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GestureDetector(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/icons/xeSo.png",
-                      width: 70,
-                    ),
-                    Text(
-                      "Xe số",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: ColorConstants.selectedIcon,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+              Text(
+                "*Bảng giá được thay đổi theo vùng",
+                style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
+              )
+            ],
+          ),
+          Table(
+            border: TableBorder.all(color: Colors.black, width: 1),
+            children: [
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Loại xe",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: ColorConstants.textBold),
+                  ),
                 ),
-              ),
-              GestureDetector(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/icons/tayGa.png",
-                      width: 70,
-                    ),
-                    Text(
-                      "Tay ga",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: ColorConstants.selectedIcon,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Giá tiền",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: ColorConstants.textBold),
+                  ),
                 ),
-              ),
-              GestureDetector(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/icons/tayCon.png",
-                      width: 70,
+              ]),
+              for (PriceDataTable data in dataTable)
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      data.bikeType,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Tay côn",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: ColorConstants.selectedIcon,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      data.price.toString() + "/ngày",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ]),
             ],
           ),
           SizedBox(
-            height: 35,
+            height: 30,
           ),
-          Text(
-            "Đánh giá cao",
-            style: TextStyle(
-                color: ColorConstants.textBold,
+          Center(
+            child: Text(
+              "Đặt xe ngay",
+              style: TextStyle(
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                fontSize: 20),
+                color: ColorConstants.textBold,
+              ),
+            ),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
-          Expanded(
-              child: SingleChildScrollView(
-            //scrollDirection: Axis.vertical,
-            child: Column(
-              children: getList(ownerList),
+          Center(
+            child: dropDownBoxBikeType(),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Ngày thuê:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  dropDownBoxDate(listDateRent, "Rent"),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Ngày trả:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  dropDownBoxDate(listDateReturn, "Return"),
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Center(
+            child: RaisedButton(
+              color: Colors.orange,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return BookingDetailView(
+                        dateRent: dateRent.day.toString() +
+                            "/" +
+                            dateRent.month.toString() +
+                            "/" +
+                            dateRent.year.toString(),
+                        dateReturn: dateReturn.day.toString() +
+                            "/" +
+                            dateReturn.month.toString() +
+                            "/" +
+                            dateReturn.year.toString(),
+                        cateBike: bikeType!);
+                  },
+                ));
+              },
+              child: Text(
+                "ĐẶT XE",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          ))
+          )
         ],
       ),
     );
   }
 
-  List<Widget> getList(List<Owner> ownerList) {
-    List<Widget> childs = [];
-    for (var item in ownerList) {
-      childs.add(
-        BriefInfoOwner(
-            image: "thuexe.png",
-            ownerName: item.fullname,
-            totalBike: item.numberOfbikes,
-            totalRating: item.numberOfRatings,
-            rate: item.rating,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return OwnerDetailView(
-                    id: item.id,
-                    name: item.fullname,
-                    rating: item.rating,
-                  );
-                },
-              ));
-            }),
-      );
+  Widget dropDownBoxDate(List<DateTime> list, String type) {
+    Size size = MediaQuery.of(context).size;
+    DateTime value = DateTime.now();
+    if (type == "Rent")
+      value = dateRent;
+    else if (type == "Return") value = dateReturn;
+    return Container(
+      width: size.width * 0.4,
+      height: 30,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.black, width: 1),
+      ),
+      child: DropdownButton(
+          underline: const SizedBox(),
+          value: value,
+          onChanged: (DateTime? x) {
+            if (x != null)
+              setState(() {
+                if (type == "Rent") {
+                  dateRent = x;
+                  dateReturn = x.add(Duration(days: 1));
+                } else if (type == "Return") dateReturn = x;
+              });
+          },
+          iconSize: 12,
+          icon: Image.asset(
+            "assets/icons/dropDown.png",
+            color: Colors.black,
+            width: 12,
+          ),
+          items: list.map((DateTime t) {
+            String text = t.day.toString() +
+                "/" +
+                t.month.toString() +
+                "/" +
+                t.year.toString();
+            return DropdownMenuItem(
+                value: t,
+                child: SizedBox(
+                  width: size.width * 0.4 - 20,
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ));
+          }).toList()),
+    );
+  }
+
+  Widget dropDownBoxBikeType() {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width * 0.4,
+      height: 30,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.black, width: 1),
+      ),
+      child: DropdownButton(
+          underline: const SizedBox(),
+          value: bikeType,
+          onChanged: (PriceDataTable? x) {
+            setState(() {
+              bikeType = x;
+            });
+          },
+          iconSize: 12,
+          icon: Image.asset(
+            "assets/icons/dropDown.png",
+            color: Colors.black,
+            width: 12,
+          ),
+          items: dataTable.map((PriceDataTable t) {
+            return DropdownMenuItem(
+                value: t,
+                child: SizedBox(
+                  width: size.width * 0.4 - 20,
+                  child: Text(
+                    t.bikeType,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ));
+          }).toList()),
+    );
+  }
+
+  setDateAndList() {
+    if (first) {
+      first = false;
+      bikeType = dataTable[0];
+      for (int i = 0; i < LIMIT_DATE; i++)
+        listDateRent.add(DateTime.now().add(Duration(days: i)));
     }
-    return childs;
+    List<int> ymd = [dateRent.year, dateRent.month, dateRent.day];
+    dateRent = DateTime(ymd[0], ymd[1], ymd[2]);
+    listDateRent = [
+      for (int i = 1; i <= LIMIT_DATE; i++)
+        DateTime(ymd[0], ymd[1], ymd[2]).add(Duration(days: i - 1))
+    ];
+    listDateReturn = [
+      for (int i = 1; i <= LIMIT_DATE; i++)
+        DateTime(ymd[0], ymd[1], ymd[2]).add(Duration(days: i))
+    ];
+    //
+    ymd = [dateReturn.year, dateReturn.month, dateReturn.day];
+    dateReturn = DateTime(ymd[0], ymd[1], ymd[2]);
   }
 }

@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
         backgroundColor: ColorConstants.background,
         title: TopAppBarMain(),
       ),
-      body: HomeBody(),
+      body: BodyHome(),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,
         child: BottomBar(selected: "home"),
