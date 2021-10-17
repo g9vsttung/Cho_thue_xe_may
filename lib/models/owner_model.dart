@@ -14,6 +14,7 @@ class Owner {
   double rating;
   int numberOfRatings;
   List<Bike> bikes;
+  Bike bike;
   factory Owner.jsonFrom(Map<String, dynamic> json) {
     return Owner(
         id: json['id'],
@@ -28,6 +29,7 @@ class Owner {
         banTimes: json['banTimes'] ?? 0,
         mail: json['mail'] ?? "Unknow",
         status: json['status'] ?? 0,
+        bike: Bike.jsonFrom(json['bike']),
         bikes: (json['listBike'] == null
             ? []
             : (json['listBike'] as List)
@@ -49,5 +51,6 @@ class Owner {
       required this.adminId,
       required this.banTimes,
       required this.mail,
-      required this.bikes});
+      required this.bikes,
+      required this.bike});
 }

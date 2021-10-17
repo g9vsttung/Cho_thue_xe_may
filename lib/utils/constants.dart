@@ -15,3 +15,9 @@ class StringConstants {
   static const String imageDirectory = "assets/images/";
   static const String iconDirectory = "assets/icons/";
 }
+
+class GlobalDataConstants {
+  static const String USERID = "userID";
+  static const String AREAID = "areaId";
+  static const String TOKEN = "token";
+}

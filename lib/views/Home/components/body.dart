@@ -29,18 +29,21 @@ class _BodyHome extends State<BodyHome> {
   PriceDataTable? bikeType;
 
   List<PriceDataTable> dataTable = [
-    PriceDataTable(typeId: "1", bikeType: "Xe tay côn", price: 120),
-    PriceDataTable(typeId: "2", bikeType: "Xe gắn máy", price: 120),
-    PriceDataTable(typeId: "3", bikeType: "Xe tay ga", price: 120),
+    PriceDataTable(
+        typeId: "d70ec77a-aadf-4dd5-b9e4-00b795263387",
+        bikeType: "Xe tay côn",
+        price: 140),
+    PriceDataTable(
+        typeId: "8922aeda-6522-4046-9c85-32f86d41faae",
+        bikeType: "Xe gắn máy",
+        price: 90),
+    PriceDataTable(
+        typeId: "0ac44f7e-599b-4f49-8f26-076834d8ce7a",
+        bikeType: "Xe tay ga",
+        price: 120),
   ];
   List<DateTime> listDateRent = [];
   List<DateTime> listDateReturn = [];
-
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<OwnerViewModel>(context, listen: false).getAll();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +116,7 @@ class _BodyHome extends State<BodyHome> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      data.price.toString() + "/ngày",
+                      data.price.toString() + ".000/ngày",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),

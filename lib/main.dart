@@ -3,7 +3,6 @@
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
-import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Color(0xFFFFEBEE),
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: HomeView(),
+        home: LoginView1(),
       ),
     );
   }

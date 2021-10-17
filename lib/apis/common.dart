@@ -10,7 +10,7 @@ final _URL_API = URL_SERVER + "api/" + _VERSION;
 
 class AreaApiPath {
   // get all areas
-  static String GET_ALL = "";
+  static String GET_ALL = _URL_API + "/areas";
   // get a area by id
   static String GET_BY_ID = "";
 }
@@ -39,4 +39,8 @@ class OwnerApiPath {
 
 class AdminApiPath {
   static String GET_ALL = "";
+}
+
+class BookingApiPath {
+  static String BOOKING_BIKE = _URL_API + '/bookings';
 }

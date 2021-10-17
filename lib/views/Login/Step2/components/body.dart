@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use, no_logic_in_create_state
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
@@ -169,7 +170,11 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                   onPressed: () async {
                     bool success = await _service.signInWithOTP(
                         otpController.text, _service.verificationId);
+
                     if (success) {
+                      //Location
+                      // CustomerViewModel _customer = CustomerViewModel();
+                      // _customer.storingLocation();
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return HomeView();
