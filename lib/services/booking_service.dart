@@ -8,8 +8,13 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingService {
-  Future<void> bookingBike(Bike bike, String voucherCode, String dateRent,
-      String dateReturn, String typeId, String paymentId) async {
+  Future<BookingSuccessModel> bookingBike(
+      Bike bike,
+      String voucherCode,
+      String dateRent,
+      String dateReturn,
+      String typeId,
+      String paymentId) async {
     String optionalVoucher = "";
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,5 +36,6 @@ class BookingService {
     if (response.statusCode == 200) {
       final data = response.body;
     }
+    return BookingSuccessModel();
   }
 }

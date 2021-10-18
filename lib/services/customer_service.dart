@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:chothuexemay_mobile/apis/common.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';

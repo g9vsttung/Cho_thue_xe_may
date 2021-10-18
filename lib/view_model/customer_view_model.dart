@@ -1,6 +1,4 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls
-
-import 'dart:developer';
+// ignore_for_file: avoid_function_literals_in_foreach_call
 
 import 'package:chothuexemay_mobile/Repositories/Implementations/area_repository.dart';
 import 'package:chothuexemay_mobile/Repositories/Implementations/booking_repository.dart';

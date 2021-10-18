@@ -77,7 +77,6 @@ class AuthService extends ChangeNotifier {
         (String verificationId) async {
       // log('auto timeout');
       // // ignore: unused_label
-      timeout:
       const Duration(seconds: 0);
     };
     try {

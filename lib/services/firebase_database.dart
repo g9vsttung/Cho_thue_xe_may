@@ -17,7 +17,7 @@ class FirebaseDatabaseCustom {
     databaseURL:
         'https://chothuexemay-35838-default-rtdb.asia-southeast1.firebasedatabase.app',
   ).reference();
-  final GeoLocatorCustom _geoLocatorCustom = GeoLocatorCustom();
+
   String userId = "";
 
   final String _pathOwnerLocation = 'locations/owners/';
