@@ -44,3 +44,7 @@ class AdminApiPath {
 class BookingApiPath {
   static String BOOKING_BIKE = _URL_API + '/bookings';
 }
+
+class MotorTypeApiPath {
+  static String GET_ALL = _URL_API + '/motorTypes';
+}
