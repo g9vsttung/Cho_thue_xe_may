@@ -2,6 +2,7 @@
 
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
             create: (context) => CustomerViewModel()),
         ChangeNotifierProvider<OwnerViewModel>(
             create: (context) => OwnerViewModel()),
+        ChangeNotifierProvider<MotorTypeViewModel>(
+            create: (context) => MotorTypeViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
