@@ -26,7 +26,6 @@ class BodyBookingDetail extends StatefulWidget {
 class _BodyBookingDetailState extends State<BodyBookingDetail> {
   String selectedMethod = "Tiền mặt";
   List<String> listPayMethod = ["Tiền mặt", "Momo", "Visa"];
-  String cityName = "";
   String address = "";
 
   @override
