@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:ui';
+import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/models/price_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class BodyHome extends StatefulWidget {
-  const BodyHome({Key? key}) : super(key: key);
+  List<MotorType> types;
+  BodyHome({Key? key, required this.types}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +29,7 @@ class _BodyHome extends State<BodyHome> {
   DateTime dateRent = DateTime.now();
   DateTime dateReturn = DateTime.now().add(Duration(days: 1));
   PriceDataTable? bikeType;
+  MotorType? selectedType;
 
   List<PriceDataTable> dataTable = [
     PriceDataTable(
@@ -285,10 +288,10 @@ class _BodyHome extends State<BodyHome> {
       ),
       child: DropdownButton(
           underline: const SizedBox(),
-          value: bikeType,
-          onChanged: (PriceDataTable? x) {
+          value: selectedType,
+          onChanged: (MotorType? x) {
             setState(() {
-              bikeType = x;
+              selectedType = x;
             });
           },
           iconSize: 12,
@@ -297,13 +300,13 @@ class _BodyHome extends State<BodyHome> {
             color: Colors.black,
             width: 12,
           ),
-          items: dataTable.map((PriceDataTable t) {
+          items: widget.types.map((MotorType t) {
             return DropdownMenuItem(
                 value: t,
                 child: SizedBox(
                   width: size.width * 0.4 - 20,
                   child: Text(
-                    t.bikeType,
+                    t.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -320,6 +323,7 @@ class _BodyHome extends State<BodyHome> {
     if (first) {
       first = false;
       bikeType = dataTable[0];
+      selectedType = widget.types[0];
       for (int i = 0; i < LIMIT_DATE; i++)
         listDateRent.add(DateTime.now().add(Duration(days: i)));
     }
