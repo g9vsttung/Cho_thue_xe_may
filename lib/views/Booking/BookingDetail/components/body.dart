@@ -220,7 +220,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                             widget.dateRent, widget.dateReturn);
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return WaitingView(typeId: widget.cateBike.typeId);
+                            return WaitingView();
                           },
                         ));
                       },

@@ -1,14 +1,12 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
-import 'package:chothuexemay_mobile/views/Booking/Approve/approve_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BodyWaiting extends StatelessWidget {
-  String typeId;
 
-  BodyWaiting({Key? key, required this.typeId}) : super(key: key);
+  BodyWaiting({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +38,7 @@ class BodyWaiting extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return ApproveView(
-                        info: ApproveViewModel("avatar.png", "Hoang Anh Biker",
-                            4, "55-GA 12548 ", "Air Black", "bikeApprove.png"));
-                  },
-                ));
-              },
-              child: Text("Khi thấy thì cho chạy cái Navigator.push này"),
-            )
+
           ],
         )
       ],

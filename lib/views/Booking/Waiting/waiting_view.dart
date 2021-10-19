@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
+import 'package:chothuexemay_mobile/views/Booking/Approve/components/body.dart';
 import 'package:chothuexemay_mobile/views/Booking/Waiting/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class WaitingView extends StatelessWidget {
-  String typeId;
-
-  WaitingView({Key? key, required this.typeId}) : super(key: key);
+  WaitingView({Key? key}) : super(key: key);
+  Future<ApproveViewModel> ownerAccepted() async{
+    return ApproveViewModel("avatar.png", "Nguyễn Văn A", 4, "545-BSF23-98", "Air Blade", "bikeApprove.png");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +26,18 @@ class WaitingView extends StatelessWidget {
           },
         ),
       ),
-      body: BodyWaiting(
-        typeId: typeId,
+      body: FutureBuilder(
+        builder: (context, napshot) {
+          if (napshot.connectionState == ConnectionState.done) {
+            if (napshot.hasData) {
+              ApproveViewModel? data=napshot.data as ApproveViewModel?;
+              if(data!=null)
+                return BodyApprove(info: data);
+            }
+          }
+          return BodyWaiting();
+        },
+        future: ownerAccepted(),
       ),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,
