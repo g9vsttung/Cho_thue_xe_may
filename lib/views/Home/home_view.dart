@@ -12,9 +12,12 @@ import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
-  Future<List<MotorType>> getData(BuildContext context) async {
+  Future<Map<String, List<Object>>> getData(BuildContext context) async {
+    Map<String, List<Object>> list = {};
     await Provider.of<MotorTypeViewModel>(context, listen: false).getAll();
-    return Provider.of<MotorTypeViewModel>(context, listen: false).types;
+    list['types'] =
+        Provider.of<MotorTypeViewModel>(context, listen: false).types;
+    return list;
   }
 
   @override
@@ -31,7 +34,8 @@ class HomeView extends StatelessWidget {
         builder: (context, napshot) {
           if (napshot.connectionState == ConnectionState.done) {
             if (napshot.hasData) {
-              final List<MotorType> types = napshot.data as List<MotorType>;
+              final List<MotorType> types =
+                  (napshot.data as dynamic)['types'] as List<MotorType>;
               return BodyHome(types: types);
             }
           }

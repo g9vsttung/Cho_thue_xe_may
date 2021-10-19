@@ -1,4 +1,4 @@
-import 'package:chothuexemay_mobile/models/price_model.dart';
+import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class BodyBookingDetail extends StatefulWidget {
   String dateRent;
   String dateReturn;
-  PriceDataTable cateBike;
+  MotorType cateBike;
 
   BodyBookingDetail(
       {required this.dateRent,
@@ -24,6 +24,10 @@ class BodyBookingDetail extends StatefulWidget {
 }
 
 class _BodyBookingDetailState extends State<BodyBookingDetail> {
+  //Format currency number
+  RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  String Function(Match) mathFunc = (Match match) => '${match[1]}.';
+
   String selectedMethod = "Tiền mặt";
   List<String> listPayMethod = ["Tiền mặt", "Momo", "Visa"];
   String address = "";
@@ -95,24 +99,24 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(widget.dateRent,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Text(widget.dateReturn,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
-                            Text(widget.cateBike.bikeType,
-                                style: TextStyle(
+                            Text(widget.cateBike.name,
+                                style: const TextStyle(
                                   fontSize: 18,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                           ],
@@ -120,7 +124,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   const Text("Địa chỉ của bạn:",
@@ -129,7 +133,10 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Text(address == "" ? address : address.substring(0, 30),
+                  Text(
+                      address == ""
+                          ? address
+                          : address.substring(0, 30) + '...',
                       style: const TextStyle(
                         fontSize: 18,
                       )),
@@ -192,23 +199,28 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
           ),
           Container(
             color: Colors.grey[300],
-            padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+            padding:
+                const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Tổng cộng",
+                    const Text("Tổng cộng",
                         style: TextStyle(
                           fontSize: 18,
                         )),
-                    Text(widget.cateBike.price.toString() + '.000 đ',
-                        style: TextStyle(
+                    Text(
+                        widget.cateBike.price
+                                .toString()
+                                .replaceAllMapped(reg, mathFunc) +
+                            ' đ',
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
@@ -216,7 +228,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        _customerViewModel.findBikes(widget.cateBike.typeId,
+                        _customerViewModel.findBikes(widget.cateBike.id,
                             widget.dateRent, widget.dateReturn);
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
@@ -225,7 +237,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                         ));
                       },
                       color: Colors.orange,
-                      child: Text(
+                      child: const Text(
                         "Xác nhận",
                         style: TextStyle(
                             fontSize: 18,
@@ -235,7 +247,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
               ],

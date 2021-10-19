@@ -2,16 +2,13 @@
 
 import 'dart:ui';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
-import 'package:chothuexemay_mobile/models/price_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class BodyHome extends StatefulWidget {
   List<MotorType> types;
@@ -24,27 +21,17 @@ class BodyHome extends StatefulWidget {
 }
 
 class _BodyHome extends State<BodyHome> {
+  //Format currency number
+  RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  // ignore: prefer_function_declarations_over_variables
+  String Function(Match) mathFunc = (Match match) => '${match[1]}.';
+
   bool first = true;
   final int LIMIT_DATE = 5;
   DateTime dateRent = DateTime.now();
   DateTime dateReturn = DateTime.now().add(Duration(days: 1));
-  PriceDataTable? bikeType;
   MotorType? selectedType;
 
-  List<PriceDataTable> dataTable = [
-    PriceDataTable(
-        typeId: "d70ec77a-aadf-4dd5-b9e4-00b795263387",
-        bikeType: "Xe tay côn",
-        price: 140),
-    PriceDataTable(
-        typeId: "8922aeda-6522-4046-9c85-32f86d41faae",
-        bikeType: "Xe gắn máy",
-        price: 90),
-    PriceDataTable(
-        typeId: "0ac44f7e-599b-4f49-8f26-076834d8ce7a",
-        bikeType: "Xe tay ga",
-        price: 120),
-  ];
   List<DateTime> listDateRent = [];
   List<DateTime> listDateReturn = [];
 
@@ -74,7 +61,7 @@ class _BodyHome extends State<BodyHome> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: const [
               Text(
                 "*Bảng giá được thay đổi theo vùng",
                 style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
@@ -84,9 +71,9 @@ class _BodyHome extends State<BodyHome> {
           Table(
             border: TableBorder.all(color: Colors.black, width: 1),
             children: [
-              TableRow(children: [
+              TableRow(children: const [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Loại xe",
                     style: TextStyle(
@@ -96,7 +83,7 @@ class _BodyHome extends State<BodyHome> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Giá tiền",
                     style: TextStyle(
@@ -106,12 +93,12 @@ class _BodyHome extends State<BodyHome> {
                   ),
                 ),
               ]),
-              for (PriceDataTable data in dataTable)
+              for (MotorType data in widget.types)
                 TableRow(children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      data.bikeType,
+                      data.name,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -119,7 +106,8 @@ class _BodyHome extends State<BodyHome> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      data.price.toString() + ".000/ngày",
+                      data.price.toString().replaceAllMapped(reg, mathFunc) +
+                          "/ngày",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -204,7 +192,7 @@ class _BodyHome extends State<BodyHome> {
                             dateReturn.month.toString() +
                             "/" +
                             dateReturn.year.toString(),
-                        cateBike: bikeType!);
+                        cateBike: selectedType!);
                   },
                 ));
               },
@@ -322,7 +310,6 @@ class _BodyHome extends State<BodyHome> {
   setDateAndList() {
     if (first) {
       first = false;
-      bikeType = dataTable[0];
       selectedType = widget.types[0];
       for (int i = 0; i < LIMIT_DATE; i++)
         listDateRent.add(DateTime.now().add(Duration(days: i)));

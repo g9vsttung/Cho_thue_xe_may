@@ -171,9 +171,6 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                         otpController.text, _service.verificationId);
 
                     if (success) {
-                      //Location
-                      // CustomerViewModel _customer = CustomerViewModel();
-                      // _customer.storingLocation();
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return HomeView();

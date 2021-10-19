@@ -17,7 +17,7 @@ class BodyApprove extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             "ĐÃ TÌM THẤY XE",
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -34,16 +34,16 @@ class BodyApprove extends StatelessWidget {
                   backgroundImage:
                       AssetImage(StringConstants.imageDirectory + info.avatar),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
                   info.ownerName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
@@ -63,7 +63,7 @@ class BodyApprove extends StatelessWidget {
                       ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
@@ -71,7 +71,7 @@ class BodyApprove extends StatelessWidget {
                   children: [
                     Text(
                       info.licensePlate,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),
@@ -82,7 +82,7 @@ class BodyApprove extends StatelessWidget {
                     ),
                     Text(
                       info.bikeName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),
@@ -100,9 +100,9 @@ class BodyApprove extends StatelessWidget {
             child: RaisedButton(
               onPressed: () {},
               color: Colors.red,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Text(
+              child: const Text(
                 "HỦY ĐẶT",
                 style: TextStyle(
                     fontSize: 18,

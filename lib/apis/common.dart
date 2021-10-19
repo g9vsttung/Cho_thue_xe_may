@@ -46,5 +46,10 @@ class BookingApiPath {
 }
 
 class MotorTypeApiPath {
-  static String GET_ALL = _URL_API + '/motorTypes';
+  static String GET_ALL_BY_AREA = _URL_API + '/pricelists/listByArea?areaId=';
+}
+
+class PriceListApiPath {
+  static String GET_ALL = _URL_API + '/';
+  static String GET_BY_AREA_ID_AND_TYPE_ID = _URL_API + '/pricelists/';
 }
