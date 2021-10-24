@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
+
   Future<List<MotorType>> getData(BuildContext context) async {
     await Provider.of<MotorTypeViewModel>(context, listen: false).getAll();
     return Provider.of<MotorTypeViewModel>(context, listen: false).types;
@@ -22,6 +23,7 @@ class HomeView extends StatelessWidget {
     Provider.of<CustomerViewModel>(context).getData();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
