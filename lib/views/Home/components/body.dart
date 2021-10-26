@@ -28,8 +28,10 @@ class BodyHome extends StatefulWidget {
 
 class _BodyHome extends State<BodyHome> {
   TextEditingController addressController = TextEditingController();
+
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+
   // ignore: prefer_function_declarations_over_variables
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
@@ -88,53 +90,46 @@ class _BodyHome extends State<BodyHome> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "Địa chỉ của bạn:",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Column(mainAxisSize: MainAxisSize.min, children: [
+            Row(
+              children: [
+                Text(
+                  "Địa chỉ của bạn:",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "22A đường số 7, phường 3, quận 8,... ",
-                style: TextStyle(
-                  fontSize: 18,
                 ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "22A đường số 7, phường 3, quận 8,... ",
+              style: TextStyle(
+                fontSize: 18,
               ),
             ),
-          ),
-          SizedBox(
-            height: 15,
-              SizedBox(
-                height: 5,
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              child: TextField(
+                controller: addressController,
+                decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(10),
+                    hintText: "Nhập địa chỉ nếu định vị không chính xác...",
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          color: ColorConstants.textBold,
+                          width: 1,
+                        ))),
               ),
-              Container(
-                child: TextField(
-                  controller: addressController,
-                  decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: "Nhập địa chỉ nếu định vị không chính xác...",
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: ColorConstants.textBold,
-                            width: 1,
-                          ))),
-                ),
-              )
-            ],
-          ),
+            )
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [for (PriceDataTable x in dataTable) getCateButton(x)],

@@ -1,7 +1,6 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
-import 'package:chothuexemay_mobile/views/Booking/Approve/approve_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
