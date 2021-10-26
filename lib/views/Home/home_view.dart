@@ -25,7 +25,6 @@ class HomeView extends StatelessWidget {
     Provider.of<CustomerViewModel>(context).getData();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,

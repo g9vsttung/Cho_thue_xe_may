@@ -1,5 +1,3 @@
-import 'package:chothuexemay_mobile/models/order_model.dart';
-import 'package:chothuexemay_mobile/models/price_model.dart';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/components/body.dart';
@@ -9,9 +7,14 @@ import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 
 class BookingDetailView extends StatelessWidget {
-  OrderModel order;
+  String dateRent;
+  String dateReturn;
+  MotorType cateBike;
 
-  BookingDetailView({required this.order});
+  BookingDetailView(
+      {required this.dateRent,
+      required this.dateReturn,
+      required this.cateBike});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,9 @@ class BookingDetailView extends StatelessWidget {
             }),
       ),
       body: BodyBookingDetail(
-        order: order,
+        dateRent: dateRent,
+        dateReturn: dateReturn,
+        cateBike: cateBike,
       ),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,
