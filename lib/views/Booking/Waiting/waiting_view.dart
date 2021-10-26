@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
+import 'package:chothuexemay_mobile/models/approve_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Approve/components/body.dart';
 import 'package:chothuexemay_mobile/views/Booking/Waiting/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
@@ -10,9 +8,11 @@ import 'package:flutter/material.dart';
 
 class WaitingView extends StatelessWidget {
   WaitingView({Key? key}) : super(key: key);
-  Future<ApproveViewModel> ownerAccepted() async{
-    return ApproveViewModel("avatar.png", "Nguyễn Văn A", 4, "545-BSF23-98", "Air Blade", "bikeApprove.png");
+  Future<ApproveModel> ownerAccepted() async {
+    return ApproveModel("avatar.png", "Nguyễn Văn A", 4, "545-BSF23-98",
+        "Air Blade", "bikeApprove.png");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +30,8 @@ class WaitingView extends StatelessWidget {
         builder: (context, napshot) {
           if (napshot.connectionState == ConnectionState.done) {
             if (napshot.hasData) {
-              ApproveViewModel? data=napshot.data as ApproveViewModel?;
-              if(data!=null)
-                return BodyApprove(info: data);
+              ApproveModel? data = napshot.data as ApproveModel?;
+              if (data != null) return BodyApprove(info: data);
             }
           }
           return BodyWaiting();

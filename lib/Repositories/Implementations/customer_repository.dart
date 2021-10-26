@@ -1,5 +1,6 @@
 import 'package:chothuexemay_mobile/Repositories/Interfaces/customer_interface.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
+import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/services/customer_service.dart';
 import 'package:chothuexemay_mobile/services/firebase_database.dart';
@@ -36,7 +37,7 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  Future<List<Owner>> findBikes(String areaId, String typeId) async {
-    return await service.findBikes(areaId, typeId);
+  Future<List<Owner>> findBikes(OrderModel model) async {
+    return await service.findBikes(model);
   }
 }

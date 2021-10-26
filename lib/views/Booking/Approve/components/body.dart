@@ -1,11 +1,11 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
+import 'package:chothuexemay_mobile/models/approve_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class BodyApprove extends StatelessWidget {
-  ApproveViewModel info;
+  ApproveModel info;
 
   BodyApprove({required this.info});
 

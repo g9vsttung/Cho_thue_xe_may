@@ -1,24 +1,23 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'dart:ui';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/models/order_model.dart';
-import 'package:chothuexemay_mobile/models/price_model.dart';
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
-import 'package:chothuexemay_mobile/views/Home/components/cate_button.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class BodyHome extends StatefulWidget {
   List<MotorType> types;
-
-  BodyHome({Key? key, required this.types}) : super(key: key);
+  String address;
+  BodyHome({Key? key, required this.types, required this.address})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -31,7 +30,6 @@ class _BodyHome extends State<BodyHome> {
 
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-
   // ignore: prefer_function_declarations_over_variables
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
@@ -41,39 +39,32 @@ class _BodyHome extends State<BodyHome> {
   DateTime dateReturn = DateTime.now().add(Duration(days: 1));
 
   //selected var
-  PriceDataTable? selectedCate;
-  MotorType? selectedType;
+  MotorType? selectedCate; //Selected Motor type
   TimeOfDay selectedTime = TimeOfDay.now();
   String selectedMethod = "day";
   int durationHour = 1;
 
   //list
   List<int> listHour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  List<PriceDataTable> dataTable = [
-    PriceDataTable(
-        typeId: "d70ec77a-aadf-4dd5-b9e4-00b795263387",
-        bikeType: "Tay côn",
-        img: "tayCon.png",
-        price: 140),
-    PriceDataTable(
-        typeId: "8922aeda-6522-4046-9c85-32f86d41faae",
-        bikeType: "Xe số",
-        img: "xeSo.png",
-        price: 90),
-    PriceDataTable(
-        typeId: "0ac44f7e-599b-4f49-8f26-076834d8ce7a",
-        bikeType: "Xe ga",
-        img: "tayGa.png",
-        price: 120),
-  ];
   List<DateTime> listDateRent = [];
   List<DateTime> listDateReturn = [];
 
   @override
   void initState() {
-    // TODO: implement initState
+    for (MotorType type in widget.types) {
+      if (type.name.contains("Xe Tay Côn")) {
+        type.name = "Tay côn";
+        type.img = "tayCon.png";
+      } else if (type.name.contains("Xe Gắn Máy")) {
+        type.name = "Tay số";
+        type.img = "xeSo.png";
+      } else if (type.name.contains("Xe Tay Ga")) {
+        type.img = "tayGa.png";
+        type.name = "Xe ga";
+      }
+    }
     super.initState();
-    selectedCate = dataTable[0];
+    selectedCate = widget.types[0];
   }
 
   @override
@@ -106,7 +97,7 @@ class _BodyHome extends State<BodyHome> {
               height: 10,
             ),
             Text(
-              "22A đường số 7, phường 3, quận 8,... ",
+              widget.address.substring(0, 32) + '...',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -132,7 +123,7 @@ class _BodyHome extends State<BodyHome> {
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [for (PriceDataTable x in dataTable) getCateButton(x)],
+            children: [for (MotorType x in widget.types) getCateButton(x)],
           ),
           getPrice(),
           Row(
@@ -232,12 +223,16 @@ class _BodyHome extends State<BodyHome> {
                 } else {
                   dateReturn = dateRent.add(Duration(hours: durationHour));
                 }
+                String addressForBooking = addressController.text;
+                if (addressForBooking == "") {
+                  addressForBooking = widget.address;
+                }
                 OrderModel order = OrderModel(
                     dateRent: dateRent,
                     dateReturn: dateReturn,
                     cateBike: selectedCate!,
                     rentMethod: selectedMethod,
-                    address: addressController.value.text);
+                    address: addressForBooking);
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return BookingDetailView(order: order);
@@ -395,8 +390,8 @@ class _BodyHome extends State<BodyHome> {
   setDateAndList() {
     if (first) {
       first = false;
-      selectedCate = dataTable[0];
-      selectedType = widget.types[0];
+      selectedCate = widget.types[0];
+      //selectedType = widget.types[0];
       for (int i = 0; i < LIMIT_DATE; i++) {
         listDateRent.add(DateTime.now().add(Duration(days: i)));
       }
@@ -416,7 +411,7 @@ class _BodyHome extends State<BodyHome> {
     dateReturn = DateTime(ymd[0], ymd[1], ymd[2]);
   }
 
-  Widget getCateButton(PriceDataTable x) {
+  Widget getCateButton(MotorType x) {
     Color textColor = Colors.black;
     Color containerColor = Colors.white;
     if (selectedCate == x) {
@@ -438,14 +433,14 @@ class _BodyHome extends State<BodyHome> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                StringConstants.iconDirectory + x.img,
+                StringConstants.iconDirectory + x.img!,
                 width: 50,
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
-                x.bikeType,
+                x.name,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -458,12 +453,18 @@ class _BodyHome extends State<BodyHome> {
 
   Widget getPrice() {
     String text = "";
+
     if (selectedMethod == "day") {
-      text = "Giá: " + selectedCate!.price.toString() + ".000 vnđ/ngày";
+      text = "Giá: " +
+          selectedCate!.price.toString().replaceAllMapped(reg, mathFunc) +
+          " vnđ/ngày";
     } else {
       text = "Giá: " +
-          (selectedCate!.price * 1.1 / 24).round().toString() +
-          ".000 vnđ/giờ";
+          (selectedCate!.price * 1.1 / 24)
+              .round()
+              .toString()
+              .replaceAllMapped(reg, mathFunc) +
+          "vnđ/giờ";
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

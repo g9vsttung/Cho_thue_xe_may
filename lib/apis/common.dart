@@ -20,6 +20,7 @@ class BikeApiPath {
   static String GET_ALL = _URL_API + "/bikes";
   // get a bike by id
   static String GET_BY_ID = "";
+  static String FIND_BIKE = URL_SERVER + "api/" + 'v2' + '/owners/find';
 }
 
 class CustomerApiPath {

@@ -1,6 +1,6 @@
+// ignore_for_file: prefer_function_declarations_over_variables
+
 import 'package:chothuexemay_mobile/models/order_model.dart';
-import 'package:chothuexemay_mobile/models/price_model.dart';
-import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
@@ -21,6 +21,8 @@ class BodyBookingDetail extends StatefulWidget {
 }
 
 class _BodyBookingDetailState extends State<BodyBookingDetail> {
+  final CustomerViewModel _customerViewModel = CustomerViewModel();
+
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
@@ -58,9 +60,9 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
     Duration duration =
         widget.order.dateReturn.difference(widget.order.dateRent);
     if (widget.order.rentMethod == "day") {
-      price = (duration.inDays * widget.order.cateBike.price).toDouble();
+      price = (duration.inDays * widget.order.cateBike!.price).toDouble();
     } else {
-      price = duration.inHours * widget.order.cateBike.price * 1.1 / 24;
+      price = duration.inHours * widget.order.cateBike!.price * 1.1 / 24;
     }
     CustomerViewModel _customerViewModel =
         Provider.of<CustomerViewModel>(context);
@@ -141,7 +143,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                               SizedBox(
                                 height: 15,
                               ),
-                              Text(widget.order.cateBike.bikeType,
+                              Text(widget.order.cateBike!.name,
                                   style: TextStyle(
                                     fontSize: 18,
                                   )),
@@ -231,7 +233,12 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           style: TextStyle(
                             fontSize: 18,
                           )),
-                      Text(price.round().toString() + '.000 đ',
+                      Text(
+                          price
+                                  .round()
+                                  .toString()
+                                  .replaceAllMapped(reg, mathFunc) +
+                              ' đ',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
@@ -250,6 +257,13 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
+                      OrderModel model = OrderModel.findBy(
+                          typeId: widget.order.cateBike!.id,
+                          dateRent: widget.order.dateRent,
+                          dateReturn: widget.order.dateReturn,
+                          totalPrice: price,
+                          address: address);
+                      _customerViewModel.findBikes(model, context);
                       return WaitingView();
                     },
                   ));

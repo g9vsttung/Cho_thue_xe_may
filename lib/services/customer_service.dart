@@ -1,15 +1,21 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:chothuexemay_mobile/apis/common.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
+import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
+import 'package:chothuexemay_mobile/services/area_service.dart';
 import 'package:chothuexemay_mobile/services/firebase_database.dart';
+import 'package:chothuexemay_mobile/services/geolocation_service.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomerService {
+  final _geoLocationServive = GeoLocatorCustom();
   final _firebaseRealtimeService = FirebaseDatabaseCustom();
+  final _areaService = AreaService();
   Future<Customer> getCustomerByPhone(String phone) async {
     Uri url = Uri.parse(CustomerApiPath.GET_BY_PHONE + phone);
     final response = await http.get(url);
@@ -55,16 +61,38 @@ class CustomerService {
     return response.statusCode == 200;
   }
 
-  Future<List<Owner>> findBikes(String areaId, String typeId) async {
-    //areaId = '9004ba1e-aabb-4c92-badc-a7d2070cdb70';
-    Uri url = Uri.parse(
-        'http://52.74.12.123:80/api/v2/owners/find?areaId=${areaId}&typeId=${typeId}');
-    final response = await http.get(url);
+  Future<List<Owner>> findBikes(OrderModel model) async {
+    //findCustomerLocation
+    Map<String, String> rs =
+        await _geoLocationServive.getCustomerLocation(model.address);
+    String customerLocation = rs['customerLocation'] as String;
+    String city = rs['city'] as String;
+    String areaId = await _areaService.getIdByName(city);
+
+    //Parse dattime right format yyyy-mm-ddThh:mm
+    String dateRent =
+        model.dateRent.toString().substring(0, 16).replaceAll(' ', 'T');
+    String dateReturn =
+        model.dateReturn.toString().substring(0, 16).replaceAll(' ', 'T');
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Uri url = Uri.parse(BikeApiPath.FIND_BIKE +
+        '?areaId=$areaId&dateRent=$dateRent&dateReturn=$dateReturn&totalPrice=${model.totalPrice}&address=${model.address}&customerLocation=$customerLocation');
+    final headers = {
+      'Content-Type': 'application/json ; charset=UTF-8',
+      'Authorization':
+          'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
+    };
+    final response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      final Iterable owners = body;
-      return owners.map((o) => Owner.jsonFrom(o)).toList();
+      log('Found bikes');
+      return [];
+    } else if (response.statusCode == 404) {
+      log('Cannot found any bike');
+      return [];
     } else {
       throw Exception("Unable to perform request");
     }

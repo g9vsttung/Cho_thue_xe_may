@@ -1,11 +1,8 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/approve_view_model.dart';
-import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BodyWaiting extends StatelessWidget {
-
   BodyWaiting({Key? key}) : super(key: key);
 
   @override
@@ -36,7 +33,6 @@ class BodyWaiting extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-
           ],
         )
       ],

@@ -1,4 +1,4 @@
-class ApproveViewModel{
+class ApproveModel {
   String avatar;
   String ownerName;
   int rate;
@@ -6,6 +6,6 @@ class ApproveViewModel{
   String bikeName;
   String image;
 
-  ApproveViewModel(this.avatar, this.ownerName, this.rate, this.licensePlate,
+  ApproveModel(this.avatar, this.ownerName, this.rate, this.licensePlate,
       this.bikeName, this.image);
 }

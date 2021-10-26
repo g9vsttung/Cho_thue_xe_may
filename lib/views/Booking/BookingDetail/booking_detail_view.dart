@@ -1,6 +1,4 @@
 import 'package:chothuexemay_mobile/models/order_model.dart';
-import 'package:chothuexemay_mobile/models/price_model.dart';
-import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';

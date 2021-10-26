@@ -1,7 +1,9 @@
 // ignore: import_of_legacy_library_into_null_safe
+import 'dart:convert';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class GeoLocatorCustom {
   static Future<LatLng?> determinePosition() async {
@@ -67,5 +69,23 @@ class GeoLocatorCustom {
     yourCityName = address.first.adminArea.replaceAll('Thành phố ', '');
 
     return yourCityName;
+  }
+
+  Future<Map<String, String>> getCustomerLocation(String address) async {
+    Map<String, String> rs = {};
+    Uri url = Uri.parse(
+        'https://rsapi.goong.io/geocode?address=$address&api_key=MkP5cLaGx6mRgulWqb7dSEkFPlZqLsCDNq1ZUku1');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      rs['customerLocation'] = '(' +
+          body['results'][0]['geometry']['location']['lat'].toString() +
+          ',' +
+          body['results'][0]['geometry']['location']['lng'].toString() +
+          ')';
+      rs['city'] = body['results'][0]['address_components'][4]['long_name'];
+    }
+
+    return rs;
   }
 }
