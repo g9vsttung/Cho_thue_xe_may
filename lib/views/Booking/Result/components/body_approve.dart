@@ -1,3 +1,4 @@
+import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/models/approve_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class BodyApprove extends StatelessWidget {
-  ApproveModel info;
+  Owner owner;
 
-  BodyApprove({required this.info});
+  BodyApprove({required this.owner});
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +30,16 @@ class BodyApprove extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 40,
                   backgroundImage:
-                      AssetImage(StringConstants.imageDirectory + info.avatar),
+                      AssetImage(StringConstants.imageDirectory + "avatar.png"),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Text(
-                  info.ownerName,
+                  owner.fullname,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -49,13 +50,13 @@ class BodyApprove extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (int i = 1; i <= info.rate; i++)
+                    for (int i = 1; i <= owner.bike.rating.round(); i++)
                       Image.asset(
                         StringConstants.iconDirectory + "star.png",
                         color: Colors.yellow,
                         width: 20,
                       ),
-                    for (int i = 1; i < 5 - info.rate; i++)
+                    for (int i = 1; i < 5 - owner.bike.rating.round(); i++)
                       Image.asset(
                         StringConstants.iconDirectory + "star.png",
                         color: Colors.grey[300],
@@ -70,7 +71,7 @@ class BodyApprove extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      info.licensePlate,
+                      owner.bike.licensePlate,
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -81,7 +82,7 @@ class BodyApprove extends StatelessWidget {
                       width: 14,
                     ),
                     Text(
-                      info.bikeName,
+                      owner.bike.categoryName,
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -91,9 +92,11 @@ class BodyApprove extends StatelessWidget {
               ],
             ),
           ),
-          Image.asset(
-            StringConstants.imageDirectory + info.image,
+          Image.network(
+            ImageConstants.getFullImagePath(owner.bike.imgPath),
             width: size.width * 0.75,
+            height: size.width*0.75*3/4,
+            fit: BoxFit.fill,
           ),
           Container(
             width: size.width * 0.4,

@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomerViewModel extends ChangeNotifier {
+
   final List<Customer> customers = [];
   String cityName = "";
   String address = "";
@@ -41,7 +42,7 @@ class CustomerViewModel extends ChangeNotifier {
     areaId = await _areaRepository.findIdByName(cityName);
   }
 
-  findBikes(OrderModel model, BuildContext context) async {
+  Future<List<Owner>> findBikes(OrderModel model, BuildContext context) async {
     List<Owner> list = await customerRepository.findBikes(model);
     if (list.length == 0) {
       //No bikes
@@ -51,13 +52,12 @@ class CustomerViewModel extends ChangeNotifier {
         },
       ));
     }
-    //Having nearby bikes
-    for (Owner o in list) {
-      //waiting for owner response
-
-      //if no one accept => Return Not FOUND ANY PAGE
-
-      //if have => Return BookingSuccess object for displaying information in BookingDetails/body
-    }
+    return list;
+  }
+  Future<void> sendNoti(OrderModel order)async{
+    customerRepository.sendNoti(order);
+  }
+  Future<void> createBooking(OrderModel order)async{
+    customerRepository.createBooking(order);
   }
 }

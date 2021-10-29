@@ -40,4 +40,14 @@ class CustomerRepository implements ICustomerRepository {
   Future<List<Owner>> findBikes(OrderModel model) async {
     return await service.findBikes(model);
   }
+
+  @override
+  Future<void> sendNoti(OrderModel order) async {
+    service.sendNoti(order);
+  }
+
+  @override
+  Future<void> createBooking(OrderModel order) async{
+    service.createBooking(order);
+  }
 }

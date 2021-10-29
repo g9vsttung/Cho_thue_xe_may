@@ -1,14 +1,27 @@
-import 'package:chothuexemay_mobile/models/order_model.dart';
+
+import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/models/approve_model.dart';
-import 'package:chothuexemay_mobile/views/Booking/Waiting/components/body.dart';
+import 'package:chothuexemay_mobile/views/Booking/Result/components/body_approve.dart';
+import 'package:chothuexemay_mobile/views/Booking/Result/components/body_not_found.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class WaitingView extends StatelessWidget {
-  OrderModel order;
-  WaitingView({Key? key, required this.order}) : super(key: key);
+class ResultView extends StatelessWidget {
+
+  Owner? owner;
+  ResultView({Key? key,  Owner? owner}) : super(key: key){
+    if(owner!=null) {
+      this.owner=owner;
+    }
+  }
+  Widget getBody(){
+    if(owner!=null){
+      return BodyApprove(owner: owner!);
+    }else{
+      return BodyNotFound();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +35,7 @@ class WaitingView extends StatelessWidget {
           },
         ),
       ),
-      body:
-           BodyWaiting(order: order,)
-        ,
+      body: getBody(),
       bottomNavigationBar: BottomAppBar(
         color: ColorConstants.background,
         child: BottomBar(selected: "home"),

@@ -6,6 +6,6 @@ class ApproveModel {
   String bikeName;
   String image;
 
-  ApproveModel(this.avatar, this.ownerName, this.rate, this.licensePlate,
-      this.bikeName, this.image);
+  ApproveModel({required this.avatar, required this.ownerName, required this.rate, required this.licensePlate,
+    required this.bikeName, required this.image});
 }

@@ -8,4 +8,6 @@ abstract class ICustomerRepository extends GenericRepository {
   Future<String> getCityName();
   Future<String> getAddress();
   Future<List<Owner>> findBikes(OrderModel model);
+  Future<void> sendNoti(OrderModel order);
+  Future<void> createBooking(OrderModel order);
 }

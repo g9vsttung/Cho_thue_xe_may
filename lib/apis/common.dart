@@ -1,7 +1,7 @@
 //Change every restart the server
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
-const URL_SERVER = "http://52.74.12.123:80/";
+const URL_SERVER = "http://18.138.110.46/";
 // ignore: prefer_const_declarations
 final _VERSION = "v1";
 

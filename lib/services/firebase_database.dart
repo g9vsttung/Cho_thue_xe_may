@@ -24,6 +24,8 @@ class FirebaseDatabaseCustom {
   final String _pathCustomerLocation = 'locations/customers/';
   final String _latitudeChild = "latitude";
   final String _longitudeChild = "longitude";
+  final String _pathOwnerTokenFCM = "TrackingRegistrationId/customer/";
+  final String _tokenFCMChild = "registrationId";
 
   Future _checkExist() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -93,5 +95,16 @@ class FirebaseDatabaseCustom {
     } else {
       throw Exception("Unable to perform request");
     }
+  }
+  Future updateTokenFCM(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString(GlobalDataConstants.USERID)!;
+    await database
+        .child(_pathOwnerTokenFCM + userId)
+        .set({
+      _tokenFCMChild: token,
+    })
+        .then((value) => log("Token FCM updated!"))
+        .catchError((error) => {log(error.toString())});
   }
 }

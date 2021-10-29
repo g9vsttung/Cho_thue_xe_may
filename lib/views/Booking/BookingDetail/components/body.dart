@@ -264,7 +264,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           totalPrice: price,
                           address: address);
                       _customerViewModel.findBikes(model, context);
-                      return WaitingView();
+                      return WaitingView(order: model,);
                     },
                   ));
                 },

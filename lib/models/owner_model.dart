@@ -19,7 +19,7 @@ class Owner {
     return Owner(
         id: json['id'],
         phoneNumber: json['phoneNumber'] ?? "",
-        fullname: json['fullname'] ?? "Unknow",
+        fullname: json['fullName'] ?? "NLê Ánh Phương",
         address: json['address'] ?? "Unknow",
         numberOfbikes: json['numberOfBikes'] ?? 0,
         rating: json['rating'].toDouble() ?? 0,

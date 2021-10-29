@@ -10,12 +10,22 @@ class OrderModel {
   double? totalPrice;
   String? customerLocation;
   String? typeId;
+
+  //noti
+  String? imgPath;
+  String? cateName;
+  String? licensePlate;
+  String? ownerId;
+  String? bikeId;
+  String? categoryId;
+
   OrderModel(
       {required this.dateRent,
       required this.dateReturn,
       required this.cateBike,
       required this.rentMethod,
       required this.address});
+
   OrderModel.findBy({
     required this.typeId,
     required this.dateRent,
@@ -23,4 +33,27 @@ class OrderModel {
     required this.totalPrice,
     required this.address,
   });
+
+  OrderModel.sendNoti(
+      {required this.ownerId,
+      required this.licensePlate,
+      required this.cateName,
+      required this.dateRent,
+      required this.dateReturn,
+      required this.imgPath,
+      required this.address,
+      required this.totalPrice});
+
+  OrderModel.createBooking(
+      {required this.ownerId,
+      required this.licensePlate,
+      required this.cateName,
+      required this.dateRent,
+      required this.dateReturn,
+      required this.imgPath,
+      required this.typeId,
+      required this.address,
+      required this.totalPrice,
+      required this.bikeId,
+      required this.categoryId});
 }
