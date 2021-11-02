@@ -1,7 +1,7 @@
 class VoucherModel{
-  int date;
+  DateTime date;
   int quantity;
   String description;
-
-  VoucherModel(this.date, this.quantity, this.description);
+  double sale;
+  VoucherModel({required this.date,required  this.quantity, required this.description,required this.sale});
 }

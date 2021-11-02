@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class BottomBar extends StatelessWidget {
   String selected = "";
 
   BottomBar({Key? key, required this.selected}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,9 +20,11 @@ class BottomBar extends StatelessWidget {
           if (selected == "home")
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return HomeView();
-                },));
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HomeView();
+                  },
+                ));
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -41,6 +45,13 @@ class BottomBar extends StatelessWidget {
             )
           else
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HomeView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,6 +72,13 @@ class BottomBar extends StatelessWidget {
           //=============================================schedule
           if (selected == "schedule")
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return AppointmentView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,6 +98,13 @@ class BottomBar extends StatelessWidget {
             )
           else
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return AppointmentView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,

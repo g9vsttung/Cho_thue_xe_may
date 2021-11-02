@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 class BodyHome extends StatefulWidget {
   List<MotorType> types;
   String address;
+
   BodyHome({Key? key, required this.types, required this.address})
       : super(key: key);
 
@@ -30,6 +31,7 @@ class _BodyHome extends State<BodyHome> {
 
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+
   // ignore: prefer_function_declarations_over_variables
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
@@ -464,7 +466,7 @@ class _BodyHome extends State<BodyHome> {
               .round()
               .toString()
               .replaceAllMapped(reg, mathFunc) +
-          "vnđ/giờ";
+          " vnđ/giờ";
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

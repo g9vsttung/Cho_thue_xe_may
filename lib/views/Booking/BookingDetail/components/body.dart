@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_function_declarations_over_variables
 
 import 'package:chothuexemay_mobile/models/order_model.dart';
+import 'package:chothuexemay_mobile/models/voucher_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
 import 'package:chothuexemay_mobile/views/Booking/Waiting/waiting_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,8 +15,13 @@ import 'package:provider/provider.dart';
 
 class BodyBookingDetail extends StatefulWidget {
   OrderModel order;
+  VoucherModel? voucher;
 
-  BodyBookingDetail({required this.order});
+  BodyBookingDetail({required this.order, VoucherModel? voucher}) {
+    if (voucher != null) {
+      this.voucher = voucher;
+    }
+  }
 
   @override
   State<BodyBookingDetail> createState() => _BodyBookingDetailState();
@@ -22,6 +29,7 @@ class BodyBookingDetail extends StatefulWidget {
 
 class _BodyBookingDetailState extends State<BodyBookingDetail> {
   final CustomerViewModel _customerViewModel = CustomerViewModel();
+  VoucherViewModel voucherViewModel = VoucherViewModel();
 
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
@@ -57,6 +65,10 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
         ":" +
         widget.order.dateReturn.minute.toString();
     double price = 0;
+    if (widget.voucher != null) {
+      price = voucherViewModel.calculatePriceAfterApplyVoucher(
+          widget.voucher!, price);
+    }
     Duration duration =
         widget.order.dateReturn.difference(widget.order.dateRent);
     if (widget.order.rentMethod == "day") {
@@ -207,7 +219,9 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return VoucherView();
+                            return VoucherView(
+                              order: widget.order,
+                            );
                           },
                         ));
                       },
@@ -264,7 +278,9 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           totalPrice: price,
                           address: address);
                       _customerViewModel.findBikes(model, context);
-                      return WaitingView(order: model,);
+                      return WaitingView(
+                        order: model,
+                      );
                     },
                   ));
                 },
