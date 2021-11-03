@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AreaService {
   Future<String> getIdByName(String cityName) async {
     cityName = cityName.replaceAll("Thành phố ", "");
+    cityName = 'Hồ Chí Minh';
     Uri url = Uri.parse(AreaApiPath.GET_ALL + '?Name=' + cityName);
     final response = await http.get(url);
     if (response.statusCode == 200) {

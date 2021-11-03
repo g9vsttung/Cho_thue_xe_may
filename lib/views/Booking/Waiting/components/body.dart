@@ -53,11 +53,14 @@ class _BodyWaitingState extends State<BodyWaiting> {
             totalPrice: widget.order.totalPrice,
             typeId: widget.order.typeId,
             bikeId: owner.bike.id,
-            categoryId: owner.bike.categoryId);
+            categoryId: owner.bike.categoryId,
+            voucherCode: widget.order.voucherCode);
         customerViewModel.createBooking(orderModel);
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ResultView(owner: owner);
-        },));
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ResultView(owner: owner);
+          },
+        ));
       } else {
         listOwner.removeWhere((element) {
           return element.id == ownerId;

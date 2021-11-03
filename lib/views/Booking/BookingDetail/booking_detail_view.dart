@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 
 class BookingDetailView extends StatelessWidget {
   OrderModel order;
-  VoucherModel? voucher;
+  Voucher? voucher;
 
-  BookingDetailView({required this.order, VoucherModel? voucher}) {
+  BookingDetailView({required this.order, Voucher? voucher}) {
     if (voucher != null) {
       this.voucher = voucher;
     }

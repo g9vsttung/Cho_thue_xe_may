@@ -51,12 +51,16 @@ class CustomerService {
       body: jsonEncode(<String, String>{'phoneNumber': phone}),
     );
     if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
       final SharedPreferences _preference =
           await SharedPreferences.getInstance();
-      String token = response.body;
+      String fullName = body['fullName'];
+      await _preference.setString(GlobalDataConstants.USER_NAME, fullName);
+      String token = body['token'];
       await _preference.setString(GlobalDataConstants.TOKEN, token);
       Map<String, dynamic> payload = Jwt.parseJwt(token);
       await _preference.setString(GlobalDataConstants.USERID, payload["id"]);
+      log(_preference.getString(GlobalDataConstants.USERID).toString());
       //Location
       _firebaseRealtimeService.storingLocationRealtime();
       _fcm.getToken().then((token) {
@@ -103,25 +107,32 @@ class CustomerService {
       throw Exception("Unable to perform request");
     }
   }
-  Future<void> sendNoti(OrderModel order)async{
-    final SharedPreferences _pref=await SharedPreferences.getInstance();
-    String? userId=  _pref.getString(GlobalDataConstants.USERID);
-    String cusName="Nguyen Van A";
-    Uri url=Uri.parse("http://18.138.110.46/api/v2/owners/testSendNoti?"
+
+  Future<void> sendNoti(OrderModel order) async {
+    final SharedPreferences _pref = await SharedPreferences.getInstance();
+    String? userId = _pref.getString(GlobalDataConstants.USERID);
+    String? cusName = _pref.getString(GlobalDataConstants.USER_NAME);
+    Uri url = Uri.parse("http://18.138.110.46/api/v2/owners/testSendNoti?"
         "ownerId=${order.ownerId}&CustomerId=$userId&CustomerName=$cusName&LicensePlate=${order.licensePlate}&CateName=${order.cateName}&DateRent=${order.dateRent}&DateReturn=${order.dateReturn}&ImgPath=${order.imgPath}&Address=${order.address}&Price=${order.totalPrice}");
-    final response=await http.get(url);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      log('Sending notification successfully!');
+    } else {
+      log('Sending notification failed!');
+    }
   }
-  Future<void> createBooking(OrderModel order)async{
+
+  Future<void> createBooking(OrderModel order) async {
     String dateRent =
-    order.dateRent.toString().substring(0, 16).replaceAll(' ', 'T');
+        order.dateRent.toString().substring(0, 16).replaceAll(' ', 'T');
     String dateReturn =
-    order.dateReturn.toString().substring(0, 16).replaceAll(' ', 'T');
+        order.dateReturn.toString().substring(0, 16).replaceAll(' ', 'T');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await http.post(Uri.parse(BookingApiPath.BOOKING_BIKE),
         headers: <String, String>{
           'Content-Type': 'application/json ; charset=UTF-8',
           'Authorization':
-          'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
+              'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
         },
         body: jsonEncode(<String, String>{
           "ownerId": order.ownerId!,
@@ -129,11 +140,12 @@ class CustomerService {
           "categoryId": order.categoryId!,
           "typeId": order.typeId!,
           "paymentId": "0a8f83ec-ef70-48c1-a793-a367191ad1b3",
-          "voucherCode": "566f2503-ab49-490d-b323-1b8d3ba923df",
+          "voucherCode": order.voucherCode ?? '',
           "price": order.totalPrice!.toString(),
           "dayRent": dateRent,
           "dayReturnExpected": dateReturn
         }));
-    int a=0;
+    int a = 0;
+    log('message');
   }
 }

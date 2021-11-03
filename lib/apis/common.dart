@@ -54,3 +54,8 @@ class PriceListApiPath {
   static String GET_ALL = _URL_API + '/';
   static String GET_BY_AREA_ID_AND_TYPE_ID = _URL_API + '/pricelists/';
 }
+
+class VoucherApiPath {
+  static String GET_ALL =
+      'http://18.138.110.46/api/v2/voucherItems/customerId/';
+}

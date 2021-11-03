@@ -8,8 +8,12 @@ import 'package:flutter/material.dart';
 
 class BodyVoucher extends StatefulWidget {
   OrderModel order;
-
-  BodyVoucher({required this.order});
+  List<Voucher> vouchersAvailable;
+  List<Voucher> vouchersExchange;
+  BodyVoucher(
+      {required this.order,
+      required this.vouchersAvailable,
+      required this.vouchersExchange});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,18 +24,6 @@ class BodyVoucher extends StatefulWidget {
 class _BodyVoucher extends State<BodyVoucher> {
   VoucherViewModel voucherViewModel = VoucherViewModel();
   String selectedCate = "voucher";
-  List<VoucherModel> list = [
-    VoucherModel(
-        date: DateTime(2021, 11, 09, 23, 59, 59),
-        quantity: 2,
-        description: "Áp dụng cho các đợn trên 200k và giảm tối đa 100k",
-        sale: 35),
-    VoucherModel(
-        date: DateTime(2021, 11, 13, 23, 59, 59),
-        quantity: 2,
-        description: "Áp dụng cho các đợn trên 150k và giảm tối đa 50k",
-        sale: 20)
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +46,8 @@ class _BodyVoucher extends State<BodyVoucher> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (VoucherModel voucher in list) voucherBox(voucher),
+                  for (Voucher voucher in prepareVoucherList())
+                    voucherBox(voucher),
                 ],
               ),
             ),
@@ -62,6 +55,13 @@ class _BodyVoucher extends State<BodyVoucher> {
         ],
       ),
     );
+  }
+
+  List<Voucher> prepareVoucherList() {
+    if (selectedCate == 'voucher') {
+      return widget.vouchersAvailable;
+    }
+    return widget.vouchersExchange;
   }
 
   Widget cateNavBar() {
@@ -144,7 +144,7 @@ class _BodyVoucher extends State<BodyVoucher> {
     );
   }
 
-  Widget voucherBox(VoucherModel voucher) {
+  Widget voucherBox(Voucher voucher) {
     Size size = MediaQuery.of(context).size;
     int noDate = voucherViewModel.calculateDate(voucher.date);
     return Column(
@@ -171,7 +171,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Giảm giá " + voucher.sale.round().toString() + "%",
+                        "Giảm giá " + voucher.discount.round().toString() + "%",
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(
