@@ -3,6 +3,9 @@
 import 'package:chothuexemay_mobile/Repositories/Implementations/area_repository.dart';
 import 'package:chothuexemay_mobile/Repositories/Implementations/booking_repository.dart';
 import 'package:chothuexemay_mobile/Repositories/Implementations/customer_repository.dart';
+import 'package:chothuexemay_mobile/Repositories/Interfaces/area_interface.dart';
+import 'package:chothuexemay_mobile/Repositories/Interfaces/booking_interface.dart';
+import 'package:chothuexemay_mobile/Repositories/Interfaces/customer_interface.dart';
 import 'package:chothuexemay_mobile/models/approve_model.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/models/order_model.dart';
@@ -12,7 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomerViewModel extends ChangeNotifier {
-
   final List<Customer> customers = [];
   String cityName = "";
   String address = "";
@@ -21,9 +23,9 @@ class CustomerViewModel extends ChangeNotifier {
   // String dateRent = "";
   // String dateReturn = "";
 
-  final CustomerRepository customerRepository = CustomerRepository();
-  final AreaRepository _areaRepository = AreaRepository();
-  final BookingRepository _bookingRepository = BookingRepository();
+  final ICustomerRepository customerRepository = CustomerRepository();
+  final IAreaRepository _areaRepository = AreaRepository();
+  final IBookingRepository _bookingRepository = BookingRepository();
   void getAll() async {
     customers.clear();
     await customerRepository.getAll().then((value) => value.forEach((element) {
@@ -54,10 +56,16 @@ class CustomerViewModel extends ChangeNotifier {
     }
     return list;
   }
-  Future<void> sendNoti(OrderModel order)async{
+
+  Future<void> sendNoti(OrderModel order) async {
     customerRepository.sendNoti(order);
   }
-  Future<void> createBooking(OrderModel order)async{
+
+  Future<void> createBooking(OrderModel order) async {
     customerRepository.createBooking(order);
+  }
+
+  Future<int> getRewardPoints() async {
+    return await customerRepository.getRewardPoints();
   }
 }

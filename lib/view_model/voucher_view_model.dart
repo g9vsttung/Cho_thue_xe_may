@@ -30,4 +30,8 @@ class VoucherViewModel extends ChangeNotifier {
   Future<List<Voucher>> getAll() async {
     return await _repository.getAll();
   }
+
+  Future<List<Voucher>> getVouchersToExchange() async {
+    return await _repository.getVouchersToExchange();
+  }
 }

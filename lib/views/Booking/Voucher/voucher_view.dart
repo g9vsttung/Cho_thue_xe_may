@@ -1,6 +1,7 @@
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/voucher_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
@@ -16,6 +17,12 @@ class VoucherView extends StatelessWidget {
     Map<String, dynamic> list = {};
     list['vouchersAvailable'] =
         await Provider.of<VoucherViewModel>(context, listen: false).getAll();
+    list['vouchersExchange'] =
+        await Provider.of<VoucherViewModel>(context, listen: false)
+            .getVouchersToExchange();
+    list['points'] =
+        await Provider.of<CustomerViewModel>(context, listen: false)
+            .getRewardPoints();
     return list;
   }
 
@@ -39,10 +46,14 @@ class VoucherView extends StatelessWidget {
             if (napshot.hasData) {
               final List<Voucher> vouchers = (napshot.data
                   as dynamic)['vouchersAvailable'] as List<Voucher>;
+              final List<Voucher> vouchersExchange = (napshot.data
+                  as dynamic)['vouchersExchange'] as List<Voucher>;
+              final rewardPoint = (napshot.data as dynamic)['points'] as int;
               return BodyVoucher(
                 order: order,
                 vouchersAvailable: vouchers,
-                vouchersExchange: [],
+                vouchersExchange: vouchersExchange,
+                point: rewardPoint,
               );
             }
           }

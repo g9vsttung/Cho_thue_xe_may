@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 
 class BodyVoucher extends StatefulWidget {
   OrderModel order;
+  int point;
   List<Voucher> vouchersAvailable;
   List<Voucher> vouchersExchange;
   BodyVoucher(
       {required this.order,
       required this.vouchersAvailable,
-      required this.vouchersExchange});
+      required this.vouchersExchange,
+      required this.point});
 
   @override
   State<StatefulWidget> createState() {

@@ -7,7 +7,7 @@ import 'package:chothuexemay_mobile/services/firebase_database.dart';
 import 'package:chothuexemay_mobile/services/geolocation_service.dart';
 
 class CustomerRepository implements ICustomerRepository {
-  CustomerService service = CustomerService();
+  final CustomerService service = CustomerService();
   final FirebaseDatabaseCustom _databaseCustom = FirebaseDatabaseCustom();
   final GeoLocatorCustom _geoLocator = GeoLocatorCustom();
   @override
@@ -47,7 +47,24 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  Future<void> createBooking(OrderModel order) async{
+  Future<void> createBooking(OrderModel order) async {
     service.createBooking(order);
+  }
+
+  @override
+  Future<int> getRewardPoints() {
+    return service.getRewardPoint();
+  }
+
+  @override
+  Future<bool> updateProfile() {
+    // TODO: implement updateProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Customer> viewProfile() {
+    // TODO: implement viewProfile
+    throw UnimplementedError();
   }
 }

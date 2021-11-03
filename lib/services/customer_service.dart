@@ -145,7 +145,28 @@ class CustomerService {
           "dayRent": dateRent,
           "dayReturnExpected": dateReturn
         }));
-    int a = 0;
-    log('message');
+  }
+
+  Future<int> getRewardPoint() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString(GlobalDataConstants.USERID);
+    Uri url = Uri.parse(CustomerApiPath.VIEW_PROFILE + userId.toString());
+    final headers = {
+      'Content-Type': 'application/json ; charset=UTF-8',
+    };
+    final response = await http.get(url, headers: headers);
+    return jsonDecode(response.body)['rewardPoints'] as int;
+  }
+
+  Future<Customer> viewProfile() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString(GlobalDataConstants.USERID);
+    Uri url = Uri.parse(CustomerApiPath.VIEW_PROFILE + userId.toString());
+    final headers = {
+      'Content-Type': 'application/json ; charset=UTF-8',
+    };
+    final response = await http.get(url, headers: headers);
+
+    return Customer.jsonFrom(jsonDecode(response.body));
   }
 }
