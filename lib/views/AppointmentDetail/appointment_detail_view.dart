@@ -1,4 +1,5 @@
 import 'package:chothuexemay_mobile/models/booking_model.dart';
+import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
@@ -6,7 +7,7 @@ import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentDetailView extends StatelessWidget {
-  Booking booking;
+  BookingTranstion booking;
 
   AppointmentDetailView({required this.booking});
 

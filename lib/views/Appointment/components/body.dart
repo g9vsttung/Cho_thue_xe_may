@@ -1,10 +1,16 @@
-import 'package:chothuexemay_mobile/models/bike_model.dart';
-import 'package:chothuexemay_mobile/models/booking_model.dart';
+import 'package:chothuexemay_mobile/models/booking_transaction.dart';
+import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/appointment_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class BodyAppointment extends StatefulWidget {
+  List<BookingTranstion> transactions;
+  List<Category> categories;
+  BodyAppointment(
+      {Key? key, required this.transactions, required this.categories})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _BodyAppointment();
@@ -13,124 +19,6 @@ class BodyAppointment extends StatefulWidget {
 
 class _BodyAppointment extends State<BodyAppointment> {
   String selectedCate = "renting";
-  List<Booking> list = [
-    Booking(
-        id: "1",
-        ownerId: "2",
-        bikeId: "2",
-        dateRent: DateTime.now(),
-        dateReturnExpected: DateTime.now(),
-        dateReturnActual: DateTime.now(),
-        price: 120000,
-        paymentId: "paymentId",
-        address: "address",
-        paymentMethod: "Tiền mặt",
-        status: 0,
-        bike: Bike(
-            id: "1",
-            licensePlate: "sdasd",
-            color: "Black",
-            modelYear: "2020",
-            ownerId: "2",
-            categoryId: "2",
-            status: 1,
-            ownerPhone: "ownerPhone",
-            ownerName: "ownerName",
-            address: "address",
-            rating: 5,
-            numberOfRating: 42,
-            brandName: "brandName",
-            categoryName: "Air Blade",
-            imgPath:
-                "https://lh3.googleusercontent.com/proxy/Fc84KxEhs5Phn5y3GGKfORMAG3TnytNXhQZLINaN5HlQmlHxtDSpyBI8x1idHDhzhcOwY1stSdye7XbeELmhxAn8jfkty5Sx1vQq16aibxwGlFa30e6-DbfnExIWmMZsdP5d")),
-    Booking(
-        id: "1",
-        ownerId: "2",
-        bikeId: "2",
-        dateRent: DateTime.now(),
-        dateReturnExpected: DateTime.now(),
-        dateReturnActual: DateTime.now(),
-        price: 135000,
-        paymentId: "paymentId",
-        address: "address",
-        paymentMethod: "Paypal",
-        status: 1,
-        bike: Bike(
-            id: "1",
-            licensePlate: "sdasd",
-            color: "Black",
-            modelYear: "2020",
-            ownerId: "2",
-            categoryId: "2",
-            status: 1,
-            ownerPhone: "ownerPhone",
-            ownerName: "ownerName",
-            address: "address",
-            rating: 5,
-            numberOfRating: 42,
-            brandName: "brandName",
-            categoryName: "Air Blade",
-            imgPath:
-                "https://lh3.googleusercontent.com/proxy/Fc84KxEhs5Phn5y3GGKfORMAG3TnytNXhQZLINaN5HlQmlHxtDSpyBI8x1idHDhzhcOwY1stSdye7XbeELmhxAn8jfkty5Sx1vQq16aibxwGlFa30e6-DbfnExIWmMZsdP5d")),
-    Booking(
-        id: "1",
-        ownerId: "2",
-        bikeId: "2",
-        dateRent: DateTime.now(),
-        dateReturnExpected: DateTime.now(),
-        dateReturnActual: DateTime.now(),
-        price: 135000,
-        paymentId: "paymentId",
-        address: "address",
-        paymentMethod: "Paypal",
-        status: 2,
-        bike: Bike(
-            id: "1",
-            licensePlate: "sdasd",
-            color: "Black",
-            modelYear: "2020",
-            ownerId: "2",
-            categoryId: "2",
-            status: 1,
-            ownerPhone: "ownerPhone",
-            ownerName: "ownerName",
-            address: "address",
-            rating: 5,
-            numberOfRating: 42,
-            brandName: "brandName",
-            categoryName: "Air Blade",
-            imgPath:
-                "https://lh3.googleusercontent.com/proxy/Fc84KxEhs5Phn5y3GGKfORMAG3TnytNXhQZLINaN5HlQmlHxtDSpyBI8x1idHDhzhcOwY1stSdye7XbeELmhxAn8jfkty5Sx1vQq16aibxwGlFa30e6-DbfnExIWmMZsdP5d")),
-    Booking(
-        id: "1",
-        ownerId: "2",
-        bikeId: "2",
-        dateRent: DateTime.now(),
-        dateReturnExpected: DateTime.now(),
-        dateReturnActual: DateTime.now(),
-        price: 135000,
-        paymentId: "paymentId",
-        address: "address",
-        paymentMethod: "Paypal",
-        status: 3,
-        bike: Bike(
-            id: "1",
-            licensePlate: "sdasd",
-            color: "Black",
-            modelYear: "2020",
-            ownerId: "2",
-            categoryId: "2",
-            status: 1,
-            ownerPhone: "ownerPhone",
-            ownerName: "ownerName",
-            address: "address",
-            rating: 5,
-            numberOfRating: 42,
-            brandName: "brandName",
-            categoryName: "Air Blade",
-            imgPath:
-                "https://lh3.googleusercontent.com/proxy/Fc84KxEhs5Phn5y3GGKfORMAG3TnytNXhQZLINaN5HlQmlHxtDSpyBI8x1idHDhzhcOwY1stSdye7XbeELmhxAn8jfkty5Sx1vQq16aibxwGlFa30e6-DbfnExIWmMZsdP5d")),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +125,7 @@ class _BodyAppointment extends State<BodyAppointment> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (Booking booking in list)
+          for (BookingTranstion booking in widget.transactions)
             if (booking.status == 0 || booking.status == 1)
               rentDetailBox(booking),
         ],
@@ -246,7 +134,7 @@ class _BodyAppointment extends State<BodyAppointment> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (Booking booking in list)
+          for (BookingTranstion booking in widget.transactions)
             if (booking.status == 2 || booking.status == 3)
               rentDetailBox(booking),
         ],
@@ -254,7 +142,7 @@ class _BodyAppointment extends State<BodyAppointment> {
     }
   }
 
-  Widget rentDetailBox(Booking booking) {
+  Widget rentDetailBox(BookingTranstion booking) {
     Size size = MediaQuery.of(context).size;
     Color color = Colors.blueAccent;
     String icon = "";
@@ -314,12 +202,18 @@ class _BodyAppointment extends State<BodyAppointment> {
                     ),
                     if (booking.status == 0)
                       Text(
-                        booking.dateRent.toString().split(" ")[0],
+                        booking.dateRentActual
+                            .toString()
+                            .substring(0, 16)
+                            .replaceAll('T', ' '),
                         style: TextStyle(fontSize: 16, color: color),
                       ),
                     if (booking.status == 2)
                       Text(
-                        booking.dateReturnActual.toString().split(" ")[0],
+                        booking.dateReturnActual
+                            .toString()
+                            .substring(0, 16)
+                            .replaceAll('T', ' '),
                         style: TextStyle(fontSize: 16, color: color),
                       )
                   ]),
@@ -330,7 +224,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        booking.bike.categoryName,
+                        getCategoryName(booking.bike.categoryId),
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -385,5 +279,14 @@ class _BodyAppointment extends State<BodyAppointment> {
         )
       ],
     );
+  }
+
+  String getCategoryName(String categoryId) {
+    for (Category c in widget.categories) {
+      if (c.id == categoryId) {
+        return c.name;
+      }
+    }
+    return '';
   }
 }

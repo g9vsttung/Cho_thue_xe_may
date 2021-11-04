@@ -46,6 +46,7 @@ class AdminApiPath {
 
 class BookingApiPath {
   static String BOOKING_BIKE = _URL_API + '/bookings';
+  static String GET_ALL_TRANSACTIONS = _URL_API + '/bookings';
 }
 
 class MotorTypeApiPath {
@@ -64,4 +65,8 @@ class VoucherApiPath {
       _URL_API + '/vouchers/GetByAreaId?areaId=';
   //exchange points to get voucher item
   static String EXCHANGE_POINTS_TO_GET_VOUCHER = _URL_API + '/voucherItems';
+}
+
+class CategoryApiPath {
+  static String GET_ALL = _URL_API + '/categories';
 }

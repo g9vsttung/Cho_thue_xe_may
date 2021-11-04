@@ -1,4 +1,5 @@
 import 'package:chothuexemay_mobile/models/booking_model.dart';
+import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class BodyAppointmentDetail extends StatefulWidget {
-  Booking booking;
+  BookingTranstion booking;
 
   BodyAppointmentDetail({required this.booking});
 
@@ -53,7 +54,10 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text("Ngày thuê:",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.dateRent.toString().split(" ")[0],
+                        Text(
+                            widget.booking.dateRentActual
+                                .toString()
+                                .split(" ")[0],
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -69,7 +73,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         Text(
-                            widget.booking.dateReturnExpected
+                            widget.booking.dateReturnActual
                                 .toString()
                                 .split(" ")[0],
                             style: TextStyle(
@@ -104,7 +108,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Text(widget.booking.address,
+                    Text("widget.booking.address",
                         style: const TextStyle(
                           fontSize: 18,
                         )),
@@ -117,7 +121,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         const Text("Phương thức thanh toán: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.paymentMethod,
+                        Text("widget.booking.paymentMethod",
                             style: TextStyle(
                               fontSize: 18,
                             ))

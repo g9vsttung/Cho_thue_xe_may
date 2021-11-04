@@ -43,7 +43,7 @@ class Bike {
         ownerPhone: json['ownerPhone'] ?? "",
         ownerName: json['ownerName'] ?? "Unknow",
         address: json['address'] ?? "",
-        rating: json['rating'].toDouble() ?? 0,
+        rating: json['rating'] ?? 0,
         numberOfRating: json['numberOfRating'] ?? 0,
         brandName: json['brandName'] ?? "",
         categoryName: json['cateName'] ?? "",
