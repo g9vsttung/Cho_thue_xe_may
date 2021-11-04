@@ -64,7 +64,6 @@ class CustomerRepository implements ICustomerRepository {
 
   @override
   Future<Customer> viewProfile() {
-    // TODO: implement viewProfile
-    throw UnimplementedError();
+    return service.viewProfile();
   }
 }

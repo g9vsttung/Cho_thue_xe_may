@@ -68,4 +68,8 @@ class CustomerViewModel extends ChangeNotifier {
   Future<int> getRewardPoints() async {
     return await customerRepository.getRewardPoints();
   }
+
+  Future<Customer> viewProfile() async {
+    return await customerRepository.viewProfile();
+  }
 }

@@ -5,21 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BodyProfile extends StatefulWidget {
+  Customer customer;
+
+  BodyProfile({Key? key, required this.customer}) : super(key: key);
+
   @override
   State<BodyProfile> createState() => _BodyProfileState();
 }
 
 class _BodyProfileState extends State<BodyProfile> {
-  Customer customer = Customer(
-      id: "1",
-      phoneNumber: "0777997001",
-      identityNumber: "qwq",
-      fullname: "Nguyen Van A",
-      identityImg: "avatar.png",
-      rewardPoints: 240,
-      isBanned: false,
-      banCount: 0);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,7 +39,7 @@ class _BodyProfileState extends State<BodyProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        customer.fullname,
+                        widget.customer.fullname,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -53,7 +47,7 @@ class _BodyProfileState extends State<BodyProfile> {
                         height: 5,
                       ),
                       Text(
-                        "Số điệnn thoại: " + customer.phoneNumber,
+                        "Số điệnn thoại: " + widget.customer.phoneNumber,
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -63,7 +57,7 @@ class _BodyProfileState extends State<BodyProfile> {
                       ),
                       Text(
                         "Điển thưởng tích lũy: " +
-                            customer.rewardPoints.toString() +
+                            widget.customer.rewardPoints.toString() +
                             "pts",
                         style: TextStyle(
                           fontSize: 14,
