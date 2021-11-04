@@ -15,8 +15,9 @@ class VoucherView extends StatelessWidget {
 
   Future<Map<String, dynamic>> getData(BuildContext context) async {
     Map<String, dynamic> list = {};
+    await Provider.of<VoucherViewModel>(context, listen: false).getAll();
     list['vouchersAvailable'] =
-        await Provider.of<VoucherViewModel>(context, listen: false).getAll();
+        Provider.of<VoucherViewModel>(context, listen: false).vouchers;
     list['vouchersExchange'] =
         await Provider.of<VoucherViewModel>(context, listen: false)
             .getVouchersToExchange();

@@ -13,4 +13,9 @@ class VoucherRepository implements IVoucherRepository {
   Future<List<Voucher>> getVouchersToExchange() async {
     return await _service.getVouchersToExchange();
   }
+
+  @override
+  Future<bool> exchangePointsToGetVoucher(String voucherId) async {
+    return await _service.exchangePointToGetVoucher(voucherId);
+  }
 }

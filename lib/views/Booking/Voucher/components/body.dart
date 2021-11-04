@@ -1,5 +1,6 @@
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/voucher_model.dart';
+import 'package:chothuexemay_mobile/services/voucher_service.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
@@ -361,7 +362,17 @@ class _BodyVoucher extends State<BodyVoucher> {
                     )
                   ])),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  bool isSuccess = await voucherViewModel
+                      .exchangePointsToGetVoucher(voucher.id);
+                  if (isSuccess) {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return VoucherView(order: widget.order);
+                      },
+                    ));
+                  }
+                },
                 child: Container(
                   width: size.width * 0.9 * 0.2,
                   height: size.width * 0.16 + 14,

@@ -62,4 +62,6 @@ class VoucherApiPath {
       'http://18.138.110.46/api/v2/voucherItems/customerId/';
   static String GET_VOUCHERS_TO_EXCHANGE =
       _URL_API + '/vouchers/GetByAreaId?areaId=';
+  //exchange points to get voucher item
+  static String EXCHANGE_POINTS_TO_GET_VOUCHER = _URL_API + '/voucherItems';
 }

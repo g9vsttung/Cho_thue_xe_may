@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class VoucherViewModel extends ChangeNotifier {
   final IVoucherRepository _repository = VoucherRepository();
+  List<Voucher> vouchers = [];
   int calculateDate(DateTime date) {
     int result = 0;
     DateTime now = DateTime.now();
@@ -27,11 +28,17 @@ class VoucherViewModel extends ChangeNotifier {
     return price * (1 - voucher.discount / 100);
   }
 
-  Future<List<Voucher>> getAll() async {
-    return await _repository.getAll();
+  Future getAll() async {
+    vouchers = await _repository.getAll();
+    notifyListeners();
   }
 
   Future<List<Voucher>> getVouchersToExchange() async {
+    notifyListeners();
     return await _repository.getVouchersToExchange();
+  }
+
+  Future<bool> exchangePointsToGetVoucher(String voucherId) async {
+    return await _repository.exchangePointsToGetVoucher(voucherId);
   }
 }

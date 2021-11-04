@@ -39,4 +39,22 @@ class VoucherService {
       throw Exception("Unable to perform request");
     }
   }
+
+  Future<bool> exchangePointToGetVoucher(String voucherId) async {
+    final SharedPreferences _pref = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(VoucherApiPath.EXCHANGE_POINTS_TO_GET_VOUCHER);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json ; charset=UTF-8',
+        'Authorization':
+            'Bearer ' + _pref.getString(GlobalDataConstants.TOKEN).toString()
+      },
+      body: jsonEncode(<String, String>{
+        "customerId": _pref.getString(GlobalDataConstants.USERID).toString(),
+        "voucherId": voucherId
+      }),
+    );
+    return response.statusCode == 200;
+  }
 }
