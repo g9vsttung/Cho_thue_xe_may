@@ -1,6 +1,9 @@
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
+import 'package:chothuexemay_mobile/views/Login/Step1/components/body.dart';
+import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +90,15 @@ class _BodyProfileState extends State<BodyProfile> {
           ));
         }),
         getOptionFrame("Ưu đãi của tôi", () {}),
-        getOptionFrame("Đăng xuất", () {})
+        getOptionFrame("Đăng xuất", () {
+          AuthService _auth = AuthService();
+          _auth.signOut();
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const LoginView1();
+            },
+          ));
+        })
       ],
     );
   }

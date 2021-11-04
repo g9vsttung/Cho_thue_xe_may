@@ -56,7 +56,8 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text(
                             widget.booking.dateRentActual
                                 .toString()
-                                .split(" ")[0],
+                                .substring(0, 16)
+                                .replaceAll('T', ' '),
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -74,7 +75,8 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text(
                             widget.booking.dateReturnActual
                                 .toString()
-                                .split(" ")[0],
+                                .substring(0, 16)
+                                .replaceAll('T', ' '),
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -89,7 +91,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text("Loại xe:",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.bike.brandName,
+                        Text(widget.booking.bike.categoryName!,
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -101,10 +103,10 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Tên khách hàng: ",
+                        const Text("Tên chủ xe: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text("",
+                        Text(widget.booking.bike.ownerName!,
                             style: TextStyle(
                               fontSize: 18,
                             ))
@@ -119,7 +121,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         const Text("Số điện thoại: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.ownerPhone!,
+                        Text(widget.booking.bike.ownerPhone!,
                             style: TextStyle(
                               fontSize: 18,
                             ))
@@ -143,11 +145,11 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Phương thức thanh toán: ",
+                      children: const [
+                        Text("Phương thức thanh toán: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text("widget.booking.paymentMethod",
+                        Text("Tiền mặt",
                             style: TextStyle(
                               fontSize: 18,
                             ))

@@ -15,7 +15,7 @@ class BookingTranstion {
   String address;
   String? ownerPhone;
   FeedbackModel? feedback;
-
+  String? paymentName;
   BookingTranstion(
       {required this.bike,
       required this.customerId,
@@ -41,6 +41,6 @@ class BookingTranstion {
         price: json['price'].toDouble() ?? 0,
         status: json['status'] == null ? 0 : json['status'].toInt(),
         voucherCode: json['voucherCode'] ?? "",
-        address: json['address'] ?? "");
+        address: json['address'] ?? "Unknow");
   }
 }

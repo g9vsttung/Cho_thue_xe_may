@@ -23,6 +23,26 @@ class BodyAppointment extends StatefulWidget {
 class _BodyAppointment extends State<BodyAppointment> {
   String selectedCate = "renting";
 
+  //Format currency number
+  RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  String Function(Match) mathFunc = (Match match) => '${match[1]}.';
+
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  void setData() {
+    for (BookingTranstion b in widget.transactions) {
+      for (Category c in widget.categories) {
+        if (b.bike.categoryId == c.id) {
+          b.bike.categoryName = c.name;
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -227,7 +247,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        getCategoryName(booking.bike.categoryId),
+                        booking.bike.categoryName!,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -243,7 +263,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                         width: 7,
                       ),
                       Text(
-                        booking.bike.modelYear,
+                        booking.bike.modelYear!,
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -254,7 +274,12 @@ class _BodyAppointment extends State<BodyAppointment> {
                     height: 10,
                   ),
                   Text(
-                    "Giá: " + booking.price.round().toString() + " đ",
+                    "Giá: " +
+                        booking.price
+                            .round()
+                            .toString()
+                            .replaceAllMapped(reg, mathFunc) +
+                        " đ",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -327,7 +352,7 @@ class _BodyAppointment extends State<BodyAppointment> {
           ),
         GestureDetector(
           onTap: () {
-            launch("tel://" + booking.ownerPhone!);
+            launch("tel://" + booking.bike.ownerPhone!);
           },
           child: Container(
             padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -431,14 +456,5 @@ class _BodyAppointment extends State<BodyAppointment> {
         return dialog;
       },
     );
-  }
-
-  String getCategoryName(String categoryId) {
-    for (Category c in widget.categories) {
-      if (c.id == categoryId) {
-        return c.name;
-      }
-    }
-    return '';
   }
 }

@@ -143,7 +143,8 @@ class CustomerService {
           "voucherCode": order.voucherCode ?? '',
           "price": order.totalPrice!.toString(),
           "dayRent": dateRent,
-          "dayReturnExpected": dateReturn
+          "dayReturnExpected": dateReturn,
+          "address": order.address
         }));
   }
 

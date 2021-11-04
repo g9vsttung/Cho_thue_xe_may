@@ -68,13 +68,13 @@ class BodyApprove extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (int i = 1; i <= owner.bike.rating.round(); i++)
+                    for (int i = 1; i <= owner.bike.rating!.round(); i++)
                       Image.asset(
                         StringConstants.iconDirectory + "star.png",
                         color: Colors.yellow,
                         width: 20,
                       ),
-                    for (int i = 1; i < 5 - owner.bike.rating.round(); i++)
+                    for (int i = 1; i < 5 - owner.bike.rating!.round(); i++)
                       Image.asset(
                         StringConstants.iconDirectory + "star.png",
                         color: Colors.grey[300],
@@ -89,7 +89,7 @@ class BodyApprove extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      owner.bike.licensePlate,
+                      owner.bike.licensePlate!,
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -100,7 +100,7 @@ class BodyApprove extends StatelessWidget {
                       width: 14,
                     ),
                     Text(
-                      owner.bike.categoryName,
+                      owner.bike.categoryName!,
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -111,7 +111,7 @@ class BodyApprove extends StatelessWidget {
             ),
           ),
           Image.network(
-            ImageConstants.getFullImagePath(owner.bike.imgPath),
+            ImageConstants.getFullImagePath(owner.bike.imgPath!),
             width: size.width * 0.75,
             height: size.width * 0.75 * 3 / 4,
             fit: BoxFit.fill,

@@ -36,7 +36,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
   String selectedMethod = "Tiền mặt";
-  List<String> listPayMethod = ["Tiền mặt", "Momo", "Visa"];
+  List<String> listPayMethod = ["Tiền mặt"];
   String address = "";
 
   @override
@@ -277,13 +277,17 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
+                      String voucherCode = '';
+                      if (widget.voucher != null) {
+                        voucherCode = widget.voucher!.id;
+                      }
                       OrderModel model = OrderModel.findBy(
                           typeId: widget.order.cateBike!.id,
                           dateRent: widget.order.dateRent,
                           dateReturn: widget.order.dateReturn,
                           totalPrice: price,
                           address: address,
-                          voucherCode: widget.voucher!.id);
+                          voucherCode: voucherCode);
                       _customerViewModel.findBikes(model, context);
                       return WaitingView(
                         order: model,
