@@ -1,4 +1,6 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
+import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class BodyEditProfile extends StatelessWidget {
@@ -6,7 +8,7 @@ class BodyEditProfile extends StatelessWidget {
   String phone;
 
   BodyEditProfile({required this.name, required this.phone});
-
+  CustomerViewModel customerViewModel=CustomerViewModel();
   @override
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController(text: name);
@@ -88,7 +90,12 @@ class BodyEditProfile extends StatelessWidget {
           ),
           Center(
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                customerViewModel.updateProfile(name, phone);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ProfileView();
+                },));
+              },
               color: Colors.orange,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),

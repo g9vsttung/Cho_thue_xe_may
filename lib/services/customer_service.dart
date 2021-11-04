@@ -170,4 +170,23 @@ class CustomerService {
 
     return Customer.jsonFrom(jsonDecode(response.body));
   }
+  Future<bool> updateProfile(String name,String phone) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.put(Uri.parse(CustomerApiPath.VIEW_PROFILE),
+        headers: <String, String>{
+          'Content-Type': 'application/json ; charset=UTF-8',
+          'Authorization':
+          'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
+        },
+        body: jsonEncode({
+          "id": prefs.getString(GlobalDataConstants.TOKEN).toString(),
+          "phoneNumber": phone,
+          "identityNumber": "",
+          "fullname": name,
+          "identityImg": "", //Có thể không đúng tên ảnh
+          "rewardPoints": 0
+        }));
+
+    return response.statusCode == 200;
+  }
 }

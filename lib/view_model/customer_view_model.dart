@@ -73,4 +73,7 @@ class CustomerViewModel extends ChangeNotifier {
   Future<List<BookingTranstion>> getBookingTransactions() async {
     return await _bookingRepository.getBookingTransactions();
   }
+  Future<bool> updateProfile(String name,String phone) async {
+    return await customerRepository.updateProfile(name, phone);
+  }
 }

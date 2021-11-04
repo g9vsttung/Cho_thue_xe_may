@@ -57,9 +57,8 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  Future<bool> updateProfile() {
-    // TODO: implement updateProfile
-    throw UnimplementedError();
+  Future<bool> updateProfile(String name,String phone) {
+    return service.updateProfile(name, phone);
   }
 
   @override
