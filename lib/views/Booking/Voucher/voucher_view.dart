@@ -10,8 +10,13 @@ import 'package:provider/provider.dart';
 
 class VoucherView extends StatelessWidget {
   OrderModel order;
+  String? selectedTab;
 
-  VoucherView({required this.order});
+  VoucherView({required this.order, String? selectedTab}) {
+    if (selectedTab != null) {
+      this.selectedTab = selectedTab;
+    }
+  }
 
   Future<Map<String, dynamic>> getData(BuildContext context) async {
     Map<String, dynamic> list = {};

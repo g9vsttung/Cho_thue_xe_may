@@ -14,12 +14,17 @@ class BodyVoucher extends StatefulWidget {
   int point;
   List<Voucher> vouchersAvailable;
   List<Voucher> vouchersExchange;
-
+  String? selectedTab;
   BodyVoucher(
       {required this.order,
       required this.vouchersAvailable,
       required this.vouchersExchange,
-      required this.point});
+      required this.point,
+      String? selectedTab}){
+    if(selectedTab!=null) {
+      this.selectedTab = selectedTab;
+    }
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -29,8 +34,17 @@ class BodyVoucher extends StatefulWidget {
 
 class _BodyVoucher extends State<BodyVoucher> {
   VoucherViewModel voucherViewModel = VoucherViewModel();
-  String selectedCate = "voucher";
-
+  String selectedCate = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.selectedTab != null){
+      selectedCate=widget.selectedTab!;
+    }else{
+      selectedCate="voucher";
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -297,7 +311,6 @@ class _BodyVoucher extends State<BodyVoucher> {
 
   Widget voucherExchangeBox(Voucher voucher) {
     Size size = MediaQuery.of(context).size;
-    int noDate = voucherViewModel.calculateDate(voucher.date);
     return Container(
       padding:
           EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
