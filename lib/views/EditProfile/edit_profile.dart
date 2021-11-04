@@ -1,26 +1,28 @@
-import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
-import 'package:chothuexemay_mobile/views/Feedback/components/body.dart';
+import 'package:chothuexemay_mobile/views/EditProfile/components/body.dart';
 import 'package:flutter/material.dart';
 
-class FeedbackView extends StatelessWidget {
-  BookingTranstion booking;
+class EditProfileView extends StatelessWidget {
+  String name;
+  String phone;
 
-  FeedbackView({required this.booking});
+  EditProfileView({required this.name, required this.phone});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
-          title: "Đánh giá",
+          title: "Sửa thông tin",
         ),
       ),
-      body: BodyFeedback(
-        booking: booking,
+      body: BodyEditProfile(
+        name: name,
+        phone: phone,
       ),
     );
   }

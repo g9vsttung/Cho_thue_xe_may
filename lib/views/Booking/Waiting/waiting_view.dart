@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 
 class WaitingView extends StatelessWidget {
   OrderModel order;
+
   WaitingView({Key? key, required this.order}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +18,7 @@ class WaitingView extends StatelessWidget {
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
           title: "Tìm xe",
-          func: () {
-            Navigator.pop(context);
-          },
+          hasBack: false,
         ),
       ),
       body: BodyWaiting(

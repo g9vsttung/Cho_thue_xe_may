@@ -2,6 +2,8 @@ import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
+import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
+import 'package:chothuexemay_mobile/views/EditProfile/edit_profile.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/components/body.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,7 +73,15 @@ class _BodyProfileState extends State<BodyProfile> {
                 ],
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return EditProfileView(
+                            name: widget.customer.fullname,
+                            phone: widget.customer.phoneNumber);
+                      },
+                    ));
+                  },
                   icon: Image.asset(
                     StringConstants.iconDirectory + "edit.png",
                     width: 25,
@@ -89,7 +99,15 @@ class _BodyProfileState extends State<BodyProfile> {
             },
           ));
         }),
-        getOptionFrame("Ưu đãi của tôi", () {}),
+        getOptionFrame("Ưu đãi của tôi", () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return VoucherView(
+                hasAction: false,
+              );
+            },
+          ));
+        }),
         getOptionFrame("Đăng xuất", () {
           AuthService _auth = AuthService();
           _auth.signOut();
@@ -104,27 +122,27 @@ class _BodyProfileState extends State<BodyProfile> {
   }
 
   Widget getOptionFrame(String text, Function() onTap) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2),
-      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: TextStyle(fontSize: 18),
-          ),
-          IconButton(
-            onPressed: onTap,
-            icon: Image.asset(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 2),
+        padding: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: TextStyle(fontSize: 18),
+            ),
+            Image.asset(
               StringConstants.iconDirectory + "detail.png",
               color: Colors.grey,
               width: 12,
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

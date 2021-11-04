@@ -6,10 +6,18 @@ import 'package:flutter/painting.dart';
 
 class TopAppBarTitle extends StatefulWidget {
   String title;
-  Function() func;
+  bool hasBack = true;
+  Function()? func;
 
-  TopAppBarTitle({Key? key, required this.title, required this.func})
-      : super(key: key);
+  TopAppBarTitle(
+      {Key? key, required this.title, bool? hasBack, Function()? func}) {
+    if (hasBack != null) {
+      this.hasBack = hasBack;
+    }
+    if (func != null) {
+      this.func = func;
+    }
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +26,16 @@ class TopAppBarTitle extends StatefulWidget {
 }
 
 class _TopAppBarTitle extends State<TopAppBarTitle> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.func == null) {
+      widget.func = () {
+        Navigator.pop(context);
+      };
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,13 +59,14 @@ class _TopAppBarTitle extends State<TopAppBarTitle> {
               ],
             ),
           ),
-          IconButton(
-              onPressed: widget.func,
-              icon: Image.asset(
-                "assets/icons/back.png",
-                width: size.width * 0.07,
-                color: Colors.white,
-              )),
+          if (widget.hasBack)
+            IconButton(
+                onPressed: widget.func,
+                icon: Image.asset(
+                  "assets/icons/back.png",
+                  width: size.width * 0.07,
+                  color: Colors.white,
+                )),
         ]));
   }
 }

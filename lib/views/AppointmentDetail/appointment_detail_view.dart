@@ -18,9 +18,6 @@ class AppointmentDetailView extends StatelessWidget {
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
           title: "Thông tin đơn",
-          func: () {
-            Navigator.pop(context);
-          },
         ),
       ),
       body: BodyAppointmentDetail(booking: booking),

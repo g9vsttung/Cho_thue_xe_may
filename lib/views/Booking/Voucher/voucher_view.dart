@@ -3,18 +3,27 @@ import 'package:chothuexemay_mobile/models/voucher_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
+import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
+import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class VoucherView extends StatelessWidget {
-  OrderModel order;
+  OrderModel? order;
   String? selectedTab;
+  bool hasAction = true;
 
-  VoucherView({required this.order, String? selectedTab}) {
+  VoucherView({String? selectedTab, bool? hasAction, OrderModel? order}) {
     if (selectedTab != null) {
       this.selectedTab = selectedTab;
+    }
+    if (hasAction != null) {
+      this.hasAction = hasAction;
+    }
+    if (order != null) {
+      this.order = order;
     }
   }
 
@@ -41,7 +50,19 @@ class VoucherView extends StatelessWidget {
         title: TopAppBarTitle(
           title: "Ưu đãi của bạn",
           func: () {
-            Navigator.pop(context);
+            if (hasAction) {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return BookingDetailView(order: order!);
+                },
+              ));
+            } else {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ProfileView();
+                },
+              ));
+            }
           },
         ),
       ),
@@ -61,6 +82,7 @@ class VoucherView extends StatelessWidget {
                 vouchersExchange: vouchersExchange,
                 point: rewardPoint,
                 selectedTab: selectedTab,
+                hasAction: hasAction,
               );
             }
           }

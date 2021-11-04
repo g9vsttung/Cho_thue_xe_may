@@ -17,9 +17,7 @@ class ProfileView extends StatelessWidget {
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
           title: "Cá nhân",
-          func: () {
-            Navigator.pop(context);
-          },
+          hasBack: false,
         ),
       ),
       body: FutureBuilder(

@@ -18,11 +18,7 @@ class AppointmentView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
-        title: TopAppBarTitle(
-            title: "Đơn đặt",
-            func: () {
-              Navigator.pop(context);
-            }),
+        title: TopAppBarTitle(title: "Đơn đặt", hasBack: false),
       ),
       body: FutureBuilder(
         builder: (context, napshot) {
