@@ -60,6 +60,7 @@ class VoucherView extends StatelessWidget {
                 vouchersAvailable: vouchers,
                 vouchersExchange: vouchersExchange,
                 point: rewardPoint,
+                selectedTab: selectedTab,
               );
             }
           }

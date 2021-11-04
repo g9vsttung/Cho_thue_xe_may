@@ -20,8 +20,8 @@ class BodyVoucher extends StatefulWidget {
       required this.vouchersAvailable,
       required this.vouchersExchange,
       required this.point,
-      String? selectedTab}){
-    if(selectedTab!=null) {
+      String? selectedTab}) {
+    if (selectedTab != null) {
       this.selectedTab = selectedTab;
     }
   }
@@ -39,12 +39,13 @@ class _BodyVoucher extends State<BodyVoucher> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.selectedTab != null){
-      selectedCate=widget.selectedTab!;
-    }else{
-      selectedCate="voucher";
+    if (widget.selectedTab != null) {
+      selectedCate = widget.selectedTab!;
+    } else {
+      selectedCate = "voucher";
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -381,7 +382,10 @@ class _BodyVoucher extends State<BodyVoucher> {
                   if (isSuccess) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return VoucherView(order: widget.order);
+                        return VoucherView(
+                          order: widget.order,
+                          selectedTab: 'change',
+                        );
                       },
                     ));
                   }
