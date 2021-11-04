@@ -23,7 +23,7 @@ class VoucherService {
   Future<List<Voucher>> getVouchersToExchange() async {
     SharedPreferences _preferences = await SharedPreferences.getInstance();
 
-    Uri url = Uri.parse(VoucherApiPath.GET_ALL +
+    Uri url = Uri.parse(VoucherApiPath.GET_VOUCHERS_TO_EXCHANGE +
         _preferences.getString(GlobalDataConstants.AREAID).toString());
     final headers = {
       'Content-Type': 'application/json ; charset=UTF-8',
@@ -34,7 +34,7 @@ class VoucherService {
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       final Iterable vouchers = jsonDecode(response.body);
-      return vouchers.map((e) => Voucher.jsonFrom(e)).toList();
+      return vouchers.map((e) => Voucher.jsonFromExchange(e)).toList();
     } else {
       throw Exception("Unable to perform request");
     }
