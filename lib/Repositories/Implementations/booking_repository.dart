@@ -1,6 +1,4 @@
 import 'package:chothuexemay_mobile/Repositories/Interfaces/booking_interface.dart';
-import 'package:chothuexemay_mobile/models/bike_model.dart';
-import 'package:chothuexemay_mobile/models/booking_model.dart';
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/services/booking_service.dart';
 

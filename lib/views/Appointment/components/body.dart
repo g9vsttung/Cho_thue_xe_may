@@ -2,11 +2,14 @@ import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/appointment_detail_view.dart';
+import 'package:chothuexemay_mobile/views/Feedback/feedback_view.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BodyAppointment extends StatefulWidget {
   List<BookingTranstion> transactions;
   List<Category> categories;
+
   BodyAppointment(
       {Key? key, required this.transactions, required this.categories})
       : super(key: key);
@@ -31,10 +34,10 @@ class _BodyAppointment extends State<BodyAppointment> {
             color: Colors.white,
             child: cateNavBar(),
           ),
-          Container(
-            padding: EdgeInsets.only(top: 25, bottom: 10),
-            child: SingleChildScrollView(child: listAppointmentByCate()),
-          )
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
         ],
       ),
     );
@@ -275,9 +278,158 @@ class _BodyAppointment extends State<BodyAppointment> {
           ),
         ),
         SizedBox(
+          height: 1,
+        ),
+        getActionButton(booking),
+        SizedBox(
           height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget getActionButton(BookingTranstion booking) {
+    MainAxisAlignment ali = MainAxisAlignment.center;
+    Size size = MediaQuery.of(context).size;
+    double width = size.width;
+    if (booking.status == 2) {
+      ali = MainAxisAlignment.spaceBetween;
+      width = size.width * 0.498;
+    }
+    return Row(
+      mainAxisAlignment: ali,
+      children: [
+        if (booking.status == 2)
+          GestureDetector(
+            onTap: () {
+              if (booking.feedback != null) {
+                showMyAlertDialog(booking);
+              } else {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return FeedbackView(booking: booking);
+                  },
+                ));
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              width: width,
+              color: Colors.white,
+              child: const Center(
+                child: Text(
+                  "Đánh giá",
+                  style:
+                      TextStyle(fontSize: 18, color: ColorConstants.textBold),
+                ),
+              ),
+            ),
+          ),
+        GestureDetector(
+          onTap: () {
+            launch("tel://" + booking.ownerPhone!);
+          },
+          child: Container(
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            width: width,
+            color: Colors.white,
+            child: const Center(
+              child: Text(
+                "Liên hệ",
+                style: TextStyle(fontSize: 18, color: ColorConstants.textBold),
+              ),
+            ),
+          ),
         )
       ],
+    );
+  }
+
+  showMyAlertDialog(BookingTranstion booking) {
+    Size size = MediaQuery.of(context).size;
+
+    Dialog dialog = Dialog(
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorConstants.containerBackground,
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Đánh giá của bạn",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Rate: ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  for (int i = 1; i <= booking.feedback!.rating; i++)
+                    Image.asset(
+                      StringConstants.iconDirectory + "starRating.png",
+                      width: 18,
+                    ),
+                  for (int i = 1; i <= 5 - booking.feedback!.rating; i++)
+                    Image.asset(
+                      StringConstants.iconDirectory + "starBorder.png",
+                      width: 18,
+                    ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                booking.feedback!.date,
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                booking.feedback!.content,
+                style: TextStyle(fontSize: 16),
+                maxLines: 5,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    child: Text(
+                      "OK",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent,
+                          fontSize: 20),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
+    Future<dynamic> futureValue = showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return dialog;
+      },
     );
   }
 

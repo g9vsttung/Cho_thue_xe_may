@@ -1,4 +1,3 @@
-import 'package:chothuexemay_mobile/models/booking_model.dart';
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -96,8 +95,35 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Tên khách hàng: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text("",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Số điện thoại: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text(widget.booking.ownerPhone!,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ))
+                      ],
                     ),
                     SizedBox(
                       height: 15,
@@ -108,7 +134,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Text("widget.booking.address",
+                    Text(widget.booking.address,
                         style: const TextStyle(
                           fontSize: 18,
                         )),

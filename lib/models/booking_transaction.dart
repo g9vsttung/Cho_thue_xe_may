@@ -1,4 +1,5 @@
 import 'package:chothuexemay_mobile/models/bike_model.dart';
+import 'package:chothuexemay_mobile/models/feedback_model.dart';
 
 class BookingTranstion {
   String id;
@@ -11,6 +12,9 @@ class BookingTranstion {
   double price;
   String paymentId;
   int status;
+  String address;
+  String? ownerPhone;
+  FeedbackModel? feedback;
 
   BookingTranstion(
       {required this.bike,
@@ -22,7 +26,9 @@ class BookingTranstion {
       required this.paymentId,
       required this.price,
       required this.status,
-      required this.voucherCode});
+      required this.voucherCode,
+      required this.address});
+
   factory BookingTranstion.jsonFrom(Map<String, dynamic> json) {
     return BookingTranstion(
         bike: Bike.jsonFrom(json['bike']),
@@ -34,6 +40,7 @@ class BookingTranstion {
         paymentId: json['paymentId'] ?? "",
         price: json['price'].toDouble() ?? 0,
         status: json['status'] == null ? 0 : json['status'].toInt(),
-        voucherCode: json['voucherCode'] ?? "");
+        voucherCode: json['voucherCode'] ?? "",
+        address: json['address'] ?? "");
   }
 }
