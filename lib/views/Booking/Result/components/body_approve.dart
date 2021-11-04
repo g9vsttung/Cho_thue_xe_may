@@ -18,6 +18,24 @@ class BodyApprove extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              RaisedButton(
+                onPressed: () {},
+                color: Colors.red,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: const Text(
+                  "HỦY",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              )
+            ],
+          ),
           const Text(
             "ĐÃ TÌM THẤY XE",
             style: TextStyle(
@@ -95,25 +113,9 @@ class BodyApprove extends StatelessWidget {
           Image.network(
             ImageConstants.getFullImagePath(owner.bike.imgPath),
             width: size.width * 0.75,
-            height: size.width*0.75*3/4,
+            height: size.width * 0.75 * 3 / 4,
             fit: BoxFit.fill,
           ),
-          Container(
-            width: size.width * 0.4,
-            child: RaisedButton(
-              onPressed: () {},
-              color: Colors.red,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: const Text(
-                "HỦY ĐẶT",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
-          )
         ],
       ),
     );

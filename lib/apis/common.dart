@@ -30,6 +30,8 @@ class CustomerApiPath {
   static String GET_BY_PHONE = _URL_API + "/customers/phone/";
   //login
   static String LOGIN = _URL_API + "/customers/login";
+  //Get profile
+  static String VIEW_PROFILE = _URL_API + '/customers/';
 }
 
 class OwnerApiPath {
@@ -53,4 +55,13 @@ class MotorTypeApiPath {
 class PriceListApiPath {
   static String GET_ALL = _URL_API + '/';
   static String GET_BY_AREA_ID_AND_TYPE_ID = _URL_API + '/pricelists/';
+}
+
+class VoucherApiPath {
+  static String GET_ALL =
+      'http://18.138.110.46/api/v2/voucherItems/customerId/';
+  static String GET_VOUCHERS_TO_EXCHANGE =
+      _URL_API + '/vouchers/GetByAreaId?areaId=';
+  //exchange points to get voucher item
+  static String EXCHANGE_POINTS_TO_GET_VOUCHER = _URL_API + '/voucherItems';
 }

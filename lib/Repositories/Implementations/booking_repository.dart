@@ -12,13 +12,8 @@ class BookingRepository implements IBookingRepository {
   }
 
   // @override
-  // Future<BookingModel> booking(
-  //     Bike bike,
-  //     String voucherCode,
-  //     String dateRent,
-  //     String dateReturn,
-  //     String typeId,
-  //     String paymentId) async {
+  // Future<Booking> booking(Bike bike, String voucherCode, String dateRent,
+  //     String dateReturn, String typeId, String paymentId) async {
   //   return await _bookingService.bookingBike(
   //       bike, voucherCode, dateRent, dateReturn, typeId, paymentId);
   // }

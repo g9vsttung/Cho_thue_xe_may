@@ -15,9 +15,9 @@ import 'package:provider/provider.dart';
 
 class BodyBookingDetail extends StatefulWidget {
   OrderModel order;
-  VoucherModel? voucher;
+  Voucher? voucher;
 
-  BodyBookingDetail({required this.order, VoucherModel? voucher}) {
+  BodyBookingDetail({required this.order, Voucher? voucher}) {
     if (voucher != null) {
       this.voucher = voucher;
     }
@@ -65,16 +65,17 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
         ":" +
         widget.order.dateReturn.minute.toString();
     double price = 0;
-    if (widget.voucher != null) {
-      price = voucherViewModel.calculatePriceAfterApplyVoucher(
-          widget.voucher!, price);
-    }
+
     Duration duration =
         widget.order.dateReturn.difference(widget.order.dateRent);
     if (widget.order.rentMethod == "day") {
       price = (duration.inDays * widget.order.cateBike!.price).toDouble();
     } else {
       price = duration.inHours * widget.order.cateBike!.price * 1.1 / 24;
+    }
+    if (widget.voucher != null) {
+      price = voucherViewModel.calculatePriceAfterApplyVoucher(
+          widget.voucher!, price);
     }
     CustomerViewModel _customerViewModel =
         Provider.of<CustomerViewModel>(context);
@@ -225,10 +226,15 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           },
                         ));
                       },
-                      child: const Text(
-                        "Thêm ưu đãi",
-                        style: TextStyle(fontSize: 18),
-                      ))
+                      child: widget.voucher == null
+                          ? const Text(
+                              "Thêm ưu đãi",
+                              style: TextStyle(fontSize: 18),
+                            )
+                          : Text(
+                              widget.voucher!.id.substring(0, 7) + '...',
+                              style: TextStyle(fontSize: 18),
+                            ))
                 ],
               ),
             ),
@@ -276,7 +282,8 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                           dateRent: widget.order.dateRent,
                           dateReturn: widget.order.dateReturn,
                           totalPrice: price,
-                          address: address);
+                          address: address,
+                          voucherCode: widget.voucher!.id);
                       _customerViewModel.findBikes(model, context);
                       return WaitingView(
                         order: model,

@@ -18,7 +18,7 @@ class OrderModel {
   String? ownerId;
   String? bikeId;
   String? categoryId;
-
+  String? voucherCode;
   OrderModel(
       {required this.dateRent,
       required this.dateReturn,
@@ -26,13 +26,13 @@ class OrderModel {
       required this.rentMethod,
       required this.address});
 
-  OrderModel.findBy({
-    required this.typeId,
-    required this.dateRent,
-    required this.dateReturn,
-    required this.totalPrice,
-    required this.address,
-  });
+  OrderModel.findBy(
+      {required this.typeId,
+      required this.dateRent,
+      required this.dateReturn,
+      required this.totalPrice,
+      required this.address,
+      required this.voucherCode});
 
   OrderModel.sendNoti(
       {required this.ownerId,
@@ -55,5 +55,6 @@ class OrderModel {
       required this.address,
       required this.totalPrice,
       required this.bikeId,
-      required this.categoryId});
+      required this.categoryId,
+      required this.voucherCode});
 }
