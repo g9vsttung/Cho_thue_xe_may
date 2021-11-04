@@ -6,7 +6,11 @@ import 'package:flutter/painting.dart';
 
 class TopAppBarTitle extends StatefulWidget {
   String title;
-  TopAppBarTitle({Key? key, required this.title}) : super(key: key);
+  Function() func;
+
+  TopAppBarTitle({Key? key, required this.title, required this.func})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _TopAppBarTitle();
@@ -14,8 +18,6 @@ class TopAppBarTitle extends StatefulWidget {
 }
 
 class _TopAppBarTitle extends State<TopAppBarTitle> {
-  String dropDownValue = "22A Đường Số 7";
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,9 +42,7 @@ class _TopAppBarTitle extends State<TopAppBarTitle> {
             ),
           ),
           IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: widget.func,
               icon: Image.asset(
                 "assets/icons/back.png",
                 width: size.width * 0.07,

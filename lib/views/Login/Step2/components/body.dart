@@ -169,6 +169,7 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                   onPressed: () async {
                     bool success = await _service.signInWithOTP(
                         otpController.text, _service.verificationId);
+
                     if (success) {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {

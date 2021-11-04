@@ -75,10 +75,9 @@ class AuthService extends ChangeNotifier {
     // ignore: prefer_function_declarations_over_variables
     final PhoneCodeAutoRetrievalTimeout autoTimeout =
         (String verificationId) async {
-      log('auto timeout');
-      // ignore: unused_label
-      timeout:
-      const Duration(seconds: 100);
+      // log('auto timeout');
+      // // ignore: unused_label
+      const Duration(seconds: 0);
     };
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -87,7 +86,7 @@ class AuthService extends ChangeNotifier {
           verificationFailed: verificationFailed,
           codeSent: smsSent,
           codeAutoRetrievalTimeout: autoTimeout,
-          timeout: const Duration(seconds: 100));
+          timeout: const Duration(seconds: 120));
     } catch (e) {
       log("verifyPhoneNumber: " + e.toString());
     }

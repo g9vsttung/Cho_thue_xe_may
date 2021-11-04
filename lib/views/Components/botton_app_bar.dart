@@ -1,21 +1,31 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
+import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
   String selected = "";
 
   BottomBar({Key? key, required this.selected}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 7, bottom: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           if (selected == "home")
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HomeView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,7 +33,7 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/home.png",
                     color: ColorConstants.selectedIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Trang chủ",
@@ -35,6 +45,13 @@ class BottomBar extends StatelessWidget {
             )
           else
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HomeView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,49 +59,10 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/home.png",
                     color: ColorConstants.normalIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Trang chủ",
-                    style: TextStyle(
-                        fontSize: 12, color: ColorConstants.normalIcon),
-                  )
-                ],
-              ),
-            ),
-          //=============================================================SEARCH
-          if (selected == "search")
-            GestureDetector(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/search.png",
-                    color: ColorConstants.selectedIcon,
-                    width: 30,
-                  ),
-                  Text(
-                    "Tìm Kiếm",
-                    style: TextStyle(
-                        fontSize: 12, color: ColorConstants.selectedIcon),
-                  )
-                ],
-              ),
-            )
-          else
-            GestureDetector(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/search.png",
-                    color: ColorConstants.normalIcon,
-                    width: 30,
-                  ),
-                  Text(
-                    "Tìm kiếm",
                     style: TextStyle(
                         fontSize: 12, color: ColorConstants.normalIcon),
                   )
@@ -94,6 +72,13 @@ class BottomBar extends StatelessWidget {
           //=============================================schedule
           if (selected == "schedule")
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return AppointmentView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +86,7 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/schedule.png",
                     color: ColorConstants.selectedIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Lịch đặt",
@@ -113,6 +98,13 @@ class BottomBar extends StatelessWidget {
             )
           else
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return AppointmentView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,7 +112,7 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/schedule.png",
                     color: ColorConstants.normalIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Lịch đặt",
@@ -140,7 +132,7 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/profile.png",
                     color: ColorConstants.selectedIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Cá nhân",
@@ -159,7 +151,7 @@ class BottomBar extends StatelessWidget {
                   Image.asset(
                     "assets/icons/profile.png",
                     color: ColorConstants.normalIcon,
-                    width: 30,
+                    width: 35,
                   ),
                   Text(
                     "Cá nhân",
