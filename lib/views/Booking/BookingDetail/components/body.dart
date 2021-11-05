@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_function_declarations_over_variables
+// ignore_for_file: prefer_function_declarations_over_variables, must_be_immutable, deprecated_member_use
 
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/voucher_model.dart';
@@ -17,7 +17,8 @@ class BodyBookingDetail extends StatefulWidget {
   OrderModel order;
   Voucher? voucher;
 
-  BodyBookingDetail({required this.order, Voucher? voucher}) {
+  BodyBookingDetail({Key? key, required this.order, Voucher? voucher})
+      : super(key: key) {
     if (voucher != null) {
       this.voucher = voucher;
     }
@@ -28,7 +29,6 @@ class BodyBookingDetail extends StatefulWidget {
 }
 
 class _BodyBookingDetailState extends State<BodyBookingDetail> {
-  final CustomerViewModel _customerViewModel = CustomerViewModel();
   VoucherViewModel voucherViewModel = VoucherViewModel();
 
   //Format currency number
@@ -77,11 +77,9 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
       price = voucherViewModel.calculatePriceAfterApplyVoucher(
           widget.voucher!, price);
     }
-    CustomerViewModel _customerViewModel =
-        Provider.of<CustomerViewModel>(context);
 
     address = Provider.of<CustomerViewModel>(context).address;
-    //_customerViewModel.booking(widget.dateRent, widget.dateReturn);
+
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +107,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                     ),
                     Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: size.width * 0.4,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,37 +136,35 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                             ],
                           ),
                         ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(dateRent,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(dateReturn,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(widget.order.cateBike!.name,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                              SizedBox(
-                                height: 15,
-                              ),
-                            ],
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(dateRent,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                )),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(dateReturn,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                )),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(widget.order.cateBike!.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                )),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     const Text("Địa chỉ của bạn:",
@@ -233,15 +229,15 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                             )
                           : Text(
                               widget.voucher!.id.substring(0, 7) + '...',
-                              style: TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18),
                             ))
                 ],
               ),
             ),
             Container(
               color: Colors.grey[300],
-              padding:
-                  EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+              padding: const EdgeInsets.only(
+                  top: 10, left: 15, right: 15, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
@@ -249,7 +245,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Tổng cộng",
+                      const Text("Tổng cộng",
                           style: TextStyle(
                             fontSize: 18,
                           )),
@@ -259,7 +255,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                                   .toString()
                                   .replaceAllMapped(reg, mathFunc) +
                               ' đ',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -269,7 +265,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
           ],
         ),
         Container(
-          padding: EdgeInsets.only(right: 15, bottom: 25),
+          padding: const EdgeInsets.only(right: 15, bottom: 25),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -296,7 +292,7 @@ class _BodyBookingDetailState extends State<BodyBookingDetail> {
                   ));
                 },
                 color: Colors.orange,
-                child: Text(
+                child: const Text(
                   "Xác nhận",
                   style: TextStyle(
                       fontSize: 18,

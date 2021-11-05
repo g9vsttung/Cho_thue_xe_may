@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/voucher_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
@@ -15,7 +17,9 @@ class VoucherView extends StatelessWidget {
   String? selectedTab;
   bool hasAction = true;
 
-  VoucherView({String? selectedTab, bool? hasAction, OrderModel? order}) {
+  VoucherView(
+      {Key? key, String? selectedTab, bool? hasAction, OrderModel? order})
+      : super(key: key) {
     if (selectedTab != null) {
       this.selectedTab = selectedTab;
     }
@@ -59,7 +63,7 @@ class VoucherView extends StatelessWidget {
             } else {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return ProfileView();
+                  return const ProfileView();
                 },
               ));
             }

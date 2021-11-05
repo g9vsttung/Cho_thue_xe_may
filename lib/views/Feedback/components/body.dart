@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, deprecated_member_use
+
 import 'package:chothuexemay_mobile/models/feedback_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
@@ -10,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class BodyFeedback extends StatefulWidget {
   FeedbackModel feedback;
 
-  BodyFeedback({required this.feedback});
+  BodyFeedback({Key? key, required this.feedback}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -122,7 +124,7 @@ class _BodyFeedback extends State<BodyFeedback> {
     if (!widget.feedback.isRating!) {
       if (completed) {
         return Center(
-          child: Container(
+          child: SizedBox(
             width: size.width * 0.6,
             child: RaisedButton(
               shape: const RoundedRectangleBorder(
@@ -144,7 +146,8 @@ class _BodyFeedback extends State<BodyFeedback> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => AppointmentView(),
+                      builder: (BuildContext context) =>
+                          const AppointmentView(),
                     ),
                     (route) => false,
                   );
@@ -168,7 +171,7 @@ class _BodyFeedback extends State<BodyFeedback> {
           ),
         );
       } else {
-        return Container(
+        return SizedBox(
           width: size.width * 0.6,
           height: 40,
           child: RaisedButton(

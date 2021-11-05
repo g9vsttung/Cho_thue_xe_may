@@ -43,7 +43,7 @@ class CustomerViewModel extends ChangeNotifier {
 
   Future<List<Owner>> findBikes(OrderModel model, BuildContext context) async {
     List<Owner> list = await customerRepository.findBikes(model);
-    if (list.length == 0) {
+    if (list.isEmpty) {
       //No bikes
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
@@ -73,7 +73,8 @@ class CustomerViewModel extends ChangeNotifier {
   Future<List<BookingTranstion>> getBookingTransactions() async {
     return await _bookingRepository.getBookingTransactions();
   }
-  Future<bool> updateProfile(String name,String phone) async {
+
+  Future<bool> updateProfile(String name, String phone) async {
     return await customerRepository.updateProfile(name, phone);
   }
 }

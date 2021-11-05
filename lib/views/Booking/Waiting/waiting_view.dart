@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';

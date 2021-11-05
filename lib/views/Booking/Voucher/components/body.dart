@@ -1,6 +1,5 @@
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/voucher_model.dart';
-import 'package:chothuexemay_mobile/services/voucher_service.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/BookingDetail/booking_detail_view.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+// ignore: must_be_immutable
 class BodyVoucher extends StatefulWidget {
   OrderModel? order;
   int point;
@@ -19,12 +19,14 @@ class BodyVoucher extends StatefulWidget {
   bool hasAction = true;
 
   BodyVoucher(
-      {required this.vouchersAvailable,
+      {Key? key,
+      required this.vouchersAvailable,
       required this.vouchersExchange,
       required this.point,
       bool? hasAction,
       String? selectedTab,
-      OrderModel? order}) {
+      OrderModel? order})
+      : super(key: key) {
     if (selectedTab != null) {
       this.selectedTab = selectedTab;
     }
@@ -48,7 +50,6 @@ class _BodyVoucher extends State<BodyVoucher> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.selectedTab != null) {
       selectedCate = widget.selectedTab!;
@@ -60,64 +61,62 @@ class _BodyVoucher extends State<BodyVoucher> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                top: 25,
-              ),
-              color: Colors.white,
-              child: cateNavBar(),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(
+              top: 25,
             ),
-            Container(
-              padding: EdgeInsets.only(top: 5, bottom: 10),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (selectedCate == "change")
-                      Container(
-                        color: Colors.white,
-                        width: size.width,
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Điểm thưởng",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    widget.point.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const Text(
-                                    " pts",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.grey),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                    SizedBox(
-                      height: 20,
+            color: Colors.white,
+            child: cateNavBar(),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (selectedCate == "change")
+                    Container(
+                      color: Colors.white,
+                      width: size.width,
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Điểm thưởng",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  widget.point.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Text(
+                                  " pts",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          ]),
                     ),
-                    for (Widget box in listVoucherByCate()) box,
-                  ],
-                ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  for (Widget box in listVoucherByCate()) box,
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -126,18 +125,16 @@ class _BodyVoucher extends State<BodyVoucher> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        //=====================MASSAGE
         if (selectedCate == "voucher")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Voucher hiện có",
@@ -162,19 +159,16 @@ class _BodyVoucher extends State<BodyVoucher> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               )),
-
-        //=====================FACIAL
         if (selectedCate == "change")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Đổi voucher",
@@ -236,13 +230,13 @@ class _BodyVoucher extends State<BodyVoucher> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colors.white,
                   ),
-                  padding: EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(7),
                   child: Row(children: [
                     Image.asset(
                       StringConstants.iconDirectory + "discount.png",
                       width: size.width * 0.16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -252,33 +246,34 @@ class _BodyVoucher extends State<BodyVoucher> {
                           "Giảm giá " +
                               voucher.discount.round().toString() +
                               "%",
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 3, right: 3),
+                              padding: const EdgeInsets.only(left: 3, right: 3),
                               decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
                                   border: Border.all(
                                       color: Colors.orange, width: 1)),
                               child: Text(
                                 noDate.toString() + " ngày nữa",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 10, color: Colors.orange),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
                               voucherViewModel
                                   .convertDateTimeToString(voucher.date),
-                              style: TextStyle(fontSize: 16, color: Colors.red),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.red),
                             )
                           ],
                         )
@@ -306,7 +301,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Chọn",
                           style: TextStyle(
@@ -320,7 +315,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                 )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           )
         ],
@@ -344,13 +339,13 @@ class _BodyVoucher extends State<BodyVoucher> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colors.white,
                   ),
-                  padding: EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(7),
                   child: Row(children: [
                     Image.asset(
                       StringConstants.iconDirectory + "discount.png",
                       width: size.width * 0.16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -360,33 +355,34 @@ class _BodyVoucher extends State<BodyVoucher> {
                           "Giảm giá " +
                               voucher.discount.round().toString() +
                               "%",
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.only(left: 3, right: 3),
+                              padding: const EdgeInsets.only(left: 3, right: 3),
                               decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
                                   border: Border.all(
                                       color: Colors.orange, width: 1)),
                               child: Text(
                                 voucher.pointExchange.toString() + "pts",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 10, color: Colors.orange),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
                               voucherViewModel
                                   .convertDateTimeToString(voucher.date),
-                              style: TextStyle(fontSize: 16, color: Colors.red),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.red),
                             )
                           ],
                         )
@@ -433,7 +429,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Đổi",
                         style: TextStyle(
@@ -447,7 +443,7 @@ class _BodyVoucher extends State<BodyVoucher> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           )
         ],

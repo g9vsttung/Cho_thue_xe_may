@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
@@ -23,9 +25,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
   CustomerViewModel customerViewModel = CustomerViewModel();
 
   void firebaseCloudMessaging_Listeners() {
-    _fcm.getToken().then((token) async {
-      print("++++++++++++++" + token!);
-    });
+    _fcm.getToken().then((token) async {});
 
     FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
       final data = jsonDecode(evt.data["data"]);

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, must_be_immutable, deprecated_member_use
 
 import 'dart:ui';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
@@ -41,7 +41,7 @@ class _BodyHome extends State<BodyHome> {
   DateTime dateReturn = DateTime.now().add(Duration(days: 1));
 
   //selected var
-  MotorType? selectedCate; //Selected Motor type
+  MotorType? selectedMotorType;
   TimeOfDay selectedTime = TimeOfDay.now();
   String selectedMethod = "day";
   int durationHour = 1;
@@ -66,7 +66,7 @@ class _BodyHome extends State<BodyHome> {
       }
     }
     super.initState();
-    selectedCate = widget.types[0];
+    selectedMotorType = widget.types[0];
   }
 
   @override
@@ -85,7 +85,7 @@ class _BodyHome extends State<BodyHome> {
         children: [
           Column(mainAxisSize: MainAxisSize.min, children: [
             Row(
-              children: [
+              children: const [
                 Text(
                   "Địa chỉ của bạn:",
                   style: TextStyle(
@@ -107,20 +107,18 @@ class _BodyHome extends State<BodyHome> {
             SizedBox(
               height: 15,
             ),
-            Container(
-              child: TextField(
-                controller: addressController,
-                decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: EdgeInsets.all(10),
-                    hintText: "Nhập địa chỉ nếu định vị không chính xác...",
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          color: ColorConstants.textBold,
-                          width: 1,
-                        ))),
-              ),
+            TextField(
+              controller: addressController,
+              decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: "Nhập địa chỉ nếu định vị không chính xác...",
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        color: ColorConstants.textBold,
+                        width: 1,
+                      ))),
             )
           ]),
           Row(
@@ -167,9 +165,9 @@ class _BodyHome extends State<BodyHome> {
                     "Giờ nhận xe:",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Container(
+                  SizedBox(
                       height: 30,
-                      child: Container(
+                      child: SizedBox(
                         height: 30,
                         child: RaisedButton(
                           onPressed: () {
@@ -232,7 +230,7 @@ class _BodyHome extends State<BodyHome> {
                 OrderModel order = OrderModel(
                     dateRent: dateRent,
                     dateReturn: dateReturn,
-                    cateBike: selectedCate!,
+                    cateBike: selectedMotorType!,
                     rentMethod: selectedMethod,
                     address: addressForBooking);
                 Navigator.push(context, MaterialPageRoute(
@@ -392,8 +390,8 @@ class _BodyHome extends State<BodyHome> {
   setDateAndList() {
     if (first) {
       first = false;
-      selectedCate = widget.types[0];
-      //selectedType = widget.types[0];
+      selectedMotorType = widget.types[0];
+
       for (int i = 0; i < LIMIT_DATE; i++) {
         listDateRent.add(DateTime.now().add(Duration(days: i)));
       }
@@ -408,7 +406,7 @@ class _BodyHome extends State<BodyHome> {
       for (int i = 1; i <= LIMIT_DATE; i++)
         DateTime(ymd[0], ymd[1], ymd[2]).add(Duration(days: i))
     ];
-    //
+
     ymd = [dateReturn.year, dateReturn.month, dateReturn.day];
     dateReturn = DateTime(ymd[0], ymd[1], ymd[2]);
   }
@@ -416,14 +414,14 @@ class _BodyHome extends State<BodyHome> {
   Widget getCateButton(MotorType x) {
     Color textColor = Colors.black;
     Color containerColor = Colors.white;
-    if (selectedCate == x) {
+    if (selectedMotorType == x) {
       textColor = Colors.white;
       containerColor = Color.fromRGBO(47, 147, 31, 1);
     }
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedCate = x;
+          selectedMotorType = x;
         });
       },
       child: Container(
@@ -458,11 +456,11 @@ class _BodyHome extends State<BodyHome> {
 
     if (selectedMethod == "day") {
       text = "Giá: " +
-          selectedCate!.price.toString().replaceAllMapped(reg, mathFunc) +
+          selectedMotorType!.price.toString().replaceAllMapped(reg, mathFunc) +
           " vnđ/ngày";
     } else {
       text = "Giá: " +
-          (selectedCate!.price * 1.1 / 24)
+          (selectedMotorType!.price * 1.1 / 24)
               .round()
               .toString()
               .replaceAllMapped(reg, mathFunc) +
@@ -497,7 +495,7 @@ class _BodyHome extends State<BodyHome> {
     } else {
       text = "Giờ";
     }
-    return Container(
+    return SizedBox(
       height: 35,
       width: size.width * 0.33,
       child: RaisedButton(

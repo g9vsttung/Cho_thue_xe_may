@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/components/body.dart';
@@ -8,7 +10,7 @@ import 'package:flutter/material.dart';
 class AppointmentDetailView extends StatelessWidget {
   BookingTranstion booking;
 
-  AppointmentDetailView({required this.booking});
+  AppointmentDetailView({Key? key, required this.booking}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

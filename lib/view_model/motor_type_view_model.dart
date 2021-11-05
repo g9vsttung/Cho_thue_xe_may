@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:chothuexemay_mobile/Repositories/Implementations/motor_type_repository.dart';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:flutter/cupertino.dart';

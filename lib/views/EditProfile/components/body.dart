@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: must_be_immutable, deprecated_member_use
 
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
@@ -10,7 +10,8 @@ class BodyEditProfile extends StatefulWidget {
   String name;
   String phone;
 
-  BodyEditProfile({required this.name, required this.phone});
+  BodyEditProfile({Key? key, required this.name, required this.phone})
+      : super(key: key);
 
   @override
   State<BodyEditProfile> createState() => _BodyEditProfileState();
@@ -61,10 +62,9 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
           Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black54, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
-            padding: EdgeInsets.only(left: 10),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            padding: const EdgeInsets.only(left: 10),
             width: double.infinity,
-            // height: size.height*0.3,
             child: Center(
               child: TextField(
                 controller: nameController,
@@ -89,16 +89,15 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
           Container(
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black54, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
-            padding: EdgeInsets.only(left: 10),
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            padding: const EdgeInsets.only(left: 10),
             width: double.infinity,
-            // height: size.height*0.3,
             child: Center(
               child: TextField(
                 enabled: false,
                 controller: phoneController,
                 maxLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
                 decoration: const InputDecoration(border: InputBorder.none),
@@ -122,7 +121,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => ProfileView(),
+                      builder: (BuildContext context) => const ProfileView(),
                     ),
                     (route) => false,
                   );

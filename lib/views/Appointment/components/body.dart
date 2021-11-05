@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_function_declarations_over_variables
+
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
@@ -45,21 +47,18 @@ class _BodyAppointment extends State<BodyAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 25),
-            color: Colors.white,
-            child: cateNavBar(),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
-        ],
-      ),
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 25),
+          color: Colors.white,
+          child: cateNavBar(),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
+      ],
     );
   }
 
@@ -67,18 +66,16 @@ class _BodyAppointment extends State<BodyAppointment> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        //=====================MASSAGE
         if (selectedCate == "renting")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Đang thuê",
@@ -103,19 +100,16 @@ class _BodyAppointment extends State<BodyAppointment> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               )),
-
-        //=====================FACIAL
         if (selectedCate == "history")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Lịch sử thuê",
@@ -166,7 +160,6 @@ class _BodyAppointment extends State<BodyAppointment> {
   }
 
   Widget rentDetailBox(BookingTranstion booking) {
-    Size size = MediaQuery.of(context).size;
     Color color = Colors.blueAccent;
     String icon = "";
     String status = "";
@@ -190,7 +183,8 @@ class _BodyAppointment extends State<BodyAppointment> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,14 +198,14 @@ class _BodyAppointment extends State<BodyAppointment> {
                       StringConstants.iconDirectory + icon,
                       width: 16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
                       status,
                       style: TextStyle(fontSize: 16, color: color),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                     if (booking.status == 0 || booking.status == 2)
@@ -220,7 +214,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                         width: 3,
                         color: color,
                       ),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                     if (booking.status == 0)
@@ -240,7 +234,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                         style: TextStyle(fontSize: 16, color: color),
                       )
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -248,29 +242,29 @@ class _BodyAppointment extends State<BodyAppointment> {
                     children: [
                       Text(
                         booking.bike.categoryName!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Image.asset(
                         StringConstants.iconDirectory + "point.png",
                         width: 2,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Text(
                         booking.bike.modelYear!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -280,7 +274,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                             .toString()
                             .replaceAllMapped(reg, mathFunc) +
                         " đ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -302,11 +296,11 @@ class _BodyAppointment extends State<BodyAppointment> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 1,
         ),
         getActionButton(booking),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],
@@ -338,7 +332,7 @@ class _BodyAppointment extends State<BodyAppointment> {
               }
             },
             child: Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               width: width,
               color: Colors.white,
               child: const Center(
@@ -355,7 +349,7 @@ class _BodyAppointment extends State<BodyAppointment> {
             launch("tel://" + booking.bike.ownerPhone!);
           },
           child: Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             width: width,
             color: Colors.white,
             child: const Center(
@@ -371,30 +365,28 @@ class _BodyAppointment extends State<BodyAppointment> {
   }
 
   showMyAlertDialog(BookingTranstion booking) {
-    Size size = MediaQuery.of(context).size;
-
     Dialog dialog = Dialog(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: ColorConstants.containerBackground,
         ),
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Đánh giá của bạn",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Rate: ",
                     style: TextStyle(fontSize: 16),
                   ),
@@ -410,15 +402,15 @@ class _BodyAppointment extends State<BodyAppointment> {
                     ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
                 booking.feedback!.content!,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 maxLines: 5,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Center(
@@ -426,14 +418,12 @@ class _BodyAppointment extends State<BodyAppointment> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Container(
-                    child: Text(
-                      "OK",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
-                          fontSize: 20),
-                    ),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20),
                   ),
                 ),
               )
@@ -443,6 +433,7 @@ class _BodyAppointment extends State<BodyAppointment> {
       ),
       backgroundColor: Colors.white,
     );
+    // ignore: unused_local_variable
     Future<dynamic> futureValue = showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {

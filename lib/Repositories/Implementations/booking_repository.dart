@@ -6,13 +6,11 @@ class BookingRepository implements IBookingRepository {
   final BookingService _bookingService = BookingService();
   @override
   Future<void> getAll() {
-    //Get All Booking of customer
     throw UnimplementedError();
   }
 
   @override
   Future<BookingTranstion> getBookingTransactionById(String id) {
-    // TODO: implement getBookingTransactionById
     throw UnimplementedError();
   }
 

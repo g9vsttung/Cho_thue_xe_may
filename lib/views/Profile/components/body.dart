@@ -1,10 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
 import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
 import 'package:chothuexemay_mobile/views/EditProfile/edit_profile.dart';
-import 'package:chothuexemay_mobile/views/Login/Step1/components/body.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class _BodyProfileState extends State<BodyProfile> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
           color: Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +39,7 @@ class _BodyProfileState extends State<BodyProfile> {
                     StringConstants.imageDirectory + "avatar.png",
                     width: 65,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -45,26 +47,26 @@ class _BodyProfileState extends State<BodyProfile> {
                     children: [
                       Text(
                         widget.customer.fullname,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         "Số điện thoại: " + widget.customer.phoneNumber,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         "Điển thưởng tích lũy: " +
                             widget.customer.rewardPoints.toString() +
                             "pts",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                       )
@@ -89,13 +91,13 @@ class _BodyProfileState extends State<BodyProfile> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         getOptionFrame("Lịch đặt của tôi", () {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return AppointmentView();
+              return const AppointmentView();
             },
           ));
         }),
@@ -114,7 +116,7 @@ class _BodyProfileState extends State<BodyProfile> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => LoginView1(),
+              builder: (BuildContext context) => const LoginView1(),
             ),
             (route) => false,
           );
@@ -127,8 +129,9 @@ class _BodyProfileState extends State<BodyProfile> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(bottom: 2),
-        padding: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
+        margin: const EdgeInsets.only(bottom: 2),
+        padding:
+            const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +139,7 @@ class _BodyProfileState extends State<BodyProfile> {
           children: [
             Text(
               text,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             Image.asset(
               StringConstants.iconDirectory + "detail.png",

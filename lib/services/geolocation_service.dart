@@ -1,5 +1,5 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'dart:convert';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -80,8 +80,8 @@ class GeoLocatorCustom {
       final body = jsonDecode(response.body);
       rs['customerLocation'] =
           body['results'][0]['geometry']['location']['lat'].toString() +
-          ',' +
-          body['results'][0]['geometry']['location']['lng'].toString() ;
+              ',' +
+              body['results'][0]['geometry']['location']['lng'].toString();
       rs['city'] = body['results'][0]['address_components'][3]['long_name'];
     }
 

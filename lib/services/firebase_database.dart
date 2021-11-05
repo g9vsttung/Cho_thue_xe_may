@@ -40,8 +40,8 @@ class FirebaseDatabaseCustom {
     Map<String, LatLng> listResult = {};
     DataSnapshot snapshot = await database.child(_pathCustomerLocation).once();
     if (snapshot.value != null) {
-      snapshot.value.forEach((k, v) =>
-          {listResult['${k}'] = LatLng(v['latitude'], v['longitude'])});
+      snapshot.value.forEach(
+          (k, v) => {listResult['$k'] = LatLng(v['latitude'], v['longitude'])});
     }
     return listResult;
   }
@@ -83,7 +83,7 @@ class FirebaseDatabaseCustom {
     const String _key = 'MkP5cLaGx6mRgulWqb7dSEkFPlZqLsCDNq1ZUku1';
 
     Uri url = Uri.parse(
-        'https://rsapi.goong.io/DistanceMatrix?origins=${start}&destinations=${ends}&vehicle=bike&api_key=${_key}');
+        'https://rsapi.goong.io/DistanceMatrix?origins=$start&destinations=$ends&vehicle=bike&api_key=$_key');
 
     final response = await http.get(url);
     if (response.statusCode == 200) {
@@ -96,14 +96,15 @@ class FirebaseDatabaseCustom {
       throw Exception("Unable to perform request");
     }
   }
+
   Future updateTokenFCM(String token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString(GlobalDataConstants.USERID)!;
     await database
         .child(_pathOwnerTokenFCM + userId)
         .set({
-      _tokenFCMChild: token,
-    })
+          _tokenFCMChild: token,
+        })
         .then((value) => log("Token FCM updated!"))
         .catchError((error) => {log(error.toString())});
   }
