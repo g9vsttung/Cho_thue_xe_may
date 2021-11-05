@@ -10,7 +10,7 @@ import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
-import 'package:chothuexemay_mobile/views/Home/home_view.dart';
+import 'package:chothuexemay_mobile/views/Booking/Result/result_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +47,7 @@ class CustomerViewModel extends ChangeNotifier {
       //No bikes
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return const HomeView(); //=> Return Not FOUND ANY PAGE
+          return ResultView();
         },
       ));
     }

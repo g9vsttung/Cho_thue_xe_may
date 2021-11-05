@@ -19,6 +19,7 @@ class AuthService extends ChangeNotifier {
     try {
       return await FirebaseAuth.instance.signInWithCredential(authCredential);
     } catch (e) {
+      errorMessage = "Mã OTP sai!";
       log("SignIn: " + e.toString());
     }
   }
@@ -75,7 +76,6 @@ class AuthService extends ChangeNotifier {
     // ignore: prefer_function_declarations_over_variables
     final PhoneCodeAutoRetrievalTimeout autoTimeout =
         (String verificationId) async {
-      // log('auto timeout');
       // // ignore: unused_label
       const Duration(seconds: 0);
     };
@@ -90,6 +90,5 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       log("verifyPhoneNumber: " + e.toString());
     }
-    notifyListeners();
   }
 }

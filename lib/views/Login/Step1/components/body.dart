@@ -3,6 +3,7 @@
 import 'package:chothuexemay_mobile/views/Login/Step2/login_view_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginBody extends StatefulWidget {
   Size size;
@@ -15,6 +16,9 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBody extends State<LoginBody> {
   final phoneController = TextEditingController();
+  //Phone number regex
+  RegExp regExp = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,7 +64,8 @@ class _LoginBody extends State<LoginBody> {
               children: [
                 RaisedButton(
                   onPressed: () {
-                    if (phoneController.text.length == 10) {
+                    if (phoneController.text.length == 10 &&
+                        regExp.hasMatch(phoneController.text)) {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return LoginView2(
@@ -68,6 +73,12 @@ class _LoginBody extends State<LoginBody> {
                           );
                         },
                       ));
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Số điện thoại không hợp lệ!",
+                        gravity: ToastGravity.CENTER,
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
                     }
                   },
                   child: Text(

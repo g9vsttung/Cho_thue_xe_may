@@ -173,11 +173,13 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                         otpController.text, _service.verificationId);
 
                     if (success) {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return HomeView();
-                        },
-                      ));
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (BuildContext context) => HomeView(),
+                        ),
+                        (route) => false,
+                      );
                     } else {
                       if (_service.errorMessage.isNotEmpty) {
                         //Login Error for wrong otp or blocked user by Firebase
