@@ -1,34 +1,21 @@
 class FeedbackModel {
   String? id;
-  String content;
-  int rating;
-  String date;
-  String? image;
-  String? name;
+  String? content;
+  int? rating;
+  bool? isRating;
+  FeedbackModel.emptyModel({required this.id, this.isRating = false});
 
   FeedbackModel(
-      {String? id,
-      String? image,
-      String? name,
+      {required this.id,
       required this.content,
       required this.rating,
-      required this.date}) {
-    if (id != null) {
-      this.id = id;
-    }
-    if (image != null) {
-      this.image = image;
-    }
-    if (name != null) {
-      this.name = name;
-    }
-  }
+      this.isRating = true});
 
   factory FeedbackModel.jsonFrom(Map<String, dynamic> json) {
     return FeedbackModel(
-        id: json["id"],
-        content: json["content"],
-        rating: json["rating"],
-        date: json["date"]);
+      id: json["id"],
+      content: json["content"],
+      rating: json["rating"],
+    );
   }
 }

@@ -21,11 +21,13 @@ class BottomBar extends StatelessWidget {
           if (selected == "home")
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return HomeView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => HomeView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -47,11 +49,13 @@ class BottomBar extends StatelessWidget {
           else
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return HomeView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => HomeView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -74,11 +78,13 @@ class BottomBar extends StatelessWidget {
           if (selected == "schedule")
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return AppointmentView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => AppointmentView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -100,11 +106,13 @@ class BottomBar extends StatelessWidget {
           else
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return AppointmentView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => AppointmentView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -127,11 +135,13 @@ class BottomBar extends StatelessWidget {
           if (selected == "profile")
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return ProfileView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => ProfileView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -153,11 +163,13 @@ class BottomBar extends StatelessWidget {
           else
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return ProfileView();
-                  },
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => ProfileView(),
+                  ),
+                  (route) => false,
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
