@@ -4,16 +4,15 @@ import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Booking/Result/result_view.dart';
-import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BodyWaiting extends StatefulWidget {
   OrderModel order;
-
-  BodyWaiting({Key? key, required this.order}) : super(key: key);
+  List<Owner> owners;
+  BodyWaiting({Key? key, required this.order, required this.owners})
+      : super(key: key);
 
   @override
   State<BodyWaiting> createState() => _BodyWaitingState();
@@ -21,7 +20,6 @@ class BodyWaiting extends StatefulWidget {
 
 class _BodyWaitingState extends State<BodyWaiting> {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  List<Owner> listOwner = [];
   CustomerViewModel customerViewModel = CustomerViewModel();
 
   void firebaseCloudMessaging_Listeners() {
@@ -33,14 +31,16 @@ class _BodyWaitingState extends State<BodyWaiting> {
       final data = jsonDecode(evt.data["data"]);
       bool isAccepted = data["IsAccepted"];
       String ownerId = data["OwnerId"];
-      if (listOwner.isEmpty) {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return ResultView();
-          },
-        ));
+      if (widget.owners.isEmpty) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => ResultView(),
+          ),
+          (route) => false,
+        );
       }
-      Owner owner = listOwner[0];
+      Owner owner = widget.owners[0];
       if (isAccepted) {
         OrderModel orderModel = OrderModel.createBooking(
             ownerId: ownerId,
@@ -54,23 +54,30 @@ class _BodyWaitingState extends State<BodyWaiting> {
             typeId: widget.order.typeId,
             bikeId: owner.bike.id,
             categoryId: owner.bike.categoryId,
-            voucherCode: widget.order.voucherCode);
+            voucherCode: widget.order.voucherCode,
+            ownerName: owner.fullname);
         customerViewModel.createBooking(orderModel);
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return ResultView(owner: owner);
-          },
-        ));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => ResultView(
+              owner: owner,
+            ),
+          ),
+          (route) => false,
+        );
       } else {
-        listOwner.removeWhere((element) {
+        widget.owners.removeWhere((element) {
           return element.id == ownerId;
         });
-        if (listOwner.isEmpty) {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return ResultView();
-            },
-          ));
+        if (widget.owners.isEmpty) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => ResultView(),
+            ),
+            (route) => false,
+          );
         }
         OrderModel orderNoti = OrderModel.sendNoti(
             ownerId: owner.id,
@@ -88,15 +95,8 @@ class _BodyWaitingState extends State<BodyWaiting> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    findBike();
     firebaseCloudMessaging_Listeners();
-  }
-
-  findBike() async {
-    listOwner = await Provider.of<CustomerViewModel>(context, listen: false)
-        .findBikes(widget.order, context);
   }
 
   @override

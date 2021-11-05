@@ -19,6 +19,7 @@ class OrderModel {
   String? bikeId;
   String? categoryId;
   String? voucherCode;
+  String? ownerName;
   OrderModel(
       {required this.dateRent,
       required this.dateReturn,
@@ -56,5 +57,6 @@ class OrderModel {
       required this.totalPrice,
       required this.bikeId,
       required this.categoryId,
-      required this.voucherCode});
+      required this.voucherCode,
+      required this.ownerName});
 }

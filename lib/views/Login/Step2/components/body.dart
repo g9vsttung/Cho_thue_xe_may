@@ -27,7 +27,8 @@ class LoginBodyStep extends StatefulWidget {
 
 class _LoginBodyStep extends State<LoginBodyStep> {
   String errorMessage = "";
-  int countDown = 10;
+  late Timer _timer;
+  int _start = 10;
   final TextEditingController otpController = TextEditingController();
   @override
   void initState() {
@@ -39,19 +40,34 @@ class _LoginBodyStep extends State<LoginBodyStep> {
   }
 
   //Not Wroking well.
-  countDownFunc() async {
-    if (countDown > 0)
-      await Future.delayed(const Duration(milliseconds: 1000), () {
-        setState(() {
-          countDown--;
-        });
-      });
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final AuthService _service = Provider.of<AuthService>(context);
-    countDownFunc();
+    startTimer();
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -131,9 +147,9 @@ class _LoginBodyStep extends State<LoginBodyStep> {
               height: 15,
             ),
 
-            if (countDown > 0)
+            if (_start > 0)
               Text(
-                "Vui long chờ ${countDown}s để gửi lại",
+                "Vui long chờ ${_start}s để gửi lại",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
