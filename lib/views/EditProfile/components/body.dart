@@ -1,18 +1,36 @@
+import 'dart:developer';
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
-class BodyEditProfile extends StatelessWidget {
+class BodyEditProfile extends StatefulWidget {
   String name;
   String phone;
 
   BodyEditProfile({required this.name, required this.phone});
-  CustomerViewModel customerViewModel=CustomerViewModel();
+
+  @override
+  State<BodyEditProfile> createState() => _BodyEditProfileState();
+}
+
+class _BodyEditProfileState extends State<BodyEditProfile> {
+  CustomerViewModel customerViewModel = CustomerViewModel();
+
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = widget.name;
+    phoneController.text = widget.phone;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController(text: name);
-    TextEditingController phoneController = TextEditingController(text: phone);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.all(size.width * 0.1),
@@ -76,6 +94,7 @@ class BodyEditProfile extends StatelessWidget {
             // height: size.height*0.3,
             child: Center(
               child: TextField(
+                enabled: false,
                 controller: phoneController,
                 maxLines: 1,
                 style: TextStyle(
@@ -90,11 +109,14 @@ class BodyEditProfile extends StatelessWidget {
           ),
           Center(
             child: RaisedButton(
-              onPressed: () {
-                customerViewModel.updateProfile(name, phone);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProfileView();
-                },));
+              onPressed: () async {
+                await customerViewModel.updateProfile(
+                    nameController.text, widget.phone);
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ProfileView();
+                  },
+                ));
               },
               color: Colors.orange,
               shape: const RoundedRectangleBorder(
