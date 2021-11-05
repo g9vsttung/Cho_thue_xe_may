@@ -4,6 +4,7 @@ import 'package:chothuexemay_mobile/models/approve_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BodyApprove extends StatelessWidget {
   Owner owner;
@@ -15,26 +16,38 @@ class BodyApprove extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              RaisedButton(
-                onPressed: () {},
-                color: Colors.red,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: const Text(
-                  "HỦY",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                RaisedButton(
+                  onPressed: () {
+                    launch("tel://" + owner.phoneNumber);
+                  },
+                  color: Colors.green,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Image.asset(StringConstants.iconDirectory+"phone.png",width: 18,)
                 ),
-              )
-            ],
+                RaisedButton(
+                  onPressed: () {},
+                  color: Colors.red,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: const Text(
+                    "HỦY",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                )
+              ],
+            ),
           ),
           const Text(
             "ĐÃ TÌM THẤY XE",
@@ -110,11 +123,14 @@ class BodyApprove extends StatelessWidget {
               ],
             ),
           ),
-          Image.network(
-            ImageConstants.getFullImagePath(owner.bike.imgPath!),
-            width: size.width * 0.75,
-            height: size.width * 0.75 * 3 / 4,
-            fit: BoxFit.fill,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: Image.network(
+              ImageConstants.getFullImagePath(owner.bike.imgPath!),
+              width: size.width * 0.75,
+              height: size.width * 0.75 * 3 / 4,
+              fit: BoxFit.fill,
+            ),
           ),
         ],
       ),
