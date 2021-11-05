@@ -47,6 +47,6 @@ class Bike {
         numberOfRating: json['numberOfRating'] ?? 0,
         brandName: json['brandName'] ?? "",
         categoryName: json['cateName'] ?? "",
-        imgPath: json['imgPath'] ?? "");
+        imgPath: json['imgPath'] ?? "defaultimage.jpg");
   }
 }

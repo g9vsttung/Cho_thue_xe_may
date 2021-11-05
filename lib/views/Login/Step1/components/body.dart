@@ -60,13 +60,15 @@ class _LoginBody extends State<LoginBody> {
               children: [
                 RaisedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return LoginView2(
-                          phone: phoneController.text,
-                        );
-                      },
-                    ));
+                    if (phoneController.text.length == 10) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return LoginView2(
+                            phone: phoneController.text,
+                          );
+                        },
+                      ));
+                    }
                   },
                   child: Text(
                     "Tiếp theo",

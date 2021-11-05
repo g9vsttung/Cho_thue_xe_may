@@ -52,7 +52,7 @@ class _BodyProfileState extends State<BodyProfile> {
                         height: 5,
                       ),
                       Text(
-                        "Số điệnn thoại: " + widget.customer.phoneNumber,
+                        "Số điện thoại: " + widget.customer.phoneNumber,
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -111,11 +111,13 @@ class _BodyProfileState extends State<BodyProfile> {
         getOptionFrame("Đăng xuất", () {
           AuthService _auth = AuthService();
           _auth.signOut();
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return const LoginView1();
-            },
-          ));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => LoginView1(),
+            ),
+            (route) => false,
+          );
         })
       ],
     );
