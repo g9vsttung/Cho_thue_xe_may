@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
+import 'package:chothuexemay_mobile/view_model/category_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
             create: (context) => MotorTypeViewModel()),
         ChangeNotifierProvider<VoucherViewModel>(
             create: (context) => VoucherViewModel()),
+        ChangeNotifierProvider<CategoryViewModel>(
+            create: (context) => CategoryViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

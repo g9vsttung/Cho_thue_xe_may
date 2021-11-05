@@ -8,21 +8,31 @@ import 'package:chothuexemay_mobile/views/Booking/Voucher/voucher_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyVoucher extends StatefulWidget {
-  OrderModel order;
+  OrderModel? order;
   int point;
   List<Voucher> vouchersAvailable;
   List<Voucher> vouchersExchange;
   String? selectedTab;
+  bool hasAction = true;
+
   BodyVoucher(
-      {required this.order,
-      required this.vouchersAvailable,
+      {required this.vouchersAvailable,
       required this.vouchersExchange,
       required this.point,
-      String? selectedTab}) {
+      bool? hasAction,
+      String? selectedTab,
+      OrderModel? order}) {
     if (selectedTab != null) {
       this.selectedTab = selectedTab;
+    }
+    if (hasAction != null) {
+      this.hasAction = hasAction;
+    }
+    if (order != null) {
+      this.order = order;
     }
   }
 
@@ -35,6 +45,7 @@ class BodyVoucher extends StatefulWidget {
 class _BodyVoucher extends State<BodyVoucher> {
   VoucherViewModel voucherViewModel = VoucherViewModel();
   String selectedCate = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,61 +61,63 @@ class _BodyVoucher extends State<BodyVoucher> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              top: 25,
-            ),
-            color: Colors.white,
-            child: cateNavBar(),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 5, bottom: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (selectedCate == "change")
-                    Container(
-                      color: Colors.white,
-                      width: size.width,
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Điểm thưởng",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  widget.point.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const Text(
-                                  " pts",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.grey),
-                                ),
-                              ],
-                            )
-                          ]),
-                    ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  for (Widget box in listVoucherByCate()) box,
-                ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                top: 25,
               ),
+              color: Colors.white,
+              child: cateNavBar(),
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.only(top: 5, bottom: 10),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (selectedCate == "change")
+                      Container(
+                        color: Colors.white,
+                        width: size.width,
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Điểm thưởng",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    widget.point.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Text(
+                                    " pts",
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.grey),
+                                  ),
+                                ],
+                              )
+                            ]),
+                      ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    for (Widget box in listVoucherByCate()) box,
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -205,13 +218,17 @@ class _BodyVoucher extends State<BodyVoucher> {
   Widget voucherBox(Voucher voucher) {
     Size size = MediaQuery.of(context).size;
     int noDate = voucherViewModel.calculateDate(voucher.date);
+    MainAxisAlignment ali = MainAxisAlignment.spaceBetween;
+    if (widget.hasAction == false) {
+      ali = MainAxisAlignment.center;
+    }
     return Container(
       padding:
           EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: ali,
             children: [
               Container(
                   width: size.width * 0.9 * 0.78,
@@ -268,38 +285,39 @@ class _BodyVoucher extends State<BodyVoucher> {
                       ],
                     )
                   ])),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return BookingDetailView(
-                        order: widget.order,
-                        voucher: voucher,
-                      );
-                    },
-                  ));
-                },
-                child: Container(
-                  width: size.width * 0.9 * 0.2,
-                  height: size.width * 0.16 + 14,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.white,
+              if (widget.hasAction)
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return BookingDetailView(
+                          order: widget.order!,
+                          voucher: voucher,
+                        );
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: size.width * 0.9 * 0.2,
+                    height: size.width * 0.16 + 14,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Chọn",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: ColorConstants.background,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Chọn",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: ColorConstants.background,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              )
+                )
             ],
           ),
           SizedBox(
@@ -380,12 +398,28 @@ class _BodyVoucher extends State<BodyVoucher> {
                   bool isSuccess = await voucherViewModel
                       .exchangePointsToGetVoucher(voucher.id);
                   if (isSuccess) {
+                    Fluttertoast.showToast(
+                        msg: "Đổi mã thành công",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.black,
+                        fontSize: 16.0);
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return VoucherView(
-                          order: widget.order,
-                          selectedTab: 'change',
-                        );
+                        if (widget.hasAction) {
+                          return VoucherView(
+                            order: widget.order,
+                            selectedTab: 'change',
+                            hasAction: widget.hasAction,
+                          );
+                        } else {
+                          return VoucherView(
+                            selectedTab: 'change',
+                            hasAction: widget.hasAction,
+                          );
+                        }
                       },
                     ));
                   }

@@ -3,6 +3,7 @@
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
+import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
@@ -125,6 +126,13 @@ class BottomBar extends StatelessWidget {
           //================================================PROFILE
           if (selected == "profile")
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ProfileView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,6 +152,13 @@ class BottomBar extends StatelessWidget {
             )
           else
             GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ProfileView();
+                  },
+                ));
+              },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,

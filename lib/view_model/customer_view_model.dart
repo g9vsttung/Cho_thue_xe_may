@@ -6,7 +6,7 @@ import 'package:chothuexemay_mobile/Repositories/Implementations/customer_reposi
 import 'package:chothuexemay_mobile/Repositories/Interfaces/area_interface.dart';
 import 'package:chothuexemay_mobile/Repositories/Interfaces/booking_interface.dart';
 import 'package:chothuexemay_mobile/Repositories/Interfaces/customer_interface.dart';
-import 'package:chothuexemay_mobile/models/approve_model.dart';
+import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
@@ -19,9 +19,6 @@ class CustomerViewModel extends ChangeNotifier {
   String cityName = "";
   String address = "";
   String areaId = "";
-  //optional
-  // String dateRent = "";
-  // String dateReturn = "";
 
   final ICustomerRepository customerRepository = CustomerRepository();
   final IAreaRepository _areaRepository = AreaRepository();
@@ -67,5 +64,16 @@ class CustomerViewModel extends ChangeNotifier {
 
   Future<int> getRewardPoints() async {
     return await customerRepository.getRewardPoints();
+  }
+
+  Future<Customer> viewProfile() async {
+    return await customerRepository.viewProfile();
+  }
+
+  Future<List<BookingTranstion>> getBookingTransactions() async {
+    return await _bookingRepository.getBookingTransactions();
+  }
+  Future<bool> updateProfile(String name,String phone) async {
+    return await customerRepository.updateProfile(name, phone);
   }
 }

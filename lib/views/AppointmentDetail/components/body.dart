@@ -1,4 +1,4 @@
-import 'package:chothuexemay_mobile/models/booking_model.dart';
+import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class BodyAppointmentDetail extends StatefulWidget {
-  Booking booking;
+  BookingTranstion booking;
 
   BodyAppointmentDetail({required this.booking});
 
@@ -53,7 +53,11 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text("Ngày thuê:",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.dateRent.toString().split(" ")[0],
+                        Text(
+                            widget.booking.dateRentActual
+                                .toString()
+                                .substring(0, 16)
+                                .replaceAll('T', ' '),
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -69,9 +73,10 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         Text(
-                            widget.booking.dateReturnExpected
+                            widget.booking.dateReturnActual
                                 .toString()
-                                .split(" ")[0],
+                                .substring(0, 16)
+                                .replaceAll('T', ' '),
                             style: TextStyle(
                               fontSize: 18,
                             )),
@@ -86,14 +91,41 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         Text("Loại xe:",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.bike.brandName,
+                        Text(widget.booking.bike.categoryName!,
                             style: TextStyle(
                               fontSize: 18,
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Tên chủ xe: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text(widget.booking.bike.ownerName!,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Số điện thoại: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text(widget.booking.bike.ownerPhone!,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ))
+                      ],
                     ),
                     SizedBox(
                       height: 15,
@@ -113,11 +145,11 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Phương thức thanh toán: ",
+                      children: const [
+                        Text("Phương thức thanh toán: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.paymentMethod,
+                        Text("Tiền mặt",
                             style: TextStyle(
                               fontSize: 18,
                             ))

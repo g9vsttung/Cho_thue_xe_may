@@ -143,7 +143,8 @@ class CustomerService {
           "voucherCode": order.voucherCode ?? '',
           "price": order.totalPrice!.toString(),
           "dayRent": dateRent,
-          "dayReturnExpected": dateReturn
+          "dayReturnExpected": dateReturn,
+          "address": order.address
         }));
   }
 
@@ -168,5 +169,22 @@ class CustomerService {
     final response = await http.get(url, headers: headers);
 
     return Customer.jsonFrom(jsonDecode(response.body));
+  }
+
+  Future<bool> updateProfile(String name, String phone) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.put(Uri.parse(CustomerApiPath.VIEW_PROFILE),
+        headers: <String, String>{
+          'Content-Type': 'application/json ; charset=UTF-8',
+          'Authorization':
+              'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
+        },
+        body: jsonEncode({
+          "id": prefs.getString(GlobalDataConstants.USERID).toString(),
+          "phoneNumber": phone,
+          "fullname": name,
+        }));
+
+    return response.statusCode == 200;
   }
 }

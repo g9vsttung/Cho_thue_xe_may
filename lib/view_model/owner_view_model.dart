@@ -16,7 +16,7 @@ class OwnerViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getOwnerById(String id) async {
+  Future getOwnerById(String id) async {
     owner = await ownerRepository.getOwnerById(id);
     notifyListeners();
   }

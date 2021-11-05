@@ -13,5 +13,5 @@ abstract class ICustomerRepository extends GenericRepository {
   Future<void> createBooking(OrderModel order);
   Future<int> getRewardPoints();
   Future<Customer> viewProfile();
-  Future<bool> updateProfile();
+  Future<bool> updateProfile(String name,String phone);
 }

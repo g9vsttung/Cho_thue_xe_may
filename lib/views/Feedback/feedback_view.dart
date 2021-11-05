@@ -1,14 +1,13 @@
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/views/AppointmentDetail/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
-import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
+import 'package:chothuexemay_mobile/views/Feedback/components/body.dart';
 import 'package:flutter/material.dart';
 
-class AppointmentDetailView extends StatelessWidget {
+class FeedbackView extends StatelessWidget {
   BookingTranstion booking;
 
-  AppointmentDetailView({required this.booking});
+  FeedbackView({required this.booking});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +16,11 @@ class AppointmentDetailView extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
-          title: "Thông tin đơn",
+          title: "Đánh giá",
         ),
       ),
-      body: BodyAppointmentDetail(booking: booking),
-      bottomNavigationBar: BottomAppBar(
-        color: ColorConstants.background,
-        child: BottomBar(selected: "schedule"),
+      body: BodyFeedback(
+        booking: booking,
       ),
     );
   }

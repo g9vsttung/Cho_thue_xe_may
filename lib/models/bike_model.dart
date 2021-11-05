@@ -1,20 +1,20 @@
 class Bike {
-  String id;
-  String licensePlate;
-  String color;
-  String modelYear;
-  String ownerId;
-  String categoryId;
-  int status;
-  String ownerPhone;
-  String ownerName;
-  String address;
-  double rating;
-  int numberOfRating;
-  String brandName;
-  String categoryName;
-  String imgPath;
-
+  String? id;
+  String? licensePlate;
+  String? color;
+  String? modelYear;
+  String? ownerId;
+  String? categoryId;
+  int? status;
+  String? ownerPhone;
+  String? ownerName;
+  String? address;
+  double? rating;
+  int? numberOfRating;
+  String? brandName;
+  String? categoryName;
+  String? imgPath;
+  Bike.empty();
   Bike(
       {required this.id,
       required this.licensePlate,
@@ -43,7 +43,7 @@ class Bike {
         ownerPhone: json['ownerPhone'] ?? "",
         ownerName: json['ownerName'] ?? "Unknow",
         address: json['address'] ?? "",
-        rating: json['rating'].toDouble() ?? 0,
+        rating: json['rating'] == null ? 0.0 : json['rating'].toDouble(),
         numberOfRating: json['numberOfRating'] ?? 0,
         brandName: json['brandName'] ?? "",
         categoryName: json['cateName'] ?? "",

@@ -16,13 +16,15 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   carousel_slider: ^4.0.0
-  
+  fluttertoast: ^8.0.8
+  #phone
+  url_launcher: ^6.0.12
   #State Manager
   provider: 6.0.0
-  
+
   #Goolge icon
   font_awesome_flutter: ^9.1.0
-  
+
   #Map
   geolocator: ^7.6.2
   google_maps_flutter: ^2.0.11
@@ -30,7 +32,7 @@ dependencies:
 
   #Goole Signin
   google_sign_in: ^5.1.1
-  
+
   #firebase
   firebase_core: ^1.6.0
   firebase_auth: ^3.1.1
@@ -44,7 +46,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  
+
   android_sms_retriever: ^1.0.2
 
 

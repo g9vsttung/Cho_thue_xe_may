@@ -24,14 +24,8 @@ class BookingDetailView extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
-            title: "Đặt xe",
-            func: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return HomeView();
-                },
-              ));
-            }),
+          title: "Đặt xe",
+        ),
       ),
       body: getBody(),
       bottomNavigationBar: BottomAppBar(

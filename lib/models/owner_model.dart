@@ -17,9 +17,9 @@ class Owner {
   Bike bike;
   factory Owner.jsonFrom(Map<String, dynamic> json) {
     return Owner(
-        id: json['id'],
+        id: json["id"],
         phoneNumber: json['phoneNumber'] ?? "",
-        fullname: json['fullName'] ?? "NLê Ánh Phương",
+        fullname: json['fullname'] ?? "Unknow",
         address: json['address'] ?? "Unknow",
         numberOfbikes: json['numberOfBikes'] ?? 0,
         rating: json['rating'].toDouble() ?? 0,
@@ -29,7 +29,7 @@ class Owner {
         banTimes: json['banTimes'] ?? 0,
         mail: json['mail'] ?? "Unknow",
         status: json['status'] ?? 0,
-        bike: Bike.jsonFrom(json['bike']),
+        bike: json['bike'] == null ? Bike.empty() : Bike.jsonFrom(json['bike']),
         bikes: (json['listBike'] == null
             ? []
             : (json['listBike'] as List)
