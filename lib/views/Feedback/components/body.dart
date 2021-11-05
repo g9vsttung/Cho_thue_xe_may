@@ -1,6 +1,6 @@
-import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/feedback_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,9 @@ import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyFeedback extends StatefulWidget {
-  BookingTranstion booking;
+  FeedbackModel feedback;
 
-  BodyFeedback({required this.booking});
+  BodyFeedback({required this.feedback});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +27,15 @@ class _BodyFeedback extends State<BodyFeedback> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    if (selectedRate != 0)
-      completed = true;
-    else
-      completed = false;
+    selectedRate != 0 ? true : false;
+
     return Padding(
       padding: const EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Rate your Experience",
+            "Đánh giá trải nghiệm của bạn",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -46,24 +44,7 @@ class _BodyFeedback extends State<BodyFeedback> {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "Are you satisfied with the Service ?",
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 1; i <= selectedRate; i++) getStar(true, i),
-              for (int i = 1; i <= 5 - selectedRate; i++)
-                getStar(false, selectedRate + i),
-            ],
-          ),
+          getWidgetRatingStar(),
           const SizedBox(
             height: 20,
           ),
@@ -71,26 +52,13 @@ class _BodyFeedback extends State<BodyFeedback> {
             child: Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black54, width: 1),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              padding: EdgeInsets.all(10),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              padding: const EdgeInsets.all(10),
               width: double.infinity,
-              // height: size.height*0.3,
-              child: Center(
-                child: TextField(
-                  controller: controller,
-                  maxLines: 5,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  decoration: const InputDecoration(
-                      hintText: "Your feedback ...",
-                      hintStyle: TextStyle(fontSize: 16, color: Colors.black26),
-                      border: InputBorder.none),
-                ),
-              ),
+              child: Center(child: getFeedbackContent()),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Center(
@@ -101,60 +69,125 @@ class _BodyFeedback extends State<BodyFeedback> {
     );
   }
 
+  Widget getFeedbackContent() {
+    if (widget.feedback.isRating!) {
+      controller.text = widget.feedback.content!;
+      return TextField(
+        controller: controller,
+        maxLines: 5,
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+        decoration: const InputDecoration(
+            enabled: false,
+            hintStyle: TextStyle(fontSize: 16, color: Colors.black26),
+            border: InputBorder.none),
+      );
+    }
+    return TextField(
+      controller: controller,
+      maxLines: 5,
+      style: const TextStyle(
+        fontSize: 16,
+      ),
+      decoration: const InputDecoration(
+          hintText: "Thật tuyệt ...",
+          hintStyle: TextStyle(fontSize: 16, color: Colors.black26),
+          border: InputBorder.none),
+    );
+  }
+
+  Widget getWidgetRatingStar() {
+    if (widget.feedback.isRating!) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (int i = 1; i <= widget.feedback.rating!; i++) getStar(true, i),
+          for (int i = 1; i <= 5 - widget.feedback.rating!; i++)
+            getStar(false, widget.feedback.rating! + i),
+        ],
+      );
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (int i = 1; i <= selectedRate; i++) getStar(true, i),
+        for (int i = 1; i <= 5 - selectedRate; i++)
+          getStar(false, selectedRate + i),
+      ],
+    );
+  }
+
   Widget getSubmitButton(Size size) {
-    if (completed) {
-      return Center(
-        child: Container(
-          width: size.width * 0.6,
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            onPressed: () {
-              FeedbackModel fb = FeedbackModel(
+    if (!widget.feedback.isRating!) {
+      if (completed) {
+        return Center(
+          child: Container(
+            width: size.width * 0.6,
+            child: RaisedButton(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              onPressed: () async {
+                final FeedbackViewModel _model = FeedbackViewModel();
+                FeedbackModel fb = FeedbackModel(
+                  id: widget.feedback.id,
                   rating: selectedRate,
                   content: controller.value.text,
-                  date: DateTime.now().toString().split(" ")[0]);
-              Fluttertoast.showToast(
-                msg: "Đánh giá thành công",
-                gravity: ToastGravity.CENTER,
-                toastLength: Toast.LENGTH_SHORT,
-              );
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return AppointmentView();
-                },
-              ));
-            },
-            color: ColorConstants.containerBoldBackground,
+                );
+                bool isSuccess = await _model.submitFeedback(fb);
+                if (isSuccess) {
+                  Fluttertoast.showToast(
+                    msg: "Đánh giá thành công",
+                    gravity: ToastGravity.CENTER,
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => AppointmentView(),
+                    ),
+                    (route) => false,
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "Đánh giá thất bại! Xin hãy thử lại sau.",
+                    gravity: ToastGravity.CENTER,
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                }
+              },
+              color: ColorConstants.containerBoldBackground,
+              child: const Text(
+                "Gửi",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          width: size.width * 0.6,
+          height: 40,
+          child: RaisedButton(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            onPressed: () {},
+            color: Colors.grey[400],
             child: const Text(
-              "Submit",
+              "Gửi",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colors.black54),
             ),
           ),
-        ),
-      );
-    } else {
-      return Container(
-        width: size.width * 0.6,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          onPressed: () {},
-          color: Colors.grey[400],
-          child: Text(
-            "Submit",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54),
-          ),
-        ),
-      );
+        );
+      }
     }
+    return Container();
   }
 
   Widget getStar(bool light, int num) {
@@ -171,7 +204,7 @@ class _BodyFeedback extends State<BodyFeedback> {
                 StringConstants.iconDirectory + "starRating.png",
                 width: 35,
               )),
-          SizedBox(
+          const SizedBox(
             width: 5,
           )
         ],
@@ -189,7 +222,7 @@ class _BodyFeedback extends State<BodyFeedback> {
                 StringConstants.iconDirectory + "starBorder.png",
                 width: 35,
               )),
-          SizedBox(
+          const SizedBox(
             width: 5,
           )
         ],

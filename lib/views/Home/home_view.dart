@@ -5,7 +5,6 @@ import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
-import 'package:chothuexemay_mobile/views/Components/app_bar_main.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:chothuexemay_mobile/views/Home/components/body.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,10 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
-        title: TopAppBarTitle(title: "Trang chủ",hasBack: false,),
+        title: TopAppBarTitle(
+          title: "Trang chủ",
+          hasBack: false,
+        ),
       ),
       body: FutureBuilder(
         builder: (context, napshot) {

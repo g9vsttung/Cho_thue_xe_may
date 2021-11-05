@@ -332,7 +332,7 @@ class _BodyAppointment extends State<BodyAppointment> {
               } else {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return FeedbackView(booking: booking);
+                    return FeedbackView(bookingId: booking.id);
                   },
                 ));
               }
@@ -398,12 +398,12 @@ class _BodyAppointment extends State<BodyAppointment> {
                     "Rate: ",
                     style: TextStyle(fontSize: 16),
                   ),
-                  for (int i = 1; i <= booking.feedback!.rating; i++)
+                  for (int i = 1; i <= booking.feedback!.rating!; i++)
                     Image.asset(
                       StringConstants.iconDirectory + "starRating.png",
                       width: 18,
                     ),
-                  for (int i = 1; i <= 5 - booking.feedback!.rating; i++)
+                  for (int i = 1; i <= 5 - booking.feedback!.rating!; i++)
                     Image.asset(
                       StringConstants.iconDirectory + "starBorder.png",
                       width: 18,
@@ -414,14 +414,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                 height: 5,
               ),
               Text(
-                booking.feedback!.date,
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                booking.feedback!.content,
+                booking.feedback!.content!,
                 style: TextStyle(fontSize: 16),
                 maxLines: 5,
               ),

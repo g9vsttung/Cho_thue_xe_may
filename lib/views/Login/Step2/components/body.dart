@@ -27,7 +27,7 @@ class LoginBodyStep extends StatefulWidget {
 
 class _LoginBodyStep extends State<LoginBodyStep> {
   String errorMessage = "";
-  late Timer _timer;
+
   int _start = 10;
   final TextEditingController otpController = TextEditingController();
   @override
@@ -41,27 +41,21 @@ class _LoginBodyStep extends State<LoginBodyStep> {
 
   //Not Wroking well.
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
+    // const oneSec = const Duration(seconds: 1);
+    // _timer = new Timer.periodic(
+    //   oneSec,
+    //   (Timer timer) {
+    //     if (_start == 0) {
+    //       setState(() {
+    //         timer.cancel();
+    //       });
+    //     } else {
+    //       setState(() {
+    //         _start--;
+    //       });
+    //     }
+    //   },
+    // );
   }
 
   @override

@@ -70,3 +70,7 @@ class VoucherApiPath {
 class CategoryApiPath {
   static String GET_ALL = _URL_API + '/categories';
 }
+
+class FeedbackApiPath {
+  static String GET_BY_ID = _URL_API + '/feedbacks/';
+}

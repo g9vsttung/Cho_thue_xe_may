@@ -4,6 +4,7 @@ import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyEditProfile extends StatefulWidget {
   String name;
@@ -110,13 +111,28 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
           Center(
             child: RaisedButton(
               onPressed: () async {
-                await customerViewModel.updateProfile(
+                bool isSuccess = await customerViewModel.updateProfile(
                     nameController.text, widget.phone);
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return ProfileView();
-                  },
-                ));
+                if (isSuccess) {
+                  Fluttertoast.showToast(
+                    msg: "Chỉnh sửa thành công",
+                    gravity: ToastGravity.CENTER,
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => ProfileView(),
+                    ),
+                    (route) => false,
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "Chỉnh sửa thất bại! Vui lòng thử lại sau.",
+                    gravity: ToastGravity.CENTER,
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                }
               },
               color: Colors.orange,
               shape: const RoundedRectangleBorder(
