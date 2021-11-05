@@ -128,24 +128,27 @@ class CustomerService {
     String dateReturn =
         order.dateReturn.toString().substring(0, 16).replaceAll(' ', 'T');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final body = jsonEncode(<String, String>{
+      "ownerId": order.ownerId!,
+      "bikeId": order.bikeId!,
+      "categoryId": order.categoryId!,
+      "typeId": order.typeId!,
+      "paymentId": "0a8f83ec-ef70-48c1-a793-a367191ad1b3",
+      "strVoucherCode": order.voucherCode ?? '',
+      "price": order.totalPrice!.toString(),
+      "dayRent": dateRent,
+      "dayReturnExpected": dateReturn,
+      "address": order.address
+    });
     final response = await http.post(Uri.parse(BookingApiPath.BOOKING_BIKE),
         headers: <String, String>{
           'Content-Type': 'application/json ; charset=UTF-8',
           'Authorization':
               'Bearer ' + prefs.getString(GlobalDataConstants.TOKEN).toString()
         },
-        body: jsonEncode(<String, String>{
-          "ownerId": order.ownerId!,
-          "bikeId": order.bikeId!,
-          "categoryId": order.categoryId!,
-          "typeId": order.typeId!,
-          "paymentId": "0a8f83ec-ef70-48c1-a793-a367191ad1b3",
-          "voucherCode": order.voucherCode ?? '',
-          "price": order.totalPrice!.toString(),
-          "dayRent": dateRent,
-          "dayReturnExpected": dateReturn,
-          "address": order.address
-        }));
+        body: body);
+
+    log('Created booking successfully: ' + response.statusCode.toString());
   }
 
   Future<int> getRewardPoint() async {
