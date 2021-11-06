@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
+import 'package:chothuexemay_mobile/view_model/booking_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/category_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
             create: (context) => CategoryViewModel()),
         ChangeNotifierProvider<FeedbackViewModel>(
             create: (context) => FeedbackViewModel()),
+        ChangeNotifierProvider<BookingTransactionViewModel>(
+            create: (create) => BookingTransactionViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

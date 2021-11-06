@@ -106,7 +106,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         const Text("Tên chủ xe: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.bike.ownerName!,
+                        Text(widget.booking.ownerName!,
                             style: const TextStyle(
                               fontSize: 18,
                             ))
@@ -121,7 +121,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                         const Text("Số điện thoại: ",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(widget.booking.bike.ownerPhone!,
+                        Text(widget.booking.ownerPhone!,
                             style: const TextStyle(
                               fontSize: 18,
                             ))

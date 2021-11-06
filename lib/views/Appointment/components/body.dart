@@ -284,7 +284,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return AppointmentDetailView(booking: booking);
+                      return AppointmentDetailView(bookingId: booking.id);
                     },
                   ));
                 },

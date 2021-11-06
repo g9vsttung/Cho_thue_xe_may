@@ -10,8 +10,8 @@ class BookingRepository implements IBookingRepository {
   }
 
   @override
-  Future<BookingTranstion> getBookingTransactionById(String id) {
-    throw UnimplementedError();
+  Future<BookingTranstion> getBookingTransactionById(String id) async {
+    return await _bookingService.getById(id);
   }
 
   @override

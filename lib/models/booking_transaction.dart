@@ -16,6 +16,8 @@ class BookingTranstion {
   String? ownerPhone;
   FeedbackModel? feedback;
   String? paymentName;
+  String? ownerName;
+
   BookingTranstion(
       {required this.bike,
       required this.customerId,
@@ -27,7 +29,9 @@ class BookingTranstion {
       required this.price,
       required this.status,
       required this.voucherCode,
-      required this.address});
+      required this.address,
+      this.ownerName,
+      this.ownerPhone});
 
   factory BookingTranstion.jsonFrom(Map<String, dynamic> json) {
     return BookingTranstion(
@@ -41,6 +45,8 @@ class BookingTranstion {
         price: json['price'].toDouble() ?? 0,
         status: json['status'] == null ? 0 : json['status'].toInt(),
         voucherCode: json['voucherCode'] ?? "",
-        address: json['address'] ?? "Unknow");
+        address: json['address'] ?? "Unknow",
+        ownerName: json['ownerName'] ?? "",
+        ownerPhone: json['phoneNum'] ?? "");
   }
 }
