@@ -26,6 +26,7 @@ class FirebaseDatabaseCustom {
   final String _longitudeChild = "longitude";
   final String _pathOwnerTokenFCM = "TrackingRegistrationId/customer/";
   final String _tokenFCMChild = "registrationId";
+  final String _notificationOnBell = "NotificationOnBell/customer/";
 
   Future _checkExist() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -106,6 +107,22 @@ class FirebaseDatabaseCustom {
           _tokenFCMChild: token,
         })
         .then((value) => log("Token FCM updated!"))
+        .catchError((error) => {log(error.toString())});
+  }
+
+  Future storeNotification(String title, String content) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString(GlobalDataConstants.USERID)!;
+    await database
+        .child(_notificationOnBell + userId)
+        .push()
+        .set({
+          "title": '',
+          "content": '',
+          "status": false,
+          "dateTime": DateTime.now()
+        })
+        .then((value) => log("Notification updated!"))
         .catchError((error) => {log(error.toString())});
   }
 }
