@@ -15,14 +15,16 @@ class HomeView extends StatelessWidget {
   Future<Map<String, dynamic>> getData(BuildContext context) async {
     Map<String, dynamic> list = {};
 
-    await await Provider.of<MotorTypeViewModel>(context, listen: false)
-        .getAll();
-    list['types'] =
-        Provider.of<MotorTypeViewModel>(context, listen: false).types;
     await Provider.of<CustomerViewModel>(context, listen: false).getData();
 
     list['address'] =
         Provider.of<CustomerViewModel>(context, listen: false).address;
+
+    await await Provider.of<MotorTypeViewModel>(context, listen: false)
+        .getAll();
+    list['types'] =
+        Provider.of<MotorTypeViewModel>(context, listen: false).types;
+
     return list;
   }
 
