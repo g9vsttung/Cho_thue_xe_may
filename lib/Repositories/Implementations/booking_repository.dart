@@ -18,4 +18,16 @@ class BookingRepository implements IBookingRepository {
   Future<List<BookingTranstion>> getBookingTransactions() async {
     return await _bookingService.getBookingTransactions();
   }
+
+  @override
+  Future<List<BookingTranstion>> getHistoryBookingTransactions(
+      int page, int size) async {
+    return await _bookingService.getHistoryBookingTransactions(page, size);
+  }
+
+  @override
+  Future<List<BookingTranstion>> getOngoingBookingTransactions(
+      int page, int size) async {
+    return await _bookingService.getOngoingBookingTransactions(page, size);
+  }
 }

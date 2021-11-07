@@ -16,6 +16,7 @@ class ColorConstants {
 class StringConstants {
   static const String imageDirectory = "assets/images/";
   static const String iconDirectory = "assets/icons/";
+  static const int PAGE_SIZE = 7;
 }
 
 class GlobalDataConstants {
