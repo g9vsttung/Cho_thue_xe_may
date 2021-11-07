@@ -75,3 +75,7 @@ class CategoryApiPath {
 class FeedbackApiPath {
   static String GET_BY_ID = _URL_API + '/feedbacks/';
 }
+
+class ReportApiPath {
+  static String SUBMIT_REPORT = _URL_API + '/reports';
+}

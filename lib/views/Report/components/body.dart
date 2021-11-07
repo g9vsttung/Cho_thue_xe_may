@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use
 
+import 'dart:developer';
+
 import 'package:chothuexemay_mobile/models/report_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
@@ -85,6 +87,7 @@ class _BodyReport extends State<BodyReport> {
           margin: const EdgeInsets.only(bottom: 10),
           child: RaisedButton(
             onPressed: () {
+              log(text);
               setState(() {
                 selectedReason = text;
                 completed = true;
@@ -106,7 +109,7 @@ class _BodyReport extends State<BodyReport> {
             onPressed: null,
             child: Text(text),
             disabledTextColor: Colors.black,
-            disabledColor: ColorConstants.containerBoldBackground,
+            disabledColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
               side: const BorderSide(
