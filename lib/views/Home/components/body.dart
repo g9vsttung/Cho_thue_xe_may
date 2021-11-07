@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyHome extends StatefulWidget {
   List<MotorType> types;
@@ -42,7 +43,8 @@ class _BodyHome extends State<BodyHome> {
 
   //selected var
   MotorType? selectedMotorType;
-  TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay selectedTime =
+      TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 30)));
   String selectedMethod = "day";
   int durationHour = 1;
 
@@ -50,6 +52,23 @@ class _BodyHome extends State<BodyHome> {
   List<int> listHour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<DateTime> listDateRent = [];
   List<DateTime> listDateReturn = [];
+
+  int countExit = 0;
+
+  Future<bool> _onWillPop() async {
+    countExit++;
+    if (countExit != 2) {
+      Fluttertoast.showToast(
+        msg: "Bấm quay về lần nữa để thoát",
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return false;
+    } else {
+      countExit = 0;
+      return true;
+    }
+  }
 
   @override
   void initState() {
@@ -73,182 +92,188 @@ class _BodyHome extends State<BodyHome> {
   Widget build(BuildContext context) {
     setDateAndList();
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(
-          top: 25,
-          left: size.width * 0.07,
-          right: size.width * 0.07,
-          bottom: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(mainAxisSize: MainAxisSize.min, children: [
-            Row(
-              children: const [
-                Text(
-                  "Địa chỉ của bạn:",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.address.substring(0, 32) + '...',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(10),
-                  hintText: "Nhập địa chỉ nếu định vị không chính xác...",
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        color: ColorConstants.textBold,
-                        width: 1,
-                      ))),
-            )
-          ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [for (MotorType x in widget.types) getCateButton(x)],
-          ),
-          getPrice(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              getMethodButton("day", size),
-              getMethodButton("hour", size)
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Ngày thuê:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  dropDownBoxDate(listDateRent, "Rent"),
-                ],
-              ),
-              getReturnByMethod()
-            ],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: 25,
+            left: size.width * 0.07,
+            right: size.width * 0.07,
+            bottom: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(mainAxisSize: MainAxisSize.min, children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text(
-                    "Giờ nhận xe:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Địa chỉ của bạn:",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  SizedBox(
-                      height: 30,
-                      child: SizedBox(
-                        height: 30,
-                        child: RaisedButton(
-                          onPressed: () {
-                            selectTime();
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                StringConstants.iconDirectory + "clock.png",
-                                width: 25,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "Chọn giờ",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          color: ColorConstants.containerBoldBackground,
-                        ),
-                      ))
                 ],
               ),
               SizedBox(
-                height: 0,
+                height: 10,
               ),
               Text(
-                selectedTime.hour.toString() +
-                    ":" +
-                    selectedTime.minute.toString(),
+                widget.address.substring(0, 32) + '...',
                 style: TextStyle(
                   fontSize: 18,
                 ),
               ),
-            ],
-          ),
-          Center(
-            child: RaisedButton(
-              color: Colors.orange,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              onPressed: () {
-                dateRent = dateRent.add(Duration(
-                    hours: selectedTime.hour, minutes: selectedTime.minute));
-                if (selectedMethod == "day") {
-                  dateReturn = dateReturn.add(Duration(hours: 23, minutes: 59));
-                } else {
-                  dateReturn = dateRent.add(Duration(hours: durationHour));
-                }
-                String addressForBooking = addressController.text;
-                if (addressForBooking == "") {
-                  addressForBooking = widget.address;
-                }
-                OrderModel order = OrderModel(
-                    dateRent: dateRent,
-                    dateReturn: dateReturn,
-                    cateBike: selectedMotorType!,
-                    rentMethod: selectedMethod,
-                    address: addressForBooking);
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return BookingDetailView(order: order);
-                  },
-                ));
-              },
-              child: Text(
-                "ĐẶT XE",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 15,
               ),
+              TextField(
+                controller: addressController,
+                decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(10),
+                    hintText: "Nhập địa chỉ nếu định vị không chính xác...",
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          color: ColorConstants.textBold,
+                          width: 1,
+                        ))),
+              )
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [for (MotorType x in widget.types) getCateButton(x)],
             ),
-          )
-        ],
+            getPrice(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                getMethodButton("day", size),
+                getMethodButton("hour", size)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Ngày thuê:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    dropDownBoxDate(listDateRent, "Rent"),
+                  ],
+                ),
+                getReturnByMethod()
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Giờ nhận xe:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                        height: 30,
+                        child: SizedBox(
+                          height: 30,
+                          child: RaisedButton(
+                            onPressed: () {
+                              selectTime();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  StringConstants.iconDirectory + "clock.png",
+                                  width: 25,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Chọn giờ",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            color: ColorConstants.containerBoldBackground,
+                          ),
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 0,
+                ),
+                Text(
+                  selectedTime.hour.toString() +
+                      ":" +
+                      selectedTime.minute.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+            Center(
+              child: RaisedButton(
+                color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                onPressed: () {
+                  dateRent = dateRent.add(Duration(
+                      hours: selectedTime.hour, minutes: selectedTime.minute));
+                  if (selectedMethod == "day") {
+                    dateReturn =
+                        dateReturn.add(Duration(hours: 23, minutes: 59));
+                  } else {
+                    dateReturn = dateRent.add(Duration(hours: durationHour));
+                  }
+                  String addressForBooking = addressController.text;
+                  if (addressForBooking == "") {
+                    addressForBooking = widget.address;
+                  }
+                  OrderModel order = OrderModel(
+                      dateRent: dateRent,
+                      dateReturn: dateReturn,
+                      cateBike: selectedMotorType!,
+                      rentMethod: selectedMethod,
+                      address: addressForBooking);
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return BookingDetailView(order: order);
+                    },
+                  ));
+                },
+                child: Text(
+                  "ĐẶT XE",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

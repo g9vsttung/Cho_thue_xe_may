@@ -24,10 +24,6 @@ class WaitingView extends StatelessWidget {
         ),
       ),
       body: BodyWaiting(order: order),
-      bottomNavigationBar: BottomAppBar(
-        color: ColorConstants.background,
-        child: BottomBar(selected: "home"),
-      ),
     );
   }
 }

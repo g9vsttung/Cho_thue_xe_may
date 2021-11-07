@@ -5,12 +5,16 @@ import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/appointment_detail_view.dart';
 import 'package:chothuexemay_mobile/views/Feedback/feedback_view.dart';
+import 'package:chothuexemay_mobile/views/Report/report_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BodyAppointment extends StatefulWidget {
   List<BookingTranstion> transactions;
   List<Category> categories;
+  List<BookingTranstion> bookingOngoing = [];
+  List<BookingTranstion> bookingHistory = [];
 
   BodyAppointment(
       {Key? key, required this.transactions, required this.categories})
@@ -25,14 +29,76 @@ class BodyAppointment extends StatefulWidget {
 class _BodyAppointment extends State<BodyAppointment> {
   String selectedCate = "renting";
 
+  //paging
+  bool allLoadedOngoing = false;
+  bool allLoadedHistory = false;
+  int pageOngoing = 1;
+  int pageHistory = 1;
+  ScrollController scrollController = ScrollController();
+
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
+
+  int countExit = 0;
+
+  Future<bool> _onWillPop() async {
+    countExit++;
+    if (countExit != 2) {
+      Fluttertoast.showToast(
+        msg: "Bấm quay về lần nữa để thoát",
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return false;
+    } else {
+      countExit = 0;
+      return true;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
 
   @override
   void initState() {
     setData();
     super.initState();
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        if (selectedCate == "renting") {
+          if (allLoadedOngoing) {
+            return;
+          }
+          pageOngoing++;
+          List<BookingTranstion> listAdd = [];
+          if (listAdd.isEmpty) {
+            allLoadedOngoing = true;
+          } else {
+            setState(() {
+              widget.bookingOngoing.addAll(listAdd);
+            });
+          }
+        } else {
+          if (allLoadedHistory) {
+            return;
+          }
+          pageHistory++;
+          List<BookingTranstion> listAdd = [];
+          if (listAdd.isEmpty) {
+            allLoadedHistory = true;
+          } else {
+            setState(() {
+              widget.bookingHistory.addAll(listAdd);
+            });
+          }
+        }
+      }
+    });
   }
 
   void setData() {
@@ -47,18 +113,21 @@ class _BodyAppointment extends State<BodyAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 25),
-          color: Colors.white,
-          child: cateNavBar(),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
-      ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 25),
+            color: Colors.white,
+            child: cateNavBar(),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
+        ],
+      ),
     );
   }
 
@@ -139,23 +208,29 @@ class _BodyAppointment extends State<BodyAppointment> {
 
   Widget listAppointmentByCate() {
     if (selectedCate == "renting") {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (BookingTranstion booking in widget.transactions)
-            if (booking.status == 0 || booking.status == 1)
+      if (widget.bookingOngoing.isEmpty) {
+        return Text("Chưa có đơn đang đặt nào");
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (BookingTranstion booking in widget.bookingOngoing)
               rentDetailBox(booking),
-        ],
-      );
+          ],
+        );
+      }
     } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (BookingTranstion booking in widget.transactions)
-            if (booking.status == 2 || booking.status == 3)
+      if (widget.bookingOngoing.isEmpty) {
+        return Text("Chưa có ghi nhận lịch sử đặt nào");
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (BookingTranstion booking in widget.bookingHistory)
               rentDetailBox(booking),
-        ],
-      );
+          ],
+        );
+      }
     }
   }
 
@@ -321,15 +396,11 @@ class _BodyAppointment extends State<BodyAppointment> {
         if (booking.status == 2)
           GestureDetector(
             onTap: () {
-              if (booking.feedback != null) {
-                showMyAlertDialog(booking);
-              } else {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return FeedbackView(bookingId: booking.id);
-                  },
-                ));
-              }
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return FeedbackView(bookingId: booking.id);
+                },
+              ));
             },
             child: Container(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -340,6 +411,27 @@ class _BodyAppointment extends State<BodyAppointment> {
                   "Đánh giá",
                   style:
                       TextStyle(fontSize: 18, color: ColorConstants.textBold),
+                ),
+              ),
+            ),
+          )
+        else if (booking.status == 3)
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return ReportView(bookingId: booking.id);
+                },
+              ));
+            },
+            child: Container(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              width: width,
+              color: Colors.white,
+              child: const Center(
+                child: Text(
+                  "Báo cáo",
+                  style: TextStyle(fontSize: 18, color: Colors.red),
                 ),
               ),
             ),

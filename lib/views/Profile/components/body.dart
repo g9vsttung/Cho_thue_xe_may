@@ -9,6 +9,7 @@ import 'package:chothuexemay_mobile/views/EditProfile/edit_profile.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyProfile extends StatefulWidget {
   Customer customer;
@@ -20,108 +21,128 @@ class BodyProfile extends StatefulWidget {
 }
 
 class _BodyProfileState extends State<BodyProfile> {
+  int countExit = 0;
+
+  Future<bool> _onWillPop() async {
+    countExit++;
+    if (countExit != 2) {
+      Fluttertoast.showToast(
+        msg: "Bấm quay về lần nữa để thoát",
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return false;
+    } else {
+      countExit = 0;
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-          color: Colors.white,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    StringConstants.imageDirectory + "avatar.png",
-                    width: 65,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.customer.fullname,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Số điện thoại: " + widget.customer.phoneNumber,
-                        style: const TextStyle(
-                          fontSize: 14,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Column(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      StringConstants.imageDirectory + "avatar.png",
+                      width: 65,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.customer.fullname,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Điển thưởng tích lũy: " +
-                            widget.customer.rewardPoints.toString() +
-                            "pts",
-                        style: const TextStyle(
-                          fontSize: 14,
+                        const SizedBox(
+                          height: 5,
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return EditProfileView(
-                            name: widget.customer.fullname,
-                            phone: widget.customer.phoneNumber);
-                      },
-                    ));
-                  },
-                  icon: Image.asset(
-                    StringConstants.iconDirectory + "edit.png",
-                    width: 25,
-                  )),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        getOptionFrame("Lịch đặt của tôi", () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return const AppointmentView();
-            },
-          ));
-        }),
-        getOptionFrame("Ưu đãi của tôi", () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return VoucherView(
-                hasAction: false,
-              );
-            },
-          ));
-        }),
-        getOptionFrame("Đăng xuất", () {
-          AuthService _auth = AuthService();
-          _auth.signOut();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => const LoginView1(),
+                        Text(
+                          "Số điện thoại: " + widget.customer.phoneNumber,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Điển thưởng tích lũy: " +
+                              widget.customer.rewardPoints.toString() +
+                              "pts",
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return EditProfileView(
+                              name: widget.customer.fullname,
+                              phone: widget.customer.phoneNumber);
+                        },
+                      ));
+                    },
+                    icon: Image.asset(
+                      StringConstants.iconDirectory + "edit.png",
+                      width: 25,
+                    )),
+              ],
             ),
-            (route) => false,
-          );
-        })
-      ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          getOptionFrame("Lịch đặt của tôi", () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const AppointmentView();
+              },
+            ));
+          }),
+          getOptionFrame("Ưu đãi của tôi", () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return VoucherView(
+                  hasAction: false,
+                );
+              },
+            ));
+          }),
+          getOptionFrame("Đăng xuất", () {
+            AuthService _auth = AuthService();
+            _auth.signOut();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => const LoginView1(),
+              ),
+              (route) => false,
+            );
+          })
+        ],
+      ),
     );
   }
 

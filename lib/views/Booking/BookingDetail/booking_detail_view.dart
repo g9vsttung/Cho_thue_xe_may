@@ -30,10 +30,6 @@ class BookingDetailView extends StatelessWidget {
         ),
       ),
       body: getBody(),
-      bottomNavigationBar: BottomAppBar(
-        color: ColorConstants.background,
-        child: BottomBar(selected: "home"),
-      ),
     );
   }
 

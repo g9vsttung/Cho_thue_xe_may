@@ -2,6 +2,7 @@
 
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -15,7 +16,7 @@ class BodyApprove extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,6 +37,7 @@ class BodyApprove extends StatelessWidget {
                       StringConstants.iconDirectory + "phone.png",
                       width: 18,
                     )),
+                SizedBox(width: 3,),
                 RaisedButton(
                   onPressed: () {},
                   color: Colors.red,
@@ -135,6 +137,25 @@ class BodyApprove extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
+          SizedBox(
+            height: 25,
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return HomeView();
+                },
+              ), (route) => false);
+            },
+            color: Colors.orange,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Text(
+              "Trở về trang chủ",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          )
         ],
       ),
     );
