@@ -17,6 +17,8 @@ class AreaService {
           await SharedPreferences.getInstance();
       _preference.setString(GlobalDataConstants.AREAID, cityId);
       return cityId;
+    } else if (response.statusCode == 404) {
+      return getIdByName("Hồ Chí Minh");
     } else {
       throw Exception("Unable to perform request");
     }

@@ -82,7 +82,7 @@ class GeoLocatorCustom {
           body['results'][0]['geometry']['location']['lat'].toString() +
               ',' +
               body['results'][0]['geometry']['location']['lng'].toString();
-      rs['city'] = body['results'][0]['address_components'][3]['long_name'];
+      rs['city'] = body['results'][0]['address_components'][4]['long_name'];
     }
 
     return rs;
