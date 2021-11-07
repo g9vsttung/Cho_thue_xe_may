@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use
 
-import 'package:chothuexemay_mobile/models/feedback_model.dart';
 import 'package:chothuexemay_mobile/models/report_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
@@ -83,7 +82,7 @@ class _BodyReport extends State<BodyReport> {
       return Container(
           width: size.width * 0.5,
           height: 35,
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: RaisedButton(
             onPressed: () {
               setState(() {
@@ -95,14 +94,14 @@ class _BodyReport extends State<BodyReport> {
             color: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side:
-                    BorderSide(color: ColorConstants.containerBoldBackground)),
+                side: const BorderSide(
+                    color: ColorConstants.containerBoldBackground)),
           ));
     } else {
       return Container(
           width: size.width * 0.5,
           height: 35,
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: RaisedButton(
             onPressed: null,
             child: Text(text),
@@ -110,7 +109,8 @@ class _BodyReport extends State<BodyReport> {
             disabledColor: ColorConstants.containerBoldBackground,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              side: BorderSide(color: ColorConstants.containerBoldBackground),
+              side: const BorderSide(
+                  color: ColorConstants.containerBoldBackground),
             ),
           ));
     }
@@ -180,13 +180,12 @@ class _BodyReport extends State<BodyReport> {
                     ),
                     (route) => false,
                   );
-                } else {
-                  Fluttertoast.showToast(
-                    msg: "Đánh giá thất bại! Xin hãy thử lại sau.",
-                    gravity: ToastGravity.CENTER,
-                    toastLength: Toast.LENGTH_SHORT,
-                  );
                 }
+                Fluttertoast.showToast(
+                  msg: "Đánh giá thất bại! Xin hãy thử lại sau.",
+                  gravity: ToastGravity.CENTER,
+                  toastLength: Toast.LENGTH_SHORT,
+                );
               },
               color: ColorConstants.containerBoldBackground,
               child: const Text(
