@@ -31,7 +31,7 @@ class _BodyReport extends State<BodyReport> {
     return Padding(
       padding: const EdgeInsets.all(25),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             "Chọn nội dung báo cáo",
@@ -78,7 +78,7 @@ class _BodyReport extends State<BodyReport> {
   }
 
   Widget reportReason(Size size, String text) {
-    if (selectedReason != selectedReason) {
+    if (text != selectedReason) {
       return Container(
           width: size.width * 0.5,
           height: 35,
@@ -138,7 +138,7 @@ class _BodyReport extends State<BodyReport> {
         fontSize: 16,
       ),
       decoration: const InputDecoration(
-          hintText: "Thật tuyệt ...",
+          hintText: "Mô tả báo cáo..",
           hintStyle: TextStyle(fontSize: 16, color: Colors.black26),
           border: InputBorder.none),
     );
@@ -187,7 +187,7 @@ class _BodyReport extends State<BodyReport> {
                   toastLength: Toast.LENGTH_SHORT,
                 );
               },
-              color: ColorConstants.containerBoldBackground,
+              color: ColorConstants.background,
               child: const Text(
                 "Gửi",
                 style: TextStyle(

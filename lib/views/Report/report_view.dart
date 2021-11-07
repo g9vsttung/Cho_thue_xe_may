@@ -21,7 +21,7 @@ class ReportView extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstants.background,
         title: TopAppBarTitle(
-          title: "Đánh giá",
+          title: "Báo cáo",
         ),
       ),
       body: FutureBuilder(
