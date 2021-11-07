@@ -6,6 +6,7 @@ import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/booking_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/report_view_model.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/appointment_detail_view.dart';
 import 'package:chothuexemay_mobile/views/Feedback/feedback_view.dart';
 import 'package:chothuexemay_mobile/views/Report/report_view.dart';
@@ -436,12 +437,22 @@ class _BodyAppointment extends State<BodyAppointment> {
           )
         else if (booking.status == 3)
           GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return ReportView(bookingId: booking.id);
-                },
-              ));
+            onTap: () async {
+              bool isReported = await Provider.of<ReportViewModel>(context)
+                  .isReported(booking.id);
+              if (isReported) {
+                Fluttertoast.showToast(
+                  msg: "Báo cáo này đã được gửi.",
+                  gravity: ToastGravity.CENTER,
+                  toastLength: Toast.LENGTH_SHORT,
+                );
+              } else {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ReportView(bookingId: booking.id);
+                  },
+                ));
+              }
             },
             child: Container(
               padding: const EdgeInsets.only(top: 10, bottom: 10),

@@ -7,6 +7,7 @@ import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/report_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/voucher_view_model.dart';
 import 'package:chothuexemay_mobile/views/Login/Step1/login_view_1.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,8 @@ class MyApp extends StatelessWidget {
             create: (context) => FeedbackViewModel()),
         ChangeNotifierProvider<BookingTransactionViewModel>(
             create: (create) => BookingTransactionViewModel()),
+        ChangeNotifierProvider<ReportViewModel>(
+            create: (create) => ReportViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

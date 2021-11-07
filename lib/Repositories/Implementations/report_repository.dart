@@ -10,7 +10,7 @@ class ReportRepository implements IReportRepository {
   }
 
   @override
-  Future<Report> getReport(String id) async {
-    return await _service.getReport(id);
+  Future<bool> isReported(String id) async {
+    return await _service.isReported(id);
   }
 }

@@ -8,4 +8,6 @@ abstract class IBookingRepository extends GenericRepository {
   Future<List<BookingTranstion>> getHistoryBookingTransactions(
       int page, int size);
   Future<BookingTranstion> getBookingTransactionById(String id);
+  Future<bool> confirmInformationBooking(String id);
+  Future<bool> cancelBooking(String id);
 }

@@ -19,4 +19,12 @@ class BookingTransactionViewModel extends ChangeNotifier {
     return await _repository.getHistoryBookingTransactions(
         page, StringConstants.PAGE_SIZE);
   }
+
+  Future<bool> confirmInformationOfBooking(String id) async {
+    return await _repository.confirmInformationBooking(id);
+  }
+
+  Future<bool> cancelBooking(String id) async {
+    return await _repository.cancelBooking(id);
+  }
 }

@@ -19,14 +19,19 @@ class ReportService {
     return response.statusCode == 200;
   }
 
-  Future<Report> getReport(String id) async {
+  Future<bool> isReported(String id) async {
     final SharedPreferences _pref = await SharedPreferences.getInstance();
-    Uri url = Uri.parse(MotorTypeApiPath.GET_ALL_BY_AREA +
-        _pref.getString(GlobalDataConstants.AREAID).toString());
-    final response = await http.get(url);
+    Uri url = Uri.parse(ReportApiPath.GET_REPORT + id);
+    final headers = <String, String>{
+      'Content-Type': 'application/json ; charset=UTF-8',
+      'Authorization':
+          'Bearer ' + _pref.getString(GlobalDataConstants.TOKEN).toString()
+    };
+    final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
-      return Report.jsonFrom(body);
+      return true;
+    } else if (response.statusCode == 404) {
+      return false;
     } else {
       throw Exception("Unable to perform request");
     }

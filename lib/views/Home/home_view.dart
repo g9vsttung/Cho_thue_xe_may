@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'dart:convert';
 
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/booking_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
@@ -11,10 +12,11 @@ import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:chothuexemay_mobile/views/Home/components/body.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
-   HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -44,10 +46,11 @@ class _HomeViewState extends State<HomeView> {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
       final data = jsonDecode(evt.data["data"]);
-      if(data["action"]!="confirm"){
+      if (evt.data["action"] != "confirm") {
         return;
       }
-      String licensePlate=data["licensePlate"];
+      String licensePlate = data["licensePlate"];
+      String id = data['bookingId'];
       Future<dynamic> futureValue = showGeneralDialog(
         context: context,
         pageBuilder: (context, animation, secondaryAnimation) {
@@ -63,27 +66,48 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Bạn đã nhận được xe có biển số ["+licensePlate+"]?",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      "Bạn đã nhận được xe có biển số [" + licensePlate + "]?",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       maxLines: 3,
                     ),
-                    const SizedBox(
-                      height: 15
-                    ),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         RaisedButton(
-                          onPressed: () {
-
+                          onPressed: () async {
+                            Fluttertoast.showToast(
+                              msg: "Đơn đặt này không được xác thực.",
+                              gravity: ToastGravity.CENTER,
+                              toastLength: Toast.LENGTH_SHORT,
+                            );
                           },
                           color: Colors.red,
                           child: const Text("Không"),
                         ),
-                        SizedBox(width: 2,),
+                        SizedBox(
+                          width: 2,
+                        ),
                         RaisedButton(
-                          onPressed: () {
-
+                          onPressed: () async {
+                            bool isSent =
+                                await Provider.of<BookingTransactionViewModel>(
+                                        context)
+                                    .confirmInformationOfBooking(id);
+                            if (isSent) {
+                              Fluttertoast.showToast(
+                                msg: "Xác thực thành công",
+                                gravity: ToastGravity.CENTER,
+                                toastLength: Toast.LENGTH_SHORT,
+                              );
+                            } else {
+                              Fluttertoast.showToast(
+                                msg: "Xác thực thất bại",
+                                gravity: ToastGravity.CENTER,
+                                toastLength: Toast.LENGTH_SHORT,
+                              );
+                            }
                           },
                           color: ColorConstants.containerBoldBackground,
                           child: const Text("Xác nhận"),
@@ -98,8 +122,6 @@ class _HomeViewState extends State<HomeView> {
           );
         },
       );
-
-
     });
   }
 

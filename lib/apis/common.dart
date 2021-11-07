@@ -78,4 +78,5 @@ class FeedbackApiPath {
 
 class ReportApiPath {
   static String SUBMIT_REPORT = _URL_API + '/reports';
+  static String GET_REPORT = _URL_API + '/reports/';
 }

@@ -9,7 +9,7 @@ class ReportViewModel extends ChangeNotifier {
     return await _repository.submitReport(report);
   }
 
-  Future<Report> getReport(String id) async {
-    return await _repository.getReport(id);
+  Future<bool> isReported(String id) async {
+    return await _repository.isReported(id);
   }
 }

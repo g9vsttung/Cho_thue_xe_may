@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:chothuexemay_mobile/models/report_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/report_view_model.dart';
 import 'package:chothuexemay_mobile/views/Appointment/appointment_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,9 @@ import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyReport extends StatefulWidget {
-  Report report;
+  String id;
 
-  BodyReport({Key? key, required this.report}) : super(key: key);
+  BodyReport({Key? key, required this.id}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -120,20 +120,6 @@ class _BodyReport extends State<BodyReport> {
   }
 
   Widget getReportContent() {
-    if (widget.report.isReport!) {
-      controller.text = selectedReason;
-      return TextField(
-        controller: controller,
-        maxLines: 5,
-        style: const TextStyle(
-          fontSize: 16,
-        ),
-        decoration: const InputDecoration(
-            enabled: false,
-            hintStyle: TextStyle(fontSize: 16, color: Colors.black26),
-            border: InputBorder.none),
-      );
-    }
     return TextField(
       controller: controller,
       maxLines: 5,
@@ -148,78 +134,56 @@ class _BodyReport extends State<BodyReport> {
   }
 
   Widget getSubmitButton(Size size) {
-    if (!widget.report.isReport!) {
-      if (completed) {
-        return Center(
-          child: SizedBox(
-            width: size.width * 0.6,
-            child: RaisedButton(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              onPressed: () async {
-                final FeedbackViewModel _model = FeedbackViewModel();
-                String content = "";
-                if (selectedReason == "Khác") {
-                  content = controller.value.text;
-                } else {
-                  content = selectedReason;
-                }
-                Report report = Report(
-                  id: widget.report.id,
-                  content: content,
+    if (completed) {
+      return Center(
+        child: SizedBox(
+          width: size.width * 0.6,
+          child: RaisedButton(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            onPressed: () async {
+              final ReportViewModel _report = ReportViewModel();
+              String content = "";
+              if (selectedReason == "Khác") {
+                content = controller.value.text;
+              } else {
+                content = selectedReason;
+              }
+              if (content.isEmpty) return;
+              final report = Report(id: widget.id, content: content);
+              bool isSuccess = await _report.submitReport(report);
+              if (isSuccess) {
+                Fluttertoast.showToast(
+                  msg: "Báo cáo thành công",
+                  gravity: ToastGravity.CENTER,
+                  toastLength: Toast.LENGTH_SHORT,
                 );
-                bool isSuccess = true; //await _model.submitFeedback(fb);
-                if (isSuccess) {
-                  Fluttertoast.showToast(
-                    msg: "Báo cáo thành công",
-                    gravity: ToastGravity.CENTER,
-                    toastLength: Toast.LENGTH_SHORT,
-                  );
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) =>
-                          const AppointmentView(),
-                    ),
-                    (route) => false,
-                  );
-                }
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => const AppointmentView(),
+                  ),
+                  (route) => false,
+                );
+              } else {
                 Fluttertoast.showToast(
                   msg: "Đánh giá thất bại! Xin hãy thử lại sau.",
                   gravity: ToastGravity.CENTER,
                   toastLength: Toast.LENGTH_SHORT,
                 );
-              },
-              color: ColorConstants.background,
-              child: const Text(
-                "Gửi",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        );
-      } else {
-        return SizedBox(
-          width: size.width * 0.6,
-          height: 40,
-          child: RaisedButton(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            onPressed: () {},
-            color: Colors.grey[400],
+              }
+            },
+            color: ColorConstants.background,
             child: const Text(
               "Gửi",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black54),
+                  color: Colors.white),
             ),
           ),
-        );
-      }
+        ),
+      );
     }
     return Container();
   }

@@ -39,7 +39,7 @@ class BodyNotFound extends StatelessWidget {
             onPressed: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {
-                  return const HomeView();
+                  return HomeView();
                 },
               ), (route) => false);
             },

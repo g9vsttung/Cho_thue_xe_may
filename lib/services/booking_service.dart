@@ -84,4 +84,34 @@ class BookingService {
       throw Exception("Unable to perform request");
     }
   }
+
+  Future<bool> respondingInformationBooking(String id) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(BookingApiPath.GET_ALL_TRANSACTIONS);
+
+    final response = await http.put(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json ; charset=UTF-8',
+          'Authorization':
+              'Bearer ' + _prefs.getString(GlobalDataConstants.TOKEN).toString()
+        },
+        body: jsonEncode({"id": id, "status": 1}));
+
+    return response.statusCode == 200;
+  }
+
+  Future<bool> cancelBooking(String id) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    Uri url = Uri.parse(BookingApiPath.GET_ALL_TRANSACTIONS);
+
+    final response = await http.put(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json ; charset=UTF-8',
+          'Authorization':
+              'Bearer ' + _prefs.getString(GlobalDataConstants.TOKEN).toString()
+        },
+        body: jsonEncode({"id": id, "status": 3}));
+
+    return response.statusCode == 200;
+  }
 }

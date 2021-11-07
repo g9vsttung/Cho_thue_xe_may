@@ -393,6 +393,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                 onTap: () async {
                   bool isSuccess = await voucherViewModel
                       .exchangePointsToGetVoucher(voucher.id);
+
                   if (isSuccess) {
                     Fluttertoast.showToast(
                         msg: "Đổi mã thành công",
@@ -402,23 +403,33 @@ class _BodyVoucher extends State<BodyVoucher> {
                         backgroundColor: Colors.grey,
                         textColor: Colors.black,
                         fontSize: 16.0);
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        if (widget.hasAction) {
-                          return VoucherView(
-                            order: widget.order,
-                            selectedTab: 'change',
-                            hasAction: widget.hasAction,
-                          );
-                        } else {
-                          return VoucherView(
-                            selectedTab: 'change',
-                            hasAction: widget.hasAction,
-                          );
-                        }
-                      },
-                    ));
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Đổi mã thất bại! Hãy thử lại sau",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.black,
+                        fontSize: 16.0);
                   }
+
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      if (widget.hasAction) {
+                        return VoucherView(
+                          order: widget.order,
+                          selectedTab: 'change',
+                          hasAction: widget.hasAction,
+                        );
+                      } else {
+                        return VoucherView(
+                          selectedTab: 'change',
+                          hasAction: widget.hasAction,
+                        );
+                      }
+                    },
+                  ));
                 },
                 child: Container(
                   width: size.width * 0.9 * 0.2,
