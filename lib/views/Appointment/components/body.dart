@@ -140,7 +140,11 @@ class _BodyAppointment extends State<BodyAppointment> {
           const SizedBox(
             height: 10,
           ),
-          Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
+          Expanded(
+              child: SingleChildScrollView(
+            child: listAppointmentByCate(),
+            controller: scrollController,
+          ))
         ],
       ),
     );
@@ -401,7 +405,7 @@ class _BodyAppointment extends State<BodyAppointment> {
     MainAxisAlignment ali = MainAxisAlignment.center;
     Size size = MediaQuery.of(context).size;
     double width = size.width;
-    if (booking.status == 2) {
+    if (booking.status == 2 || booking.status == 3) {
       ali = MainAxisAlignment.spaceBetween;
       width = size.width * 0.498;
     }

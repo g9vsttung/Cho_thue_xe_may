@@ -4,6 +4,7 @@ import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class BodyAppointmentDetail extends StatefulWidget {
@@ -18,6 +19,7 @@ class BodyAppointmentDetail extends StatefulWidget {
 class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+
   // ignore: prefer_function_declarations_over_variables
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
