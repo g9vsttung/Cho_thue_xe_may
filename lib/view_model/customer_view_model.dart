@@ -19,6 +19,7 @@ class CustomerViewModel extends ChangeNotifier {
   String cityName = "";
   String address = "";
   String areaId = "";
+  final List<Owner> owners = [];
 
   final ICustomerRepository customerRepository = CustomerRepository();
   final IAreaRepository _areaRepository = AreaRepository();
@@ -41,7 +42,7 @@ class CustomerViewModel extends ChangeNotifier {
     areaId = await _areaRepository.findIdByName(cityName);
   }
 
-  Future<List<Owner>> findBikes(OrderModel model, BuildContext context) async {
+  void findBikes(OrderModel model, BuildContext context) async {
     List<Owner> list = await customerRepository.findBikes(model);
     if (list.isEmpty) {
       //No bikes
@@ -51,7 +52,8 @@ class CustomerViewModel extends ChangeNotifier {
         },
       ));
     }
-    return list;
+    owners.clear();
+    owners.addAll(list);
   }
 
   Future<void> sendNoti(OrderModel order) async {

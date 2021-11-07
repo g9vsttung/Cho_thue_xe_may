@@ -9,12 +9,12 @@ import 'package:chothuexemay_mobile/views/Booking/Result/result_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BodyWaiting extends StatefulWidget {
   OrderModel order;
-  List<Owner> owners;
-  BodyWaiting({Key? key, required this.order, required this.owners})
-      : super(key: key);
+
+  BodyWaiting({Key? key, required this.order}) : super(key: key);
 
   @override
   State<BodyWaiting> createState() => _BodyWaitingState();
@@ -31,7 +31,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
       final data = jsonDecode(evt.data["data"]);
       bool isAccepted = data["IsAccepted"];
       String ownerId = data["OwnerId"];
-      if (widget.owners.isEmpty) {
+      if (owners.isEmpty) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute<dynamic>(
@@ -40,7 +40,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
           (route) => false,
         );
       }
-      Owner owner = widget.owners[0];
+      Owner owner = owners[0];
       if (isAccepted) {
         OrderModel orderModel = OrderModel.createBooking(
             ownerId: ownerId,
@@ -67,10 +67,10 @@ class _BodyWaitingState extends State<BodyWaiting> {
           (route) => false,
         );
       } else {
-        widget.owners.removeWhere((element) {
+        owners.removeWhere((element) {
           return element.id == ownerId;
         });
-        if (widget.owners.isEmpty) {
+        if (owners.isEmpty) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute<dynamic>(
@@ -93,8 +93,13 @@ class _BodyWaitingState extends State<BodyWaiting> {
     });
   }
 
+  List<Owner> owners = [];
+
   @override
   void initState() {
+    Provider.of<CustomerViewModel>(context, listen: false)
+        .findBikes(widget.order, context);
+    owners = Provider.of<CustomerViewModel>(context, listen: false).owners;
     super.initState();
     firebaseCloudMessaging_Listeners();
   }
