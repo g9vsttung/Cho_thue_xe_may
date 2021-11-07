@@ -224,7 +224,7 @@ class _BodyAppointment extends State<BodyAppointment> {
   Widget listAppointmentByCate() {
     if (selectedCate == "renting") {
       if (widget.bookingOngoing.isEmpty) {
-        return Text("Chưa có đơn đang đặt nào");
+        return const Text("Chưa có đơn đang đặt nào");
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +236,7 @@ class _BodyAppointment extends State<BodyAppointment> {
       }
     } else {
       if (widget.bookingOngoing.isEmpty) {
-        return Text("Chưa có ghi nhận lịch sử đặt nào");
+        return const Text("Chưa có ghi nhận lịch sử đặt nào");
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

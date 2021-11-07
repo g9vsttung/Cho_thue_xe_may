@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, deprecated_member_use
 
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
@@ -32,21 +32,21 @@ class BodyNotFound extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           RaisedButton(
             onPressed: () {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                 builder: (context) {
-                  return HomeView();
+                  return const HomeView();
                 },
               ), (route) => false);
             },
             color: Colors.orange,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Text(
+            child: const Text(
               "Trở về trang chủ",
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
