@@ -425,6 +425,7 @@ class _BodyVoucher extends State<BodyVoucher> {
                       } else {
                         return VoucherView(
                           selectedTab: 'change',
+                          order: widget.order,
                           hasAction: widget.hasAction,
                         );
                       }

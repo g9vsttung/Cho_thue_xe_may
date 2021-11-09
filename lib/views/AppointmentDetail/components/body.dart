@@ -32,10 +32,20 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
 
   TextEditingController controller = TextEditingController();
+  String status="";
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if(widget.booking.status==0){
+      status = "Chờ nhận xe";
+    }else if(widget.booking.status==1){
+      status = "Đang thuê";
+    }else if(widget.booking.status==2){
+      status = "Hoàn thành";
+    }else{
+      status = "Đã hủy";
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -178,9 +188,7 @@ class _BodyAppointmentDetail extends State<BodyAppointmentDetail> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         Text(
-                            widget.booking.status == 0
-                                ? "Chờ nhận xe"
-                                : "Đang thuê",
+                            status,
                             style: const TextStyle(
                               fontSize: 18,
                             ))

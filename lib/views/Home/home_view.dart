@@ -9,6 +9,7 @@ import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/motor_type_view_model.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
+import 'package:chothuexemay_mobile/views/Confirm/confirm_view.dart';
 import 'package:chothuexemay_mobile/views/Home/components/body.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -45,86 +46,32 @@ class _HomeViewState extends State<HomeView> {
     _fcm.getToken().then((token) async {});
 
     FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
-      final data = jsonDecode(evt.data["data"]);
-      if (evt.data["action"] != "confirm") {
-        return;
-      }
-      String licensePlate = data["licensePlate"];
-      String id = data['bookingId'];
-      Future<dynamic> futureValue = showGeneralDialog(
-        context: context,
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return Dialog(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: ColorConstants.containerBackground,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Bạn đã nhận được xe có biển số [" + licensePlate + "]?",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      maxLines: 3,
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        RaisedButton(
-                          onPressed: () async {
-                            Fluttertoast.showToast(
-                              msg: "Đơn đặt này không được xác thực.",
-                              gravity: ToastGravity.CENTER,
-                              toastLength: Toast.LENGTH_SHORT,
-                            );
-                          },
-                          color: Colors.red,
-                          child: const Text("Không"),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        RaisedButton(
-                          onPressed: () async {
-                            bool isSent =
-                                await Provider.of<BookingTransactionViewModel>(
-                                        context)
-                                    .confirmInformationOfBooking(id);
-                            if (isSent) {
-                              Fluttertoast.showToast(
-                                msg: "Xác thực thành công",
-                                gravity: ToastGravity.CENTER,
-                                toastLength: Toast.LENGTH_SHORT,
-                              );
-                            } else {
-                              Fluttertoast.showToast(
-                                msg: "Xác thực thất bại",
-                                gravity: ToastGravity.CENTER,
-                                toastLength: Toast.LENGTH_SHORT,
-                              );
-                            }
-                          },
-                          color: ColorConstants.containerBoldBackground,
-                          child: const Text("Xác nhận"),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            backgroundColor: Colors.white,
-          );
-        },
-      );
+      doActionNotify(evt);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage evt) {
+      doActionNotify(evt);
     });
   }
-
+  doActionNotify(RemoteMessage evt){
+    final data = jsonDecode(evt.data["data"]);
+    if (evt.data["action"] != "confirm") {
+      return;
+    }
+    String licensePlate = data["LicensePlate"];
+    String id = evt.data['bookingId'];
+    String color=data["Color"];
+    String modelYear=data["ModelYear"];
+    String imgPath=data["ImgPath"];
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ConfirmView(licensePlate: licensePlate, id: id,color: color,imgPath: imgPath,modelYear: modelYear,);
+    },));
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    firebaseCloudMessaging_Listeners();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

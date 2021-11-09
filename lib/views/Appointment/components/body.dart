@@ -438,7 +438,7 @@ class _BodyAppointment extends State<BodyAppointment> {
         else if (booking.status == 3)
           GestureDetector(
             onTap: () async {
-              bool isReported = await Provider.of<ReportViewModel>(context)
+              bool isReported = await Provider.of<ReportViewModel>(context,listen: false)
                   .isReported(booking.id);
               if (isReported) {
                 Fluttertoast.showToast(
@@ -468,7 +468,7 @@ class _BodyAppointment extends State<BodyAppointment> {
           ),
         GestureDetector(
           onTap: () {
-            launch("tel://" + booking.bike.ownerPhone!);
+            launch("tel://"+booking.ownerPhone! );
           },
           child: Container(
             padding: const EdgeInsets.only(top: 10, bottom: 10),

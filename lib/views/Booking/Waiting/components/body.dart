@@ -29,7 +29,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
       final data = jsonDecode(evt.data["data"]);
-      if(data["action"]!="acceptBooking"){
+      if(evt.data["action"]!="acceptBooking"){
         return;
       }
       bool isAccepted = data["IsAccepted"];
