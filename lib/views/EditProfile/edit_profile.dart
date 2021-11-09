@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/EditProfile/components/body.dart';
@@ -7,7 +9,8 @@ class EditProfileView extends StatelessWidget {
   String name;
   String phone;
 
-  EditProfileView({required this.name, required this.phone});
+  EditProfileView({Key? key, required this.name, required this.phone})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

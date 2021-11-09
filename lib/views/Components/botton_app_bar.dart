@@ -74,7 +74,6 @@ class BottomBar extends StatelessWidget {
                 ],
               ),
             ),
-          //=============================================schedule
           if (selected == "schedule")
             GestureDetector(
               onTap: () {
@@ -131,7 +130,6 @@ class BottomBar extends StatelessWidget {
                 ],
               ),
             ),
-          //================================================PROFILE
           if (selected == "profile")
             GestureDetector(
               onTap: () {

@@ -46,7 +46,7 @@ class Bike {
         rating: json['rating'] == null ? 0.0 : json['rating'].toDouble(),
         numberOfRating: json['numberOfRating'] ?? 0,
         brandName: json['brandName'] ?? "",
-        categoryName: json['cateName'] ?? "",
+        categoryName: json['categoryName'] ?? "",
         imgPath: json['imgPath'] ?? "defaultimage.jpg");
   }
 }

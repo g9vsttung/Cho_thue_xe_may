@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, must_be_immutable, deprecated_member_use
 
 import 'dart:ui';
 import 'package:chothuexemay_mobile/models/motor_type_model.dart';
@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BodyHome extends StatefulWidget {
   List<MotorType> types;
@@ -41,8 +42,9 @@ class _BodyHome extends State<BodyHome> {
   DateTime dateReturn = DateTime.now().add(Duration(days: 1));
 
   //selected var
-  MotorType? selectedCate; //Selected Motor type
-  TimeOfDay selectedTime = TimeOfDay.now();
+  MotorType? selectedMotorType;
+  TimeOfDay selectedTime =
+      TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: 30)));
   String selectedMethod = "day";
   int durationHour = 1;
 
@@ -50,6 +52,23 @@ class _BodyHome extends State<BodyHome> {
   List<int> listHour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<DateTime> listDateRent = [];
   List<DateTime> listDateReturn = [];
+
+  int countExit = 0;
+
+  Future<bool> _onWillPop() async {
+    countExit++;
+    if (countExit != 2) {
+      Fluttertoast.showToast(
+        msg: "Bấm quay về lần nữa để thoát",
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return false;
+    } else {
+      countExit = 0;
+      return true;
+    }
+  }
 
   @override
   void initState() {
@@ -66,49 +85,50 @@ class _BodyHome extends State<BodyHome> {
       }
     }
     super.initState();
-    selectedCate = widget.types[0];
+    selectedMotorType = widget.types[0];
   }
 
   @override
   Widget build(BuildContext context) {
     setDateAndList();
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(
-          top: 25,
-          left: size.width * 0.07,
-          right: size.width * 0.07,
-          bottom: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(mainAxisSize: MainAxisSize.min, children: [
-            Row(
-              children: [
-                Text(
-                  "Địa chỉ của bạn:",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: 25,
+            left: size.width * 0.07,
+            right: size.width * 0.07,
+            bottom: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(mainAxisSize: MainAxisSize.min, children: [
+              Row(
+                children: const [
+                  Text(
+                    "Địa chỉ của bạn:",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.address.substring(0, 32) + '...',
-              style: TextStyle(
-                fontSize: 18,
+                ],
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
-              child: TextField(
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                widget.address.substring(0, 32) + '...',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              TextField(
                 controller: addressController,
                 decoration: InputDecoration(
                     isDense: true,
@@ -120,137 +140,140 @@ class _BodyHome extends State<BodyHome> {
                           color: ColorConstants.textBold,
                           width: 1,
                         ))),
-              ),
-            )
-          ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [for (MotorType x in widget.types) getCateButton(x)],
-          ),
-          getPrice(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              getMethodButton("day", size),
-              getMethodButton("hour", size)
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Ngày thuê:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  dropDownBoxDate(listDateRent, "Rent"),
-                ],
-              ),
-              getReturnByMethod()
-            ],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Giờ nhận xe:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                      height: 30,
-                      child: Container(
+              )
+            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [for (MotorType x in widget.types) getCateButton(x)],
+            ),
+            getPrice(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                getMethodButton("day", size),
+                getMethodButton("hour", size)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Ngày thuê:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    dropDownBoxDate(listDateRent, "Rent"),
+                  ],
+                ),
+                getReturnByMethod()
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Giờ nhận xe:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
                         height: 30,
-                        child: RaisedButton(
-                          onPressed: () {
-                            selectTime();
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5))),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                StringConstants.iconDirectory + "clock.png",
-                                width: 25,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "Chọn giờ",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
+                        child: SizedBox(
+                          height: 30,
+                          child: RaisedButton(
+                            onPressed: () {
+                              selectTime();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  StringConstants.iconDirectory + "clock.png",
+                                  width: 25,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Chọn giờ",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            color: ColorConstants.containerBoldBackground,
                           ),
-                          color: ColorConstants.containerBoldBackground,
-                        ),
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 0,
-              ),
-              Text(
-                selectedTime.hour.toString() +
-                    ":" +
-                    selectedTime.minute.toString(),
-                style: TextStyle(
-                  fontSize: 18,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 0,
+                ),
+                Text(
+                  selectedTime.hour.toString() +
+                      ":" +
+                      selectedTime.minute.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+            Center(
+              child: RaisedButton(
+                color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                onPressed: () {
+                  dateRent = dateRent.add(Duration(
+                      hours: selectedTime.hour, minutes: selectedTime.minute));
+                  if (selectedMethod == "day") {
+                    dateReturn =
+                        dateReturn.add(Duration(hours: 23, minutes: 59));
+                  } else {
+                    dateReturn = dateRent.add(Duration(hours: durationHour));
+                  }
+                  String addressForBooking = addressController.text;
+                  if (addressForBooking == "") {
+                    addressForBooking = widget.address;
+                  }
+                  OrderModel order = OrderModel(
+                      dateRent: dateRent,
+                      dateReturn: dateReturn,
+                      cateBike: selectedMotorType!,
+                      rentMethod: selectedMethod,
+                      address: addressForBooking);
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return BookingDetailView(order: order);
+                    },
+                  ));
+                },
+                child: Text(
+                  "ĐẶT XE",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-            ],
-          ),
-          Center(
-            child: RaisedButton(
-              color: Colors.orange,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              onPressed: () {
-                dateRent = dateRent.add(Duration(
-                    hours: selectedTime.hour, minutes: selectedTime.minute));
-                if (selectedMethod == "day") {
-                  dateReturn = dateReturn.add(Duration(hours: 23, minutes: 59));
-                } else {
-                  dateReturn = dateRent.add(Duration(hours: durationHour));
-                }
-                String addressForBooking = addressController.text;
-                if (addressForBooking == "") {
-                  addressForBooking = widget.address;
-                }
-                OrderModel order = OrderModel(
-                    dateRent: dateRent,
-                    dateReturn: dateReturn,
-                    cateBike: selectedCate!,
-                    rentMethod: selectedMethod,
-                    address: addressForBooking);
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return BookingDetailView(order: order);
-                  },
-                ));
-              },
-              child: Text(
-                "ĐẶT XE",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -392,8 +415,8 @@ class _BodyHome extends State<BodyHome> {
   setDateAndList() {
     if (first) {
       first = false;
-      selectedCate = widget.types[0];
-      //selectedType = widget.types[0];
+      selectedMotorType = widget.types[0];
+
       for (int i = 0; i < LIMIT_DATE; i++) {
         listDateRent.add(DateTime.now().add(Duration(days: i)));
       }
@@ -408,7 +431,7 @@ class _BodyHome extends State<BodyHome> {
       for (int i = 1; i <= LIMIT_DATE; i++)
         DateTime(ymd[0], ymd[1], ymd[2]).add(Duration(days: i))
     ];
-    //
+
     ymd = [dateReturn.year, dateReturn.month, dateReturn.day];
     dateReturn = DateTime(ymd[0], ymd[1], ymd[2]);
   }
@@ -416,14 +439,14 @@ class _BodyHome extends State<BodyHome> {
   Widget getCateButton(MotorType x) {
     Color textColor = Colors.black;
     Color containerColor = Colors.white;
-    if (selectedCate == x) {
+    if (selectedMotorType == x) {
       textColor = Colors.white;
       containerColor = Color.fromRGBO(47, 147, 31, 1);
     }
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedCate = x;
+          selectedMotorType = x;
         });
       },
       child: Container(
@@ -458,11 +481,11 @@ class _BodyHome extends State<BodyHome> {
 
     if (selectedMethod == "day") {
       text = "Giá: " +
-          selectedCate!.price.toString().replaceAllMapped(reg, mathFunc) +
+          selectedMotorType!.price.toString().replaceAllMapped(reg, mathFunc) +
           " vnđ/ngày";
     } else {
       text = "Giá: " +
-          (selectedCate!.price * 1.1 / 24)
+          (selectedMotorType!.price * 1.1 / 24)
               .round()
               .toString()
               .replaceAllMapped(reg, mathFunc) +
@@ -497,7 +520,7 @@ class _BodyHome extends State<BodyHome> {
     } else {
       text = "Giờ";
     }
-    return Container(
+    return SizedBox(
       height: 35,
       width: size.width * 0.33,
       child: RaisedButton(

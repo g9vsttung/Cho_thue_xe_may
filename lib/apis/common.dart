@@ -32,6 +32,8 @@ class CustomerApiPath {
   static String LOGIN = _URL_API + "/customers/login";
   //Get profile
   static String VIEW_PROFILE = _URL_API + '/customers/';
+  //Register
+  static String REGISTRATION = _URL_API + '/customers/register';
 }
 
 class OwnerApiPath {
@@ -47,6 +49,7 @@ class AdminApiPath {
 class BookingApiPath {
   static String BOOKING_BIKE = _URL_API + '/bookings';
   static String GET_ALL_TRANSACTIONS = _URL_API + '/bookings';
+  static String GET_BY_ID = _URL_API + '/bookings/';
 }
 
 class MotorTypeApiPath {
@@ -73,4 +76,9 @@ class CategoryApiPath {
 
 class FeedbackApiPath {
   static String GET_BY_ID = _URL_API + '/feedbacks/';
+}
+
+class ReportApiPath {
+  static String SUBMIT_REPORT = _URL_API + '/reports';
+  static String GET_REPORT = _URL_API + '/reports/';
 }

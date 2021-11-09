@@ -1,17 +1,30 @@
+// ignore_for_file: must_be_immutable, prefer_function_declarations_over_variables
+
+import 'dart:developer';
+
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/category_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/booking_view_model.dart';
+import 'package:chothuexemay_mobile/view_model/report_view_model.dart';
 import 'package:chothuexemay_mobile/views/AppointmentDetail/appointment_detail_view.dart';
 import 'package:chothuexemay_mobile/views/Feedback/feedback_view.dart';
+import 'package:chothuexemay_mobile/views/Report/report_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BodyAppointment extends StatefulWidget {
-  List<BookingTranstion> transactions;
   List<Category> categories;
+  List<BookingTranstion> bookingOngoing = [];
+  List<BookingTranstion> bookingHistory = [];
 
   BodyAppointment(
-      {Key? key, required this.transactions, required this.categories})
+      {Key? key,
+      required this.categories,
+      required this.bookingHistory,
+      required this.bookingOngoing})
       : super(key: key);
 
   @override
@@ -23,18 +36,89 @@ class BodyAppointment extends StatefulWidget {
 class _BodyAppointment extends State<BodyAppointment> {
   String selectedCate = "renting";
 
+  //paging
+  bool allLoadedOngoing = false;
+  bool allLoadedHistory = false;
+  int pageOngoing = 1;
+  int pageHistory = 1;
+  ScrollController scrollController = ScrollController();
+
   //Format currency number
   RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
   String Function(Match) mathFunc = (Match match) => '${match[1]}.';
+
+  int countExit = 0;
+
+  Future<bool> _onWillPop() async {
+    countExit++;
+    if (countExit != 2) {
+      Fluttertoast.showToast(
+        msg: "Bấm quay về lần nữa để thoát",
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+      return false;
+    } else {
+      countExit = 0;
+      return true;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
 
   @override
   void initState() {
     setData();
     super.initState();
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        if (selectedCate == "renting") {
+          if (allLoadedOngoing) {
+            return;
+          }
+          pageOngoing++;
+          log(pageOngoing.toString());
+          List<BookingTranstion> listAdd = await loadPage(false, pageOngoing);
+          if (listAdd.isEmpty) {
+            allLoadedOngoing = true;
+          } else {
+            setState(() {
+              widget.bookingOngoing.addAll(listAdd);
+            });
+          }
+        } else {
+          if (allLoadedHistory) {
+            return;
+          }
+          pageHistory++;
+          log(pageHistory.toString());
+          List<BookingTranstion> listAdd = await loadPage(true, pageHistory);
+          if (listAdd.isEmpty) {
+            allLoadedHistory = true;
+          } else {
+            setState(() {
+              widget.bookingHistory.addAll(listAdd);
+            });
+          }
+        }
+      }
+    });
   }
 
   void setData() {
-    for (BookingTranstion b in widget.transactions) {
+    for (BookingTranstion b in widget.bookingHistory) {
+      for (Category c in widget.categories) {
+        if (b.bike.categoryId == c.id) {
+          b.bike.categoryName = c.name;
+        }
+      }
+    }
+    for (BookingTranstion b in widget.bookingOngoing) {
       for (Category c in widget.categories) {
         if (b.bike.categoryId == c.id) {
           b.bike.categoryName = c.name;
@@ -45,19 +129,23 @@ class _BodyAppointment extends State<BodyAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 25),
+            padding: const EdgeInsets.only(top: 25),
             color: Colors.white,
             child: cateNavBar(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Expanded(child: SingleChildScrollView(child: listAppointmentByCate()))
+          Expanded(
+              child: SingleChildScrollView(
+            child: listAppointmentByCate(),
+            controller: scrollController,
+          ))
         ],
       ),
     );
@@ -67,18 +155,16 @@ class _BodyAppointment extends State<BodyAppointment> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        //=====================MASSAGE
         if (selectedCate == "renting")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Đang thuê",
@@ -103,19 +189,16 @@ class _BodyAppointment extends State<BodyAppointment> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               )),
-
-        //=====================FACIAL
         if (selectedCate == "history")
           Container(
               padding: const EdgeInsets.only(
-                bottom:
-                    2, // This can be the space you need betweeb text and underline
+                bottom: 2,
               ),
               decoration: const BoxDecoration(
                   border: Border(
                       bottom: BorderSide(
                 color: ColorConstants.textBold,
-                width: 3, // This would be the width of the underline
+                width: 3,
               ))),
               child: const Text(
                 "Lịch sử thuê",
@@ -145,28 +228,33 @@ class _BodyAppointment extends State<BodyAppointment> {
 
   Widget listAppointmentByCate() {
     if (selectedCate == "renting") {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (BookingTranstion booking in widget.transactions)
-            if (booking.status == 0 || booking.status == 1)
+      if (widget.bookingOngoing.isEmpty) {
+        return const Text("Chưa có đơn đang đặt nào");
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (BookingTranstion booking in widget.bookingOngoing)
               rentDetailBox(booking),
-        ],
-      );
+          ],
+        );
+      }
     } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (BookingTranstion booking in widget.transactions)
-            if (booking.status == 2 || booking.status == 3)
+      if (widget.bookingOngoing.isEmpty) {
+        return const Text("Chưa có ghi nhận lịch sử đặt nào");
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (BookingTranstion booking in widget.bookingHistory)
               rentDetailBox(booking),
-        ],
-      );
+          ],
+        );
+      }
     }
   }
 
   Widget rentDetailBox(BookingTranstion booking) {
-    Size size = MediaQuery.of(context).size;
     Color color = Colors.blueAccent;
     String icon = "";
     String status = "";
@@ -190,7 +278,8 @@ class _BodyAppointment extends State<BodyAppointment> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,14 +293,14 @@ class _BodyAppointment extends State<BodyAppointment> {
                       StringConstants.iconDirectory + icon,
                       width: 16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
                       status,
                       style: TextStyle(fontSize: 16, color: color),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                     if (booking.status == 0 || booking.status == 2)
@@ -220,7 +309,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                         width: 3,
                         color: color,
                       ),
-                    SizedBox(
+                    const SizedBox(
                       width: 7,
                     ),
                     if (booking.status == 0)
@@ -240,7 +329,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                         style: TextStyle(fontSize: 16, color: color),
                       )
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -248,29 +337,29 @@ class _BodyAppointment extends State<BodyAppointment> {
                     children: [
                       Text(
                         booking.bike.categoryName!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Image.asset(
                         StringConstants.iconDirectory + "point.png",
                         width: 2,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Text(
                         booking.bike.modelYear!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -280,7 +369,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                             .toString()
                             .replaceAllMapped(reg, mathFunc) +
                         " đ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -290,7 +379,7 @@ class _BodyAppointment extends State<BodyAppointment> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return AppointmentDetailView(booking: booking);
+                      return AppointmentDetailView(bookingId: booking.id);
                     },
                   ));
                 },
@@ -302,11 +391,11 @@ class _BodyAppointment extends State<BodyAppointment> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 1,
         ),
         getActionButton(booking),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],
@@ -317,7 +406,7 @@ class _BodyAppointment extends State<BodyAppointment> {
     MainAxisAlignment ali = MainAxisAlignment.center;
     Size size = MediaQuery.of(context).size;
     double width = size.width;
-    if (booking.status == 2) {
+    if (booking.status == 2 || booking.status == 3) {
       ali = MainAxisAlignment.spaceBetween;
       width = size.width * 0.498;
     }
@@ -327,18 +416,14 @@ class _BodyAppointment extends State<BodyAppointment> {
         if (booking.status == 2)
           GestureDetector(
             onTap: () {
-              if (booking.feedback != null) {
-                showMyAlertDialog(booking);
-              } else {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return FeedbackView(bookingId: booking.id);
-                  },
-                ));
-              }
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return FeedbackView(bookingId: booking.id);
+                },
+              ));
             },
             child: Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               width: width,
               color: Colors.white,
               child: const Center(
@@ -349,13 +434,44 @@ class _BodyAppointment extends State<BodyAppointment> {
                 ),
               ),
             ),
+          )
+        else if (booking.status == 3)
+          GestureDetector(
+            onTap: () async {
+              bool isReported = await Provider.of<ReportViewModel>(context,listen: false)
+                  .isReported(booking.id);
+              if (isReported) {
+                Fluttertoast.showToast(
+                  msg: "Báo cáo này đã được gửi.",
+                  gravity: ToastGravity.CENTER,
+                  toastLength: Toast.LENGTH_SHORT,
+                );
+              } else {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ReportView(bookingId: booking.id);
+                  },
+                ));
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              width: width,
+              color: Colors.white,
+              child: const Center(
+                child: Text(
+                  "Báo cáo",
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                ),
+              ),
+            ),
           ),
         GestureDetector(
           onTap: () {
-            launch("tel://" + booking.bike.ownerPhone!);
+            launch("tel://"+booking.ownerPhone! );
           },
           child: Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             width: width,
             color: Colors.white,
             child: const Center(
@@ -371,30 +487,28 @@ class _BodyAppointment extends State<BodyAppointment> {
   }
 
   showMyAlertDialog(BookingTranstion booking) {
-    Size size = MediaQuery.of(context).size;
-
     Dialog dialog = Dialog(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: ColorConstants.containerBackground,
         ),
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Đánh giá của bạn",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Rate: ",
                     style: TextStyle(fontSize: 16),
                   ),
@@ -410,15 +524,15 @@ class _BodyAppointment extends State<BodyAppointment> {
                     ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
                 booking.feedback!.content!,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 maxLines: 5,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Center(
@@ -426,14 +540,12 @@ class _BodyAppointment extends State<BodyAppointment> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Container(
-                    child: Text(
-                      "OK",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blueAccent,
-                          fontSize: 20),
-                    ),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20),
                   ),
                 ),
               )
@@ -443,11 +555,34 @@ class _BodyAppointment extends State<BodyAppointment> {
       ),
       backgroundColor: Colors.white,
     );
+    // ignore: unused_local_variable
     Future<dynamic> futureValue = showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
         return dialog;
       },
     );
+  }
+
+  Future<List<BookingTranstion>> loadPage(bool status, int page) async {
+    List<BookingTranstion> rs = [];
+    //1:done - 0:on going
+    if (status) {
+      rs =
+          await Provider.of<BookingTransactionViewModel>(context, listen: false)
+              .getHistoryBookingTransactions(page);
+    } else {
+      rs =
+          await Provider.of<BookingTransactionViewModel>(context, listen: false)
+              .getOngoingBookingTransactions(page);
+    }
+    for (BookingTranstion b in rs) {
+      for (Category c in widget.categories) {
+        if (b.bike.categoryId == c.id) {
+          b.bike.categoryName = c.name;
+        }
+      }
+    }
+    return rs;
   }
 }

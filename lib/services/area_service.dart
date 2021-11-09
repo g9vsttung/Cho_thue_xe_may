@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AreaService {
   Future<String> getIdByName(String cityName) async {
     cityName = cityName.replaceAll("Thành phố ", "");
-    cityName = 'Hồ Chí Minh';
     Uri url = Uri.parse(AreaApiPath.GET_ALL + '?Name=' + cityName);
     final response = await http.get(url);
     if (response.statusCode == 200) {
@@ -18,6 +17,8 @@ class AreaService {
           await SharedPreferences.getInstance();
       _preference.setString(GlobalDataConstants.AREAID, cityId);
       return cityId;
+    } else if (response.statusCode == 404) {
+      return getIdByName("Hồ Chí Minh");
     } else {
       throw Exception("Unable to perform request");
     }

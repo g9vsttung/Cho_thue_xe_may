@@ -1,9 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/views/Booking/Result/components/body_approve.dart';
 import 'package:chothuexemay_mobile/views/Booking/Result/components/body_not_found.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
-import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ResultView extends StatelessWidget {
@@ -35,10 +36,6 @@ class ResultView extends StatelessWidget {
         ),
       ),
       body: getBody(),
-      bottomNavigationBar: BottomAppBar(
-        color: ColorConstants.background,
-        child: BottomBar(selected: "home"),
-      ),
     );
   }
 }

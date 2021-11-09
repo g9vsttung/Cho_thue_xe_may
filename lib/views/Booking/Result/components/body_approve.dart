@@ -1,6 +1,8 @@
+// ignore_for_file: must_be_immutable, deprecated_member_use
+
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
-import 'package:chothuexemay_mobile/models/approve_model.dart';
+import 'package:chothuexemay_mobile/views/Home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -9,12 +11,12 @@ import 'package:url_launcher/url_launcher.dart';
 class BodyApprove extends StatelessWidget {
   Owner owner;
 
-  BodyApprove({required this.owner});
+  BodyApprove({Key? key, required this.owner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,13 +27,18 @@ class BodyApprove extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 RaisedButton(
-                  onPressed: () {
-                    launch("tel://" + owner.phoneNumber);
-                  },
-                  color: Colors.green,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Image.asset(StringConstants.iconDirectory+"phone.png",width: 18,)
+                    onPressed: () {
+                      launch("tel://" + owner.phoneNumber);
+                    },
+                    color: Colors.green,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Image.asset(
+                      StringConstants.iconDirectory + "phone.png",
+                      width: 18,
+                    )),
+                const SizedBox(
+                  width: 3,
                 ),
                 RaisedButton(
                   onPressed: () {},
@@ -132,6 +139,25 @@ class BodyApprove extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
+          const SizedBox(
+            height: 25,
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return HomeView();
+                },
+              ), (route) => false);
+            },
+            color: Colors.orange,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: const Text(
+              "Trở về trang chủ",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          )
         ],
       ),
     );

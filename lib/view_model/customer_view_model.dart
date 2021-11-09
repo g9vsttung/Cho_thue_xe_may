@@ -10,7 +10,7 @@ import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/customer_model.dart';
 import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
-import 'package:chothuexemay_mobile/views/Home/home_view.dart';
+import 'package:chothuexemay_mobile/views/Booking/Result/result_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +19,7 @@ class CustomerViewModel extends ChangeNotifier {
   String cityName = "";
   String address = "";
   String areaId = "";
+  final List<Owner> owners = [];
 
   final ICustomerRepository customerRepository = CustomerRepository();
   final IAreaRepository _areaRepository = AreaRepository();
@@ -41,17 +42,18 @@ class CustomerViewModel extends ChangeNotifier {
     areaId = await _areaRepository.findIdByName(cityName);
   }
 
-  Future<List<Owner>> findBikes(OrderModel model, BuildContext context) async {
+  void findBikes(OrderModel model, BuildContext context) async {
     List<Owner> list = await customerRepository.findBikes(model);
-    if (list.length == 0) {
+    if (list.isEmpty) {
       //No bikes
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return const HomeView(); //=> Return Not FOUND ANY PAGE
+          return ResultView();
         },
       ));
     }
-    return list;
+    owners.clear();
+    owners.addAll(list);
   }
 
   Future<void> sendNoti(OrderModel order) async {
@@ -73,7 +75,16 @@ class CustomerViewModel extends ChangeNotifier {
   Future<List<BookingTranstion>> getBookingTransactions() async {
     return await _bookingRepository.getBookingTransactions();
   }
-  Future<bool> updateProfile(String name,String phone) async {
+
+  Future<bool> updateProfile(String name, String phone) async {
     return await customerRepository.updateProfile(name, phone);
+  }
+
+  Future<bool> register(String phone) async {
+    return await customerRepository.register(phone);
+  }
+
+  Future<int> login(String phone) async {
+    return await customerRepository.login(phone);
   }
 }

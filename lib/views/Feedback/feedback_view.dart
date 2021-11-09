@@ -1,4 +1,5 @@
-import 'package:chothuexemay_mobile/models/booking_transaction.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:chothuexemay_mobile/models/feedback_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
 import 'package:chothuexemay_mobile/view_model/feedback_view_model.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 class FeedbackView extends StatelessWidget {
   String bookingId;
 
-  FeedbackView({required this.bookingId});
+  FeedbackView({Key? key, required this.bookingId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

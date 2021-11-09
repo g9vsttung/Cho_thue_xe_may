@@ -10,7 +10,8 @@ class TopAppBarTitle extends StatefulWidget {
   Function()? func;
 
   TopAppBarTitle(
-      {Key? key, required this.title, bool? hasBack, Function()? func}) {
+      {Key? key, required this.title, bool? hasBack, Function()? func})
+      : super(key: key) {
     if (hasBack != null) {
       this.hasBack = hasBack;
     }
@@ -29,11 +30,9 @@ class _TopAppBarTitle extends State<TopAppBarTitle> {
   @override
   void initState() {
     super.initState();
-    if (widget.func == null) {
-      widget.func = () {
-        Navigator.pop(context);
-      };
-    }
+    widget.func ??= () {
+      Navigator.pop(context);
+    };
   }
 
   @override

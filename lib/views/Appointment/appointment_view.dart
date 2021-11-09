@@ -1,10 +1,8 @@
 import 'package:chothuexemay_mobile/models/booking_transaction.dart';
 import 'package:chothuexemay_mobile/models/category_model.dart';
-import 'package:chothuexemay_mobile/models/owner_model.dart';
 import 'package:chothuexemay_mobile/utils/constants.dart';
+import 'package:chothuexemay_mobile/view_model/booking_view_model.dart';
 import 'package:chothuexemay_mobile/view_model/category_view_model.dart';
-import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
-import 'package:chothuexemay_mobile/view_model/owner_view_model.dart';
 import 'package:chothuexemay_mobile/views/Appointment/components/body.dart';
 import 'package:chothuexemay_mobile/views/Components/app_bar.dart';
 import 'package:chothuexemay_mobile/views/Components/botton_app_bar.dart';
@@ -12,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentView extends StatelessWidget {
+  const AppointmentView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +24,15 @@ class AppointmentView extends StatelessWidget {
         builder: (context, napshot) {
           if (napshot.connectionState == ConnectionState.done) {
             if (napshot.hasData) {
-              final transactions = (napshot.data as dynamic)['transactions']
+              final bookingHistory = (napshot.data as dynamic)['bookingHistory']
+                  as List<BookingTranstion>;
+              final bookingOngoing = (napshot.data as dynamic)['bookingOngoing']
                   as List<BookingTranstion>;
               final categories =
                   (napshot.data as dynamic)['categories'] as List<Category>;
               return BodyAppointment(
-                transactions: transactions,
+                bookingHistory: bookingHistory,
+                bookingOngoing: bookingOngoing,
                 categories: categories,
               );
             }
@@ -50,16 +53,12 @@ class AppointmentView extends StatelessWidget {
 
   Future<Map<String, dynamic>> getData(BuildContext context) async {
     Map<String, dynamic> list = {};
-    list['transactions'] =
-        await Provider.of<CustomerViewModel>(context, listen: false)
-            .getBookingTransactions();
-    for (BookingTranstion booking in list['transactions']) {
-      await Provider.of<OwnerViewModel>(context, listen: false)
-          .getOwnerById(booking.ownerId);
-      Owner o = Provider.of<OwnerViewModel>(context, listen: false).owner!;
-      booking.bike.ownerName = o.fullname;
-      booking.bike.ownerPhone = o.phoneNumber;
-    }
+    list['bookingHistory'] =
+        await Provider.of<BookingTransactionViewModel>(context, listen: false)
+            .getHistoryBookingTransactions(1);
+    list['bookingOngoing'] =
+        await Provider.of<BookingTransactionViewModel>(context, listen: false)
+            .getOngoingBookingTransactions(1);
     list['categories'] =
         await Provider.of<CategoryViewModel>(context, listen: false).getAll();
     return list;

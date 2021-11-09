@@ -4,7 +4,8 @@ import 'package:chothuexemay_mobile/models/order_model.dart';
 import 'package:chothuexemay_mobile/models/owner_model.dart';
 
 abstract class ICustomerRepository extends GenericRepository {
-  Future<bool> login(String phone);
+  Future<int> login(String phone);
+  Future<bool> register(String phone);
   Future<void> storingLocation();
   Future<String> getCityName();
   Future<String> getAddress();
@@ -13,5 +14,5 @@ abstract class ICustomerRepository extends GenericRepository {
   Future<void> createBooking(OrderModel order);
   Future<int> getRewardPoints();
   Future<Customer> viewProfile();
-  Future<bool> updateProfile(String name,String phone);
+  Future<bool> updateProfile(String name, String phone);
 }
