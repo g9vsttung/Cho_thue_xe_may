@@ -32,6 +32,8 @@ class CustomerApiPath {
   static String LOGIN = _URL_API + "/customers/login";
   //Get profile
   static String VIEW_PROFILE = _URL_API + '/customers/';
+  //Register
+  static String REGISTRATION = _URL_API + '/customers/register';
 }
 
 class OwnerApiPath {

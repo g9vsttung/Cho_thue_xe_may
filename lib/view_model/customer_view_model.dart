@@ -79,4 +79,12 @@ class CustomerViewModel extends ChangeNotifier {
   Future<bool> updateProfile(String name, String phone) async {
     return await customerRepository.updateProfile(name, phone);
   }
+
+  Future<bool> register(String phone) async {
+    return await customerRepository.register(phone);
+  }
+
+  Future<int> login(String phone) async {
+    return await customerRepository.login(phone);
+  }
 }

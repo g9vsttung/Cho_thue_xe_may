@@ -41,7 +41,7 @@ class CustomerService {
     }
   }
 
-  Future<bool> login(String phone) async {
+  Future<int> login(String phone) async {
     Uri url = Uri.parse(CustomerApiPath.LOGIN);
     final response = await http.post(
       url,
@@ -67,7 +67,7 @@ class CustomerService {
         _firebaseRealtimeService.updateTokenFCM(token!);
       });
     }
-    return response.statusCode == 200;
+    return response.statusCode;
   }
 
   Future<List<Owner>> findBikes(OrderModel model) async {
@@ -99,6 +99,7 @@ class CustomerService {
       final body = jsonDecode(response.body);
       log('Found bikes');
       final Iterable owners = body;
+      log(body);
       return owners.map((o) => Owner.jsonFrom(o)).toList();
     } else if (response.statusCode == 404) {
       log('Cannot found any bike');
@@ -188,6 +189,34 @@ class CustomerService {
           "fullname": name,
         }));
 
+    return response.statusCode == 200;
+  }
+
+  Future<bool> register(String phone) async {
+    final response = await http.post(Uri.parse(CustomerApiPath.REGISTRATION),
+        headers: <String, String>{
+          'Content-Type': 'application/json ; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "phoneNumber": phone,
+        }));
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      final SharedPreferences _preference =
+          await SharedPreferences.getInstance();
+      String fullName = body['fullName'];
+      await _preference.setString(GlobalDataConstants.USER_NAME, fullName);
+      String token = body['token'];
+      await _preference.setString(GlobalDataConstants.TOKEN, token);
+      Map<String, dynamic> payload = Jwt.parseJwt(token);
+      await _preference.setString(GlobalDataConstants.USERID, payload["id"]);
+      log(_preference.getString(GlobalDataConstants.USERID).toString());
+      //Location
+      _firebaseRealtimeService.storingLocationRealtime();
+      _fcm.getToken().then((token) {
+        _firebaseRealtimeService.updateTokenFCM(token!);
+      });
+    }
     return response.statusCode == 200;
   }
 }

@@ -30,7 +30,7 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential user = await signIn(authCredential);
       if (user.user != null || user.user!.uid.isEmpty) {
-        return _customerRepository.login(phoneNumber);
+        return true;
       }
     } catch (e) {
       switch (e.toString()) {
@@ -77,7 +77,7 @@ class AuthService extends ChangeNotifier {
     final PhoneCodeAutoRetrievalTimeout autoTimeout =
         (String verificationId) async {
       // // ignore: unused_label
-      const Duration(seconds: 0);
+      const Duration(seconds: 120);
     };
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(

@@ -1,11 +1,15 @@
 // ignore_for_file: must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace, deprecated_member_use, no_logic_in_create_state
 
 import 'package:chothuexemay_mobile/view_model/authservice.dart';
+import 'package:chothuexemay_mobile/view_model/customer_view_model.dart';
+import 'package:chothuexemay_mobile/views/EditProfile/edit_profile.dart';
 import 'package:chothuexemay_mobile/views/Home/home_view.dart';
+import 'package:chothuexemay_mobile/views/Profile/profile_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class LoginBodyStep extends StatefulWidget {
@@ -173,23 +177,61 @@ class _LoginBodyStep extends State<LoginBodyStep> {
                         otpController.text, _service.verificationId);
 
                     if (success) {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => HomeView(),
-                        ),
-                        (route) => false,
-                      );
+                      int statusCode = await Provider.of<CustomerViewModel>(
+                              context,
+                              listen: false)
+                          .login(widget.phone);
+                      if (statusCode == 200) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) => HomeView(),
+                          ),
+                          (route) => false,
+                        );
+                      } else if (statusCode == 404) {
+                        bool regisSuccessfully =
+                            await Provider.of<CustomerViewModel>(context,
+                                    listen: false)
+                                .register(widget.phone);
+                        if (regisSuccessfully) {
+                          Fluttertoast.showToast(
+                            msg: "Tạo tài khoản thành công",
+                            gravity: ToastGravity.CENTER,
+                            toastLength: Toast.LENGTH_SHORT,
+                          );
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  EditProfileView(
+                                name: "",
+                                phone: widget.phone,
+                              ),
+                            ),
+                            (route) => false,
+                          );
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: "Tạo tài khoản thất bại! Xin thử lại sau.",
+                            gravity: ToastGravity.CENTER,
+                            toastLength: Toast.LENGTH_SHORT,
+                          );
+                        }
+                      } else {
+                        Fluttertoast.showToast(
+                          msg: "Hệ thống có vấn đề, xin thử lại sau.",
+                          gravity: ToastGravity.CENTER,
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                      }
                     } else {
                       if (_service.errorMessage.isNotEmpty) {
                         //Login Error for wrong otp or blocked user by Firebase
                         setState(() {
                           errorMessage = _service.errorMessage;
                         });
-                      } else {
-                        //New User
-
-                      }
+                      } else {}
                     }
                   },
                   child: Text(

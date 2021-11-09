@@ -17,7 +17,7 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  Future<bool> login(String phone) async {
+  Future<int> login(String phone) async {
     return service.login(phone);
   }
 
@@ -57,12 +57,17 @@ class CustomerRepository implements ICustomerRepository {
   }
 
   @override
-  Future<bool> updateProfile(String name,String phone) {
+  Future<bool> updateProfile(String name, String phone) {
     return service.updateProfile(name, phone);
   }
 
   @override
   Future<Customer> viewProfile() {
     return service.viewProfile();
+  }
+
+  @override
+  Future<bool> register(String phone) async {
+    return await service.register(phone);
   }
 }
