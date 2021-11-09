@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class ReportService {
   Future<bool> submitReport(Report report) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await http.put(Uri.parse(ReportApiPath.SUBMIT_REPORT),
+    final response = await http.post(Uri.parse(ReportApiPath.SUBMIT_REPORT),
         headers: <String, String>{
           'Content-Type': 'application/json ; charset=UTF-8',
           'Authorization':

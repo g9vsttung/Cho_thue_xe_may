@@ -167,7 +167,7 @@ class _BodyReport extends State<BodyReport> {
                 );
               } else {
                 Fluttertoast.showToast(
-                  msg: "Đánh giá thất bại! Xin hãy thử lại sau.",
+                  msg: "Báo cáo thất bại! Xin hãy thử lại sau.",
                   gravity: ToastGravity.CENTER,
                   toastLength: Toast.LENGTH_SHORT,
                 );
