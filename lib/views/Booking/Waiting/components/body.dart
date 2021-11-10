@@ -23,7 +23,7 @@ class BodyWaiting extends StatefulWidget {
 class _BodyWaitingState extends State<BodyWaiting> {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   CustomerViewModel customerViewModel = CustomerViewModel();
-
+  final ownerIds = [];
   void firebaseCloudMessaging_Listeners() {
     _fcm.getToken().then((token) async {});
 
@@ -92,7 +92,8 @@ class _BodyWaitingState extends State<BodyWaiting> {
             imgPath: owner.bike.imgPath,
             address: widget.order.address,
             totalPrice: widget.order.totalPrice);
-        customerViewModel.sendNoti(orderNoti);
+        if (!ownerIds.contains(owner.id)) customerViewModel.sendNoti(orderNoti);
+        ownerIds.add(owner.id);
       }
     });
   }
