@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class BodyWaiting extends StatefulWidget {
   OrderModel order;
-
+  final ownerIds = [];
   BodyWaiting({Key? key, required this.order}) : super(key: key);
 
   @override
@@ -23,11 +23,11 @@ class BodyWaiting extends StatefulWidget {
 class _BodyWaitingState extends State<BodyWaiting> {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   CustomerViewModel customerViewModel = CustomerViewModel();
-  final ownerIds = [];
+
   void firebaseCloudMessaging_Listeners() {
     _fcm.getToken().then((token) async {});
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage evt) async {
       final data = jsonDecode(evt.data["data"]);
       if (evt.data["action"] != "acceptBooking") {
         return;
@@ -59,7 +59,11 @@ class _BodyWaitingState extends State<BodyWaiting> {
             categoryId: owner.bike.categoryId,
             voucherCode: widget.order.voucherCode,
             ownerName: owner.fullname);
-        customerViewModel.createBooking(orderModel);
+        if (!widget.ownerIds.contains(owner.id)) {
+          widget.ownerIds.add(owner.id);
+          await customerViewModel.createBooking(orderModel);
+        }
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute<dynamic>(
@@ -69,6 +73,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
           ),
           (route) => false,
         );
+        return;
       } else {
         owners.removeWhere((element) {
           return element.id == ownerId;
@@ -92,8 +97,8 @@ class _BodyWaitingState extends State<BodyWaiting> {
             imgPath: owner.bike.imgPath,
             address: widget.order.address,
             totalPrice: widget.order.totalPrice);
-        if (!ownerIds.contains(owner.id)) customerViewModel.sendNoti(orderNoti);
-        ownerIds.add(owner.id);
+
+        customerViewModel.sendNoti(orderNoti);
       }
     });
   }
