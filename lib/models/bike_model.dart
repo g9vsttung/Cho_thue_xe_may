@@ -14,6 +14,7 @@ class Bike {
   String? brandName;
   String? categoryName;
   String? imgPath;
+  String? cateName;
   Bike.empty();
   Bike(
       {required this.id,
@@ -30,7 +31,8 @@ class Bike {
       required this.numberOfRating,
       required this.brandName,
       required this.categoryName,
-      required this.imgPath});
+      required this.imgPath,
+      this.cateName});
   factory Bike.jsonFrom(Map<String, dynamic> json) {
     return Bike(
         id: json['id'],
@@ -47,6 +49,7 @@ class Bike {
         numberOfRating: json['numberOfRating'] ?? 0,
         brandName: json['brandName'] ?? "",
         categoryName: json['categoryName'] ?? "",
-        imgPath: json['imgPath'] ?? "defaultimage.jpg");
+        imgPath: json['imgPath'] ?? "defaultimage.jpg",
+        cateName: json['cateName'] ?? "");
   }
 }

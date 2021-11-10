@@ -240,7 +240,7 @@ class _BodyAppointment extends State<BodyAppointment> {
         );
       }
     } else {
-      if (widget.bookingOngoing.isEmpty) {
+      if (widget.bookingHistory.isEmpty) {
         return const Text("Chưa có ghi nhận lịch sử đặt nào");
       } else {
         return Column(
@@ -438,8 +438,9 @@ class _BodyAppointment extends State<BodyAppointment> {
         else if (booking.status == 3)
           GestureDetector(
             onTap: () async {
-              bool isReported = await Provider.of<ReportViewModel>(context,listen: false)
-                  .isReported(booking.id);
+              bool isReported =
+                  await Provider.of<ReportViewModel>(context, listen: false)
+                      .isReported(booking.id);
               if (isReported) {
                 Fluttertoast.showToast(
                   msg: "Báo cáo này đã được gửi.",
@@ -468,7 +469,7 @@ class _BodyAppointment extends State<BodyAppointment> {
           ),
         GestureDetector(
           onTap: () {
-            launch("tel://"+booking.ownerPhone! );
+            launch("tel://" + booking.ownerPhone!);
           },
           child: Container(
             padding: const EdgeInsets.only(top: 10, bottom: 10),

@@ -29,7 +29,7 @@ class _BodyWaitingState extends State<BodyWaiting> {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage evt) {
       final data = jsonDecode(evt.data["data"]);
-      if(evt.data["action"]!="acceptBooking"){
+      if (evt.data["action"] != "acceptBooking") {
         return;
       }
       bool isAccepted = data["IsAccepted"];
@@ -82,10 +82,11 @@ class _BodyWaitingState extends State<BodyWaiting> {
             (route) => false,
           );
         }
+        owner = owners[0];
         OrderModel orderNoti = OrderModel.sendNoti(
             ownerId: owner.id,
             licensePlate: owner.bike.licensePlate,
-            cateName: owner.bike.categoryName,
+            cateName: owner.bike.cateName,
             dateRent: widget.order.dateRent,
             dateReturn: widget.order.dateReturn,
             imgPath: owner.bike.imgPath,

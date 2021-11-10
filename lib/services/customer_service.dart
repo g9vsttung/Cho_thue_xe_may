@@ -99,7 +99,9 @@ class CustomerService {
       final body = jsonDecode(response.body);
       log('Found bikes');
       final Iterable owners = body;
-      log(body);
+      owners.forEach((element) {
+        log(element.toString());
+      });
       return owners.map((o) => Owner.jsonFrom(o)).toList();
     } else if (response.statusCode == 404) {
       log('Cannot found any bike');
